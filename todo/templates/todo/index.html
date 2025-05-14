@@ -1,1 +1,10 @@
 <h2>ログイン成功！これはtodoアプリのトップページです。</h2>
+
+<h2>ようこそ、{{ user.username }} さん！</h2>
+<a href="{% url 'accounts:logout' %}">ログアウト</a>
+
+{% if user.is_authenticated %}
+  <p>ログイン中です</p>
+{% else %}
+  <p>ログインしていません</p>
+{% endif %}
