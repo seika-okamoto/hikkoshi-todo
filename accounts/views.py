@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import logout
+from .forms import SignUpForm
 
 def login_view(request):
     if request.method == 'POST':
@@ -20,3 +21,14 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('accounts:login')  # ログアウト後にログイン画面に戻す
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:login')  # 登録後ログイン画面へ
+    else:
+        form = SignUpForm()
+    
+    return render(request, 'accounts/signup.html', {'form': form})
