@@ -1,10 +1,16 @@
 <h2>ログイン画面</h2>
+
 <form method="post">
+  <p>アカウントをお持ちでない方はこちら → <a href="{% url 'accounts:signup' %}">新規登録</a></p>
+
   {% csrf_token %}
+
   <label for="username">ユーザー名:</label>
   <input type="text" name="username"><br>
+
   <label for="password">パスワード:</label>
   <input type="password" name="password"><br>
+  
   <input type="submit" value="ログイン">
 </form>
 

@@ -1,5 +1,7 @@
 <h2>新規ユーザー登録</h2>
 <form method="post">
+    <p>すでにアカウントをお持ちの方 → <a href="{% url 'accounts:login' %}">ログイン</a></p>
+
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="登録">
