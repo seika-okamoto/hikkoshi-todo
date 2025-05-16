@@ -1,1 +1,15 @@
-<h2>ログイン成功！これはtodoアプリのトップページです。</h2>
+
+<h2>あなたのToDoリスト</h2>
+
+<ul>
+  {% for task in tasks %}
+    <li>
+      <label>
+        <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
+        {{ task.title }} - {{ task.due_date }}
+      </label>
+    </li>
+  {% empty %}
+    <li>まだタスクはありません。</li>
+  {% endfor %}
+</ul>
