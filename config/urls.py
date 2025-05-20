@@ -21,7 +21,7 @@ from home import views as home_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todo/', include('todo.urls')),
+    path('todo/', include('todo.urls', namespace='todo')),
     path('accounts/', include('accounts.urls')), 
     path('home/', home_views.index, name='home'),
 ]

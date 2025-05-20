@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Task
 
-from django.http import HttpResponse
+
 
 @login_required  # ← ログインしてる人だけアクセスできる
 def task_list(request):
