@@ -100,7 +100,10 @@ tasks_data = {
 # 一括登録処理
 for category, tasks in tasks_data.items():
     for title in tasks:
-        Task.objects.create(user=user, title=title, category=category)
-        print(f"追加: {category} -  {title}")
+        Task.objects.create(
+            user=user, 
+            title=title, 
+            is_done=False)
+        print(f"追加: {title}")
 
 print("✅ 雛形タスクの登録が完了しました！")
