@@ -102,7 +102,8 @@ for category, tasks in tasks_data.items():
     for title in tasks:
         Task.objects.create(
             user=user, 
-            title=title, 
+            title=title,
+            category=category,
             is_done=False)
         print(f"追加: {title}")
 

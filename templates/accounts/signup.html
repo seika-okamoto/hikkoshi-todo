@@ -1,8 +1,41 @@
 <h2>新規ユーザー登録</h2>
-<form method="post">
-    <p>すでにアカウントをお持ちの方 → <a href="{% url 'accounts:login' %}">ログイン</a></p>
 
+<p>すでにアカウントをお持ちの方 → <a href="{% url 'accounts:login' %}">ログイン</a></p>
+
+<form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="登録">
+
+  <div>
+    <label for="id_username">ニックネーム</label><br>
+    {{ form.username }}
+    {% if form.username.errors %}
+      <p style="color: red">{{ form.username.errors }}</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <label for="id_email">メールアドレス</label><br>
+    {{ form.email }}
+    {% if form.email.errors %}
+      <p style="color: red">{{ form.email.errors }}</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <label for="id_password1">パスワード</label><br>
+    {{ form.password1 }}
+    {% if form.password1.errors %}
+      <p style="color: red">{{ form.password1.errors }}</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <label for="id_password2">パスワード（確認）</label><br>
+    {{ form.password2 }}
+    {% if form.password2.errors %}
+      <p style="color: red">{{ form.password2.errors }}</p>
+    {% endif %}
+  </div>
+
+  <button type="submit">新規登録する</button>
 </form>

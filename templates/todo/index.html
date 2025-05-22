@@ -1,14 +1,17 @@
 <h2>あなたのToDoリスト</h2>
 
-<ul>
-  {% for task in tasks %}
-    <li>
-      <label>
-        <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
-        {{ task.title }} - {{ task.due_date }}
-      </label>
-    </li>
-  {% empty %}
-    <li>まだタスクはありません。</li>
-  {% endfor %}
-</ul>
+{% for category, tasks in grouped_tasks.items %}
+  <h3>{{ category }} までにやること</h3>
+  <ul>
+    {% for task in tasks %}
+      <li>
+        <label>
+          <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
+          {{ task.title }}（{{ task.due_date|default:"期限なし" }}）
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+{% empty %}
+  <p>まだタスクはありません。</p>
+{% endfor %}
