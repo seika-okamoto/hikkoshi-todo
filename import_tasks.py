@@ -8,10 +8,11 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from todo.models import Task
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-# 登録対象のユーザーを取得（例：ID=1 のユーザー）
-user = User.objects.get(id=1)  # ←適宜修正してね！
+user = User.objects.get(email="あなたのログイン中のメールアドレス")
+
 
 # 雛形データ（カテゴリ＋タスク）
 tasks_data = {
