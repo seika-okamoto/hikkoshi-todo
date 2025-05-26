@@ -6,3 +6,4 @@ app_name = 'todo'
 urlpatterns = [
     path('', views.task_list, name='index'), 
 ]
+

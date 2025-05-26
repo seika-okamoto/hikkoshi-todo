@@ -3,18 +3,101 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import logout
 from .forms import SignUpForm
+from todo.models import Task  
 
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            print("✅ signup_view 動いてる！")
             login(request, user)  # ← 登録と同時にログインさせる！
-            return redirect('todo:index')  # ← ログイン済みでtodoへ遷移
+            tasks_data = {
+                "1か月前までにやること": [
+                    "引っ越し日を決定する",
+                    "引っ越し業者探し（見積もりを取る）",
+                ],
+                "3週間前までにやること": [
+                    "粗大ごみの収集申し込み",
+                    "不用品の仕分け",
+                ],
+                "引っ越し14日前までにやること": [
+                    "使用頻度の低いものから梱包",
+                    "オフシーズンの衣類などの梱包",
+                    "必要な衣類・本などの処分・売却",
+                    "定期配達サービスの契約変更・解約（利用者のみ）",
+                ],
+                "引っ越し7日前までにやること": [
+                    "粗大ごみの処分",
+                    "使用頻度の高いものを梱包",
+                    "郵便局への連絡（転居・転送）",
+                    "転出届を出す",
+                    "児童手当や乳幼児医療費受給資格者証の手続き",
+                    "電気会社への停止・解約連絡（現住所）",
+                    "ガス会社への停止・解約連絡（現住所）",
+                    "水道局への停止・解約連絡（現住所）",
+                    "引っ越し挨拶の手土産の準備",
+                    "ゴミ出し",
+                ],
+                "引っ越し前日までにやること": [
+                    "洗濯機の水抜き",
+                    "冷蔵庫の中を空に、電源を切る",
+                    "引っ越し当日、すぐ使うものをまとめる",
+                    "旧居のお掃除",
+                    "引っ越し当日の新居までの移動方法を確認",
+                    "引っ越し挨拶（旧居）",
+                ],
+                "引っ越し当日にやること": [
+                    "引っ越し料金の支払い準備",
+                    "電力停止の立ち合い（現住所）",
+                    "ガス停止の立ち合い（現住所）",
+                    "水道の停止立ち合い（現住所）",
+                    "新居の初期状態の記録を残す（傷・汚れなど撮影）",
+                    "ガスの開栓の立ち合い（新居）",
+                    "水道局への開栓・開始連絡（新居）",
+                    "荷物の搬出",
+                    "搬出後の忘れ物がないかチェック",
+                    "搬出後の掃除、ゴミなどの処分",
+                    "退室前にブレーカーを下げる",
+                    "新居のブレーカーを上げる",
+                    "家具など大きいものから搬入",
+                    "夜になる前にカーテン・照明を設置",
+                ],
+                "引っ越し後1週間以内にやること": [
+                    "旧居の鍵返却と退去の立ち会い",
+                    "運転免許証の住所変更",
+                    "引っ越しの挨拶（新居・近隣）",
+                ],
+                "引っ越し後の14日以内にやること": [
+                    "転入届を出す",
+                    "マイナンバーカードの住所変更",
+                    "印鑑登録の住所変更・登録手続き",
+                    "児童手当の住所変更・認定請求書の提出",
+                    "乳幼児医療費受給資格証の住所変更・申請",
+                    "車検証の住所変更手続き",
+                    "銀行・保険・証券会社などの住所変更",
+                    "クレジットカードの住所変更手続き",
+                    "引っ越しのお知らせを友人などに送る",
+                ],
+            }
+            
+            print("✅ タスク登録スタート！")
+            for category, tasks in tasks_data.items():
+                for title in tasks:
+                    print(f"登録中: {title}（{category}）")
+                    Task.objects.create(
+                        user=user,
+                        title=title,
+                        category=category,
+                        is_done=False
+                    )
+
+            return redirect('todo:index')  # ← 初期登録済みでToDoへ遷移
     else:
         form = SignUpForm()
     
     return render(request, 'accounts/signup.html', {'form': form})
+    
 
 def login_view(request):
     if request.method == 'POST':

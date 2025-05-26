@@ -6,8 +6,8 @@
     {% for task in tasks %}
       <li>
         <label>
-          <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
-          {{ task.title }}（{{ task.due_date|default:"期限なし" }}）
+          <input type="checkbox">
+          {{ task.title }}
         </label>
       </li>
     {% endfor %}
