@@ -5,10 +5,13 @@
   <ul>
     {% for task in tasks %}
       <li>
-        <label>
-          <input type="checkbox">
-          {{ task.title }}
-        </label>
+        <form method="POST" action="{% url 'todo:toggle_done' task.id %}">
+          {% csrf_token %}
+          <label>
+            <input type="checkbox" name="is_done" onchange="this.form.submit()" {% if task.is_done %}checked{% endif %}>
+            {{ task.title }}
+          </label>
+        </form>
       </li>
     {% endfor %}
   </ul>
