@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import logout
 from .forms import SignUpForm
-from todo.models import Task  
+from todo.models import Task ,Category
 
 def signup_view(request):
     if request.method == 'POST':
@@ -97,13 +97,17 @@ def signup_view(request):
             }
             
             print("✅ タスク登録スタート！")
-            for category, tasks in tasks_data.items():
+            for category_name, tasks in tasks_data.items():
+                category_obj = Category.objects.get(name=category_name)  # ← Categoryオブジェクトを取得！
+                if category_obj is None:
+                    print(f"⚠️ カテゴリが見つからない: {category_name}")
+                    continue
+                            
                 for title in tasks:
-                    print(f"登録中: {title}（{category}）")
                     Task.objects.create(
                         user=user,
                         title=title,
-                        category=category,
+                        category=category_obj,
                         is_done=False
                     )
 
