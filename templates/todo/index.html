@@ -1,7 +1,7 @@
 <h2>あなたのToDoリスト</h2>
 
 {% for category, tasks in grouped_tasks.items %}
-  <h3>{{ category }} までにやること</h3>
+  <h3>{{ category }}</h3>
   <ul>
     {% for task in tasks %}
       <li>
