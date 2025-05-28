@@ -4,15 +4,19 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from .forms import SignUpForm
 from todo.models import Task ,Category
+from .models import Profile
 
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            print("✅ signup_view 動いてる！")
             login(request, user)  # ← 登録と同時にログインさせる！
 
+            # Profile作成
+            Profile.objects.create(user=user)
+            print(f"✅ プロフィール作成: {user.email}")
+            
             tasks_data = {
                 "引っ越し1か月前までにやること": [
                     "引っ越し日を決定する",

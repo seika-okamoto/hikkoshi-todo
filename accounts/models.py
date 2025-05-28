@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
+from django.conf import settings
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -32,5 +33,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 'users'
+        
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    planned_move_date = models.DateField(null=True, blank=True)  # 引っ越し予定日
+    bio = models.TextField(blank=True)  # 自己紹介（必要なら）
+    advice = models.TextField(blank=True)  # アドバイス（必要なら）
+
+    def __str__(self):
+        return f"{self.user.email} のプロフィール"        
 
 
