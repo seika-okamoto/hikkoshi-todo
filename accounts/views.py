@@ -14,7 +14,7 @@ def signup_view(request):
             login(request, user)  # ← 登録と同時にログインさせる！
 
             # Profile作成
-            Profile.objects.create(user=user)
+            Profile.objects.create(user=user, moving_date=None)
             print(f"✅ プロフィール作成: {user.email}")
             
             tasks_data = {
