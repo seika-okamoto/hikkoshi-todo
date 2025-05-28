@@ -14,22 +14,27 @@ def toggle_done(request, task_id):
 
 def task_list(request):
     tasks = Task.objects.filter(user=request.user).order_by('category','due_date')
-    
-    print(f"✅ ログインユーザー: {request.user}")
-    print(f"✅ ユーザーのタスク件数: {tasks.count()}")
-    
+        
     # grouped_tasks を最初に定義
     grouped_tasks = defaultdict(list)
     
-    for t in tasks:
-        print(f"✅ タスク: {t.title}, {t.category}")
-
      # カテゴリごとにまとめる
     for task in tasks:
-        grouped_tasks[task.category].append(task)
+        grouped_tasks[task.category.name].append(task)
 
-    print("✅ grouped_tasks (最終状態):", grouped_tasks)  # 変換後の状態も確認
+    # 件数の計算
+    total_count = tasks.count()
+    done_count = tasks.filter(is_done=True).count()
+    if total_count > 0:
+        done_rate = round((done_count / total_count) * 100, 1)  # 小数点1桁まで
+    else:
+        done_rate = 0
+
+    return render(request, 'todo/index.html', {
+        'grouped_tasks': dict(grouped_tasks),
+        'total_count': total_count,
+        'done_count': done_count,
+        'done_rate': done_rate
+    })
     
-    return render(request, 'todo/index.html', {'grouped_tasks': dict(grouped_tasks)})  # ← `dict()` に変換
-
 

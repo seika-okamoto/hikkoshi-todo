@@ -1,5 +1,6 @@
 <h2>あなたのToDoリスト</h2>
 
+<p>完了件数: {{ done_count }} / {{ total_count }}（達成率: {{ done_rate }}%）</p>
 {% for category, tasks in grouped_tasks.items %}
   <h3>{{ category }}</h3>
   <ul>
