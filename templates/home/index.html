@@ -1,11 +1,16 @@
 <h2>ホーム画面へようこそ！</h2>
+<form method="post">
+  {% csrf_token %}
+  <label for="planned_move_date">引っ越し予定日：</label>
+  <input type="date" name="planned_move_date" value="{{ planned_move_date }}">
+  <button type="submit">保存</button>
+</form>
 
 <h2>あなたの進捗状況</h2>
-<p><a href="{% url 'home:set_move_date' %}">引っ越し予定日を設定</a></p>
+
 {% if remaining_days is not None %}
   <p>引っ越しまであと {{ remaining_days }} 日！</p>
 {% else %}
-  <p>引っ越し予定日が未設定です。</p>
 {% endif %}
 
 <p>完了件数: {{ completed_tasks }} / {{ total_tasks }}（達成率: {{ percent }}%）</p>

@@ -18,6 +18,14 @@ def index(request):
         today = date.today()
         remaining_days = (profile.planned_move_date - today).days
     
+    if request.method == "POST":
+        planned_date = request.POST.get('planned_move_date')
+        profile = Profile.objects.get(user=request.user)
+        profile.planned_move_date = planned_date
+        profile.save()
+        messages.success(request, "予定日を保存しました！")
+
+    
     return render(request, 'home/index.html', {
         'total_tasks': total_tasks,
         'completed_tasks': completed_tasks,
