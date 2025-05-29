@@ -15,4 +15,19 @@
 
 <p>完了件数: {{ completed_tasks }} / {{ total_tasks }}（達成率: {{ percent }}%）</p>
 
+<h2>お知らせ</h2>
+<ul>
+  {% for task in upcoming_tasks %}
+    <li>
+      {% if task in today_tasks %}
+        <span style="color:red;">{{ task.title }} : 今日が期限！</span>
+      {% else %}
+        {{ task.title }} : あと {{ task.due_date|date:"m月d日" }} まで
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>今のところ期限が近いタスクはありません！</li>
+  {% endfor %}
+</ul>
+
 <p><a href="/todo/">ToDoリストへ進む</a></p>
