@@ -1,4 +1,5 @@
-<h2>ホーム画面へようこそ！</h2>
+<h2>ひっこしToDo</h2><a href="{% url 'accounts:mypage' %}">⚙️</a>
+
 <form method="post">
   {% csrf_token %}
   <label for="planned_move_date">引っ越し予定日：</label>

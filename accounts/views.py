@@ -5,6 +5,8 @@ from django.contrib.auth import logout
 from .forms import SignUpForm
 from todo.models import Task ,Category
 from .models import Profile
+from django.contrib.auth.decorators import login_required
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -139,3 +141,8 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('accounts:login')  # ログアウト後にログイン画面に戻す
+
+@login_required
+def mypage_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    return render(request, 'accounts/mypage.html', {'profile': profile})
