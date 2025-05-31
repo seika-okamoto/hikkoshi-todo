@@ -16,18 +16,28 @@
 <p>完了件数: {{ completed_tasks }} / {{ total_tasks }}（達成率: {{ percent }}%）</p>
 
 <h2>お知らせ</h2>
-<ul>
-  {% for task in upcoming_tasks %}
-    <li>
-      {% if task in today_tasks %}
-        <span style="color:red;">{{ task.title }} : 今日が期限！</span>
-      {% else %}
-        {{ task.title }} : あと {{ task.due_date|date:"m月d日" }} まで
-      {% endif %}
-    </li>
-  {% empty %}
-    <li>今のところ期限が近いタスクはありません！</li>
-  {% endfor %}
-</ul>
+{% if notification_tasks %}
+ <ul>
+    {% for item in notification_tasks %}
+      <li>
+        {% if item.status == '期限切れ' %}
+          <span style="color:red;">{{ item.task.title }} : 🔥期限切れ！</span>
+        {% elif item.status == '今日が期限' %}
+          <span style="color:red;">{{ item.task.title }} : 🔴今日が期限！</span>
+        {% else %}
+          {{ item.task.title }} : {{ item.status }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if notification_all_count >= 3 %}
+    <p>他にも期限が迫っているタスクがあります🚨</p>
+  {% endif %}
+
+{% else %}
+  <p>今のところお知らせはありません！</p>
+{% endif %}
+
 
 <p><a href="/todo/">ToDoリストへ進む</a></p>
