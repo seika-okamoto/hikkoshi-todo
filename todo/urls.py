@@ -5,6 +5,7 @@ app_name = 'todo'
 
 urlpatterns = [
     path('', views.task_list, name='index'), 
-path('toggle_done/<int:task_id>/', views.toggle_done, name='toggle_done'),   
+    path('toggle_done/<int:task_id>/', views.toggle_done, name='toggle_done'),   
+    path('edit/', views.edit_todo, name='edit'),  
 ]
 

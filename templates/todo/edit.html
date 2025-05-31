@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>ToDoリスト（編集モード）</h2>
+  <ul>
+    {% for task in tasks %}
+      <li>{{ task.title }} <button>編集</button> <button>削除</button></li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'todo:index' %}">戻る</a></p>
+{% endblock %}

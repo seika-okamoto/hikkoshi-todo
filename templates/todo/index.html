@@ -1,6 +1,7 @@
 <a href="{% url 'home:index' %}">← ホームに戻る</a>
 
-<h2>あなたのToDoリスト</h2>
+<h2>ToDo</h2>
+<a href="{% url 'todo:edit' %}">編集モード</a>
 
 <p>完了件数: {{ done_count }} / {{ total_count }}（達成率: {{ done_rate }}%）</p>
 {% for category, tasks in grouped_tasks.items %}

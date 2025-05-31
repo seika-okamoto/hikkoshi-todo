@@ -36,5 +36,9 @@ def task_list(request):
         'done_count': done_count,
         'done_rate': done_rate
     })
-    
+
+@login_required
+def edit_todo(request):
+    tasks = Task.objects.filter(user=request.user)
+    return render(request, 'todo/edit.html', {'tasks': tasks})
 
