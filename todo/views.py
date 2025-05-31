@@ -42,3 +42,18 @@ def edit_todo(request):
     tasks = Task.objects.filter(user=request.user)
     return render(request, 'todo/edit.html', {'tasks': tasks})
 
+@login_required
+def edit_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    new_title = request.POST.get('title')
+    if new_title:
+        task.title = new_title
+        task.save()
+    return redirect('todo:edit')
+
+@require_POST
+@login_required
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    task.delete()
+    return redirect('todo:edit')

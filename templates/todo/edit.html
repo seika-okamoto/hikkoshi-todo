@@ -1,12 +1,57 @@
-<a href="{% url 'todo:index' %}">🔙戻る</a>
+<h2>ToDoリスト（編集モード）</h2>
+<ul>
+  {% for task in tasks %}
+    <li>
+      {{ task.title }}
+      <button class="edit-btn" data-task-id="{{ task.id }}">編集</button>
+      <button class="delete-btn" data-task-id="{{ task.id }}">削除</button>
 
+      <!-- 編集用モーダル -->
+      <div class="modal edit-modal" id="edit-modal-{{ task.id }}" style="display:none;">
+        <form method="POST" action="{% url 'todo:edit_task' task.id %}">
+          {% csrf_token %}
+          <input type="text" name="title" value="{{ task.title }}">
+          <button type="submit">保存</button>
+          <button type="button" class="cancel-btn">キャンセル</button>
+        </form>
+      </div>
 
-{% block content %}
-  <h2>ToDoリスト（編集モード）</h2>
-  <ul>
-    {% for task in tasks %}
-      <li>{{ task.title }} <button>編集</button> <button>削除</button></li>
-    {% endfor %}
-  </ul>
-  <p><a href="{% url 'todo:index' %}">戻る</a></p>
-{% endblock %}
+      <!-- 削除用モーダル -->
+      <div class="modal delete-modal" id="delete-modal-{{ task.id }}" style="display:none;">
+        <p>この項目を削除しますか？</p>
+        <form method="POST" action="{% url 'todo:delete_task' task.id %}">
+          {% csrf_token %}
+          <button type="submit">削除</button>
+          <button type="button" class="cancel-btn">キャンセル</button>
+        </form>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // 編集ボタンのクリックイベント
+    document.querySelectorAll('.edit-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const taskId = btn.dataset.taskId;
+        document.getElementById('edit-modal-' + taskId).style.display = 'block';
+      });
+    });
+
+    // 削除ボタンのクリックイベント
+    document.querySelectorAll('.delete-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const taskId = btn.dataset.taskId;
+        document.getElementById('delete-modal-' + taskId).style.display = 'block';
+      });
+    });
+
+    // キャンセルボタンのクリックイベント
+    document.querySelectorAll('.cancel-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.closest('.modal').style.display = 'none';
+      });
+    });
+  });
+</script>
