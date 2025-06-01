@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ task.title }}</h2>
+
+  <p>ここにメモとコメントの切り替えボタンを作るよ！</p>
+
+  <p><a href="{% url 'todo:index' %}">🔙 ToDoリストに戻る</a></p>
+{% endblock %}

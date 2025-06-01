@@ -101,3 +101,19 @@ def add_task(request):
     else:
         categories = Category.objects.all()
         return render(request, 'todo/add.html', {'categories': categories, 'hide_header': True})
+
+@login_required
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+
+    # 必要に応じてメモとコメントも取得（これから作る！）
+    # 例:
+    # memos = Memo.objects.filter(task=task)
+    # comments = Comment.objects.filter(task=task)
+
+    return render(request, 'todo/task_detail.html', {
+        'task': task,
+        # 'memos': memos,
+        # 'comments': comments,
+        'hide_header': True  # 必要ならナビ非表示
+    })
