@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>タスク追加</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <label for="category">やるべき期限</label>
+    <select name="category" id="category" required>
+      {% for cat in categories %}
+        <option value="{{ cat.id }}">{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label for="title">タスク内容</label>
+    <input type="text" name="title" id="title" required>
+
+    <br><br>
+
+    <label for="memo">メモ（任意）</label>
+    <textarea name="memo" id="memo" rows="4" cols="40"></textarea>
+
+    <br><br>
+
+    <button type="submit">保存</button>
+  </form>
+{% endblock %}

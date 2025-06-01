@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Task
 from collections import defaultdict
 from django.views.decorators.http import require_POST
+from .models import Task, Category 
+import datetime
+from django.utils import timezone
 
 @require_POST
 @login_required  # ← ログインしてる人だけアクセスできる
@@ -57,3 +60,44 @@ def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     task.delete()
     return redirect('todo:edit')
+
+@login_required
+def add_task(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        memo = request.POST.get('memo')  
+        category_id = request.POST.get('category')
+        deadline_option = request.POST.get('deadline')
+        category = Category.objects.get(id=category_id) if category_id else None
+
+        # 今日を基準に締め切り日を計算
+        today = timezone.now().date()
+
+        if deadline_option == '1month_before':
+            due_date = today - datetime.timedelta(weeks=4)
+        elif deadline_option == '3weeks_before':
+            due_date = today - datetime.timedelta(weeks=3)
+        elif deadline_option == '2weeks_before':
+            due_date = today - datetime.timedelta(weeks=2)
+        elif deadline_option == '1week_before':
+            due_date = today - datetime.timedelta(weeks=1)
+        elif deadline_option == 'on_the_day':
+            due_date = today
+        elif deadline_option == '2weeks_after':
+            due_date = today + datetime.timedelta(weeks=2)
+        else:
+            due_date = None  # 万が一
+        
+        Task.objects.create(
+            user=request.user,
+            title=title,
+            memo=memo,  
+            category=category,
+            due_date=due_date 
+        )
+
+        return redirect('todo:index')
+
+    else:
+        categories = Category.objects.all()
+        return render(request, 'todo/add.html', {'categories': categories, 'hide_header': True})

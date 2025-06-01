@@ -1,14 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}ひっこしToDo{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS 読み込み -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+
 <body>
+    {% if not hide_header %}
     <header>
         <h1><a href="{% url 'home:index' %}">ひっこしToDo</a></h1>
         <nav>
@@ -19,6 +14,7 @@
             </ul>
         </nav>
     </header>
+    {% endif %}
 
     <main>
         {% block content %}
