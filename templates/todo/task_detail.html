@@ -16,10 +16,20 @@
     <h3>メモ</h3>
     <ul>
       {% for memo in memos %}
-        <li>{{ memo }}</li>
+        <li>{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</li>
+    {% empty %}
+      <li>メモはまだありません。</li>
       {% endfor %}
     </ul>
-  {% elif view == "comment" %}
+    <form method="POST" action="{% url 'todo:add_memo' task.id %}">
+        {% csrf_token %}
+        <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea>
+        <br>
+        <button type="submit">+ メモを追加</button>
+      </form>
+    {% endif %}
+
+  {% if view == "comment" %}
     <h3>コメント</h3>
     <ul>
       {% for comment in comments %}

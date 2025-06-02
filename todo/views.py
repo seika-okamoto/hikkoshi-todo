@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Task
 from collections import defaultdict
 from django.views.decorators.http import require_POST
-from .models import Task, Category 
+from .models import Task, Category, Memo
 import datetime
 from django.utils import timezone
+from django.contrib import messages
 
 @require_POST
 @login_required  # ← ログインしてる人だけアクセスできる
@@ -54,7 +54,6 @@ def edit_task(request, task_id):
         task.save()
     return redirect('todo:edit')
 
-@require_POST
 @login_required
 def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
@@ -105,18 +104,32 @@ def add_task(request):
 @login_required
 def task_detail(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
-
-    # 表示する内容を判定（デフォルトはメモ）
     view = request.GET.get('view', 'memo')
 
+    memos = Memo.objects.filter(task=task).order_by('-created')
     # 仮のデータ（実際はモデルから取得）
-    memos = ["メモ1", "メモ2", "メモ3"]
-    comments = ["コメント1", "コメント2", "コメント3"]
+    
 
     return render(request, 'todo/task_detail.html', {
         'task': task,
         'view': view,
         'memos': memos,
-        'comments': comments,
         'hide_header': True  # 必要ならナビ非表示
     })
+
+@login_required
+def add_memo(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    context = request.POST.get('context')
+
+    if context:
+        Memo.objects.create(
+            task=task,
+            user=request.user,
+            context=context
+        )
+        messages.success(request, "メモを追加しました！")
+    else:
+        messages.error(request, "メモの内容が空です。")
+
+    return redirect('todo:task_detail', task_id=task.id)
