@@ -146,3 +146,15 @@ def logout_view(request):
 def mypage_view(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     return render(request, 'accounts/mypage.html', {'profile': profile})
+
+@login_required
+def edit_username(request):
+    if request.method == 'POST':
+        new_username = request.POST.get('username')
+        if new_username:
+            request.user.username = new_username
+            request.user.save()
+            messages.success(request, 'ニックネームを更新しました')
+        return redirect('accounts:mypage')
+    else:
+        return redirect('accounts:mypage')
