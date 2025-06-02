@@ -32,4 +32,13 @@ class Memo(models.Model):
     def __str__(self):
         return self.context[:20]  # 内容の先頭20文字を表示
 
+class Comment(models.Model):
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.content[:20]  # コメント内容の先頭20文字を表示
 

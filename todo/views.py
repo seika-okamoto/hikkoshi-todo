@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from collections import defaultdict
 from django.views.decorators.http import require_POST
-from .models import Task, Category, Memo
+from .models import Task, Category, Memo, Comment
 import datetime
 from django.utils import timezone
 from django.contrib import messages
@@ -107,13 +107,14 @@ def task_detail(request, task_id):
     view = request.GET.get('view', 'memo')
 
     memos = Memo.objects.filter(task=task).order_by('-created')
-    # 仮のデータ（実際はモデルから取得）
+    comments = Comment.objects.filter(task=task).order_by('-created_at')  
     
 
     return render(request, 'todo/task_detail.html', {
         'task': task,
         'view': view,
         'memos': memos,
+        'comments': comments,
         'hide_header': True  # 必要ならナビ非表示
     })
 
@@ -131,5 +132,22 @@ def add_memo(request, task_id):
         messages.success(request, "メモを追加しました！")
     else:
         messages.error(request, "メモの内容が空です。")
+
+    return redirect('todo:task_detail', task_id=task.id)
+
+@login_required
+def add_comment(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    content = request.POST.get('content')
+
+    if content:
+        Comment.objects.create(
+            task=task,
+            user=request.user,
+            content=content
+        )
+        messages.success(request, "コメントを追加しました！")
+    else:
+        messages.error(request, "コメント内容が空です。")
 
     return redirect('todo:task_detail', task_id=task.id)

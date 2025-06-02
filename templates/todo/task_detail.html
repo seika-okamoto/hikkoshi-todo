@@ -33,8 +33,19 @@
     <h3>コメント</h3>
     <ul>
       {% for comment in comments %}
-        <li>{{ comment }}</li>
+       <li>{{ comment.content }}（{{ comment.created_at|date:"Y/m/d H:i" }}）</li>
+      {% empty %}
+        <li>コメントはまだありません。</li>
       {% endfor %}
-    </ul>
+   </ul>
+
+    <form method="POST" action="{% url 'todo:add_comment' task.id %}">
+     {% csrf_token %}
+      <textarea name="content" rows="3" cols="40" placeholder="コメントを入力"></textarea>
+      <br>
+      <button type="submit">+ コメントを追加</button>
+    </form>
   {% endif %}
-{% endblock %}
+
+  {% endblock %}
+
