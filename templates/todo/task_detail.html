@@ -33,19 +33,32 @@
     <h3>コメント</h3>
     <ul>
       {% for comment in comments %}
-       <li>{{ comment.content }}（{{ comment.created_at|date:"Y/m/d H:i" }}）</li>
+        <li>
+          {% if comment.display_name == 'nickname' %}
+            投稿者: {{ comment.user.username }}
+          {% else %}
+            投稿者: 非公開
+          {% endif %}
+          <br>
+          {{ comment.content }}（{{ comment.created_at|date:"Y/m/d H:i" }}）
+        </li>
       {% empty %}
         <li>コメントはまだありません。</li>
       {% endfor %}
-   </ul>
+    </ul>
 
     <form method="POST" action="{% url 'todo:add_comment' task.id %}">
-     {% csrf_token %}
+      {% csrf_token %}
       <textarea name="content" rows="3" cols="40" placeholder="コメントを入力"></textarea>
       <br>
+
+      <p>投稿者表示設定：</p>
+      <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示</label><br>
+      <label><input type="radio" name="display_name" value="anonymous"> 非公開で表示</label><br>
+
       <button type="submit">+ コメントを追加</button>
     </form>
   {% endif %}
 
-  {% endblock %}
+{% endblock %}
 

@@ -6,6 +6,7 @@ from .models import Task, Category, Memo, Comment
 import datetime
 from django.utils import timezone
 from django.contrib import messages
+from django.urls import reverse
 
 @require_POST
 @login_required  # ← ログインしてる人だけアクセスできる
@@ -139,15 +140,17 @@ def add_memo(request, task_id):
 def add_comment(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     content = request.POST.get('content')
+    display_name = request.POST.get('display_name', 'nickname')
 
     if content:
         Comment.objects.create(
             task=task,
             user=request.user,
-            content=content
+            content=content,
+            display_name=display_name
         )
         messages.success(request, "コメントを追加しました！")
     else:
         messages.error(request, "コメント内容が空です。")
 
-    return redirect('todo:task_detail', task_id=task.id)
+    return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=comment")

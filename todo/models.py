@@ -36,6 +36,11 @@ class Comment(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
+    display_name = models.CharField(
+        max_length=10,
+        choices=[('nickname', 'ニックネームで表示'), ('anonymous', '非公開で表示')],
+        default='nickname'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
