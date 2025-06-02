@@ -14,6 +14,8 @@
           <label>
             <input type="checkbox" name="is_done" onchange="this.form.submit()" {% if task.is_done %}checked{% endif %}>
             {{ task.title }}
+            <a href="{% url 'todo:task_detail' task.id %}?view=memo" title="メモを見る">
+              &gt;
           </label>
         </form>
       </li>
