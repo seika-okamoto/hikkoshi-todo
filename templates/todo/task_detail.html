@@ -1,9 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <p><a href="{% url 'todo:index' %}">🔙戻る</a></p>
+
   <h2>{{ task.title }}</h2>
 
-  <p>ここにメモとコメントの切り替えボタンを作るよ！</p>
+  <!-- タブ切り替えボタン -->
+  <p>
+    <a href="?view=memo" {% if view == "memo" %}style="font-weight:bold;"{% endif %}>メモ</a> |
+    <a href="?view=comment" {% if view == "comment" %}style="font-weight:bold;"{% endif %}>コメント</a>
+  </p>
 
-  <p><a href="{% url 'todo:index' %}">🔙 ToDoリストに戻る</a></p>
+  <!-- 表示内容 -->
+  {% if view == "memo" %}
+    <h3>メモ</h3>
+    <ul>
+      {% for memo in memos %}
+        <li>{{ memo }}</li>
+      {% endfor %}
+    </ul>
+  {% elif view == "comment" %}
+    <h3>コメント</h3>
+    <ul>
+      {% for comment in comments %}
+        <li>{{ comment }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 {% endblock %}

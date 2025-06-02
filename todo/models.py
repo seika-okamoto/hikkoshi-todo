@@ -22,3 +22,14 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+class Memo(models.Model):
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='memos')  # 関連するタスク
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # 投稿者
+    context = models.TextField()  # メモの内容
+    created = models.DateTimeField(auto_now_add=True)  # 作成日時
+    updated_at = models.DateTimeField(auto_now=True)  # 更新日時
+
+    def __str__(self):
+        return self.context[:20]  # 内容の先頭20文字を表示
+
+
