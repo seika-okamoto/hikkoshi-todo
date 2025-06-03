@@ -145,7 +145,10 @@ def logout_view(request):
 @login_required
 def mypage_view(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
-    return render(request, 'accounts/mypage.html', {'profile': profile})
+    return render(request, 'accounts/mypage.html', {
+        'profile': profile,
+        'hide_header': True
+        })
 
 @login_required
 def edit_username(request):
@@ -158,3 +161,6 @@ def edit_username(request):
         return redirect('accounts:mypage')
     else:
         return redirect('accounts:mypage')
+    
+def edit_email(request):
+    return render(request, 'accounts/edit_email.html', {'hide_header': True})

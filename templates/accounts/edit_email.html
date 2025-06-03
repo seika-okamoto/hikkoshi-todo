@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p><a href="{% url 'accounts:mypage' %}">🔙 マイページに戻る</a></p>
+
+<h2>メールアドレスの変更</h2>
+
+<p>現在のメールアドレス：<br>
+  {{ request.user.email }}
+</p>
+
+<form method="POST" action="{% url 'accounts:edit_email' %}">
+  {% csrf_token %}
+  <label for="new_email">新しいメールアドレス：</label><br>
+  <input type="email" name="new_email" id="new_email" required><br><br>
+
+  <label for="password">パスワード：</label><br>
+  <input type="password" name="password" id="password" required><br><br>
+
+  <button type="submit">メールアドレスを変更する</button>
+</form>
+
+<p>※変更後は確認メールが送信されます。リンクをクリックすると変更が完了します。</p>
+
+<p><a href="{% url 'accounts:mypage' %}">🔙 マイページに戻る</a></p>
+{% endblock %}
