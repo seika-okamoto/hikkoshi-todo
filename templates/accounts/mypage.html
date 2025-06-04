@@ -8,7 +8,7 @@
 </p>
 
 <p>メールアドレス: {{ profile.user.email }}
-  <a href="#">変更する</a>
+  <a href="{% url 'accounts:edit_email' %}">変更する</a>
 </p>
 
 <p>引っ越し予定日: {{ profile.planned_move_date|default:"未設定" }}</p>

@@ -10,4 +10,5 @@ urlpatterns = [
     path('mypage/', views.mypage_view, name='mypage'),
     path('edit_username/', views.edit_username, name='edit_username'),
     path('edit_email/', views.edit_email, name='edit_email'),
+    path('email_change_sent/', views.email_change_sent, name='email_change_sent'),
 ]

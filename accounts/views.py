@@ -6,7 +6,8 @@ from .forms import SignUpForm
 from todo.models import Task ,Category
 from .models import Profile
 from django.contrib.auth.decorators import login_required
-
+from django.core.mail import send_mail
+from django.urls import reverse
 
 def signup_view(request):
     if request.method == 'POST':
@@ -163,4 +164,31 @@ def edit_username(request):
         return redirect('accounts:mypage')
     
 def edit_email(request):
+    if request.method == 'POST':
+        new_email = request.POST.get('new_email')
+        password = request.POST.get('password')
+
+        user = authenticate(request, email=request.user.email, password=password)
+        print("パスワード認証:", user)
+        if user is not None:
+            # メール送信処理（開発用: console）
+           send_mail(
+                'メールアドレス変更の確認',
+                f'http://127.0.0.1:8000/accounts/confirm_email/?email={new_email}',
+                'no-reply@example.com',
+                [new_email],
+                fail_silently=False,
+            )
+           print("メール送信完了")
+           return redirect(f"{reverse('accounts:email_change_sent')}?email={new_email}")
+        else:
+            return render(request, 'accounts/edit_email.html', {
+                'error': 'パスワードが間違っています。',
+                'hide_header': True
+            })
     return render(request, 'accounts/edit_email.html', {'hide_header': True})
+    
+@login_required
+def email_change_sent(request):
+    new_email = request.GET.get('email')
+    return render(request, 'accounts/email_change_sent.html', {'new_email': new_email, 'hide_header': True})
