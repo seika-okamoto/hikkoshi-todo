@@ -7,6 +7,7 @@ import datetime
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
+from .models import Like
 
 @require_POST
 @login_required  # ← ログインしてる人だけアクセスできる
@@ -154,3 +155,19 @@ def add_comment(request, task_id):
         messages.error(request, "コメント内容が空です。")
 
     return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=comment")
+
+@require_POST
+@login_required
+def toggle_like(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    user = request.user
+
+    # すでにいいねしていたら取り消し、なければ追加
+    like, created = Like.objects.get_or_create(comment=comment, user=user)
+    if not created:
+        like.delete()
+        messages.info(request, "いいねを取り消しました。")
+    else:
+        messages.success(request, "いいねしました！")
+
+    return redirect(f"{reverse('todo:task_detail', args=[comment.task.id])}?view=comment")

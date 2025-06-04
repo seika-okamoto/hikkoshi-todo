@@ -1,8 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
     display_order = models.PositiveIntegerField(default=0)  # ←追加
@@ -48,3 +46,14 @@ class Comment(models.Model):
     def __str__(self):
         return self.content[:20]  # コメント内容の先頭20文字を表示
 
+class Like(models.Model):
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('comment', 'user')  # 同じユーザーが同じコメントに複数いいねできないようにする
+
+    def __str__(self):
+        return f"{self.user.username} likes comment {self.comment.id}"

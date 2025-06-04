@@ -29,36 +29,47 @@
       </form>
     {% endif %}
 
-  {% if view == "comment" %}
-    <h3>コメント</h3>
-    <ul>
-      {% for comment in comments %}
-        <li>
-          {% if comment.display_name == 'nickname' %}
-            投稿者: {{ comment.user.username }}
-          {% else %}
-            投稿者: 非公開
-          {% endif %}
-          <br>
-          {{ comment.content }}（{{ comment.created_at|date:"Y/m/d H:i" }}）
-        </li>
-      {% empty %}
-        <li>コメントはまだありません。</li>
-      {% endfor %}
-    </ul>
+{% if view == "comment" %}
+  <h3>コメント</h3>
+  <ul>
+    {% for comment in comments %}
+      <li>
+        {% if comment.display_name == 'nickname' %}
+          投稿者: {{ comment.user.username }}
+        {% else %}
+          投稿者: 非公開
+        {% endif %}
+        <br>
+        {{ comment.content }}（{{ comment.created_at|date:"Y/m/d H:i" }}）
 
-    <form method="POST" action="{% url 'todo:add_comment' task.id %}">
-      {% csrf_token %}
-      <textarea name="content" rows="3" cols="40" placeholder="コメントを入力"></textarea>
-      <br>
+        <!-- いいね表示 -->
+        <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
+          {% csrf_token %}
+          {% with comment.likes.count as like_count %}
+            {% if like_count > 0 %}
+              <button type="submit">👍 {{ like_count }} いいね</button>
+            {% else %}
+              <button type="submit">👍 いいね</button>
+            {% endif %}
+          {% endwith %}
+        </form>
+      </li>
+    {% empty %}
+      <li>コメントはまだありません。</li>
+    {% endfor %}
+  </ul>
 
-      <p>投稿者表示設定：</p>
-      <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示</label><br>
-      <label><input type="radio" name="display_name" value="anonymous"> 非公開で表示</label><br>
+  <form method="POST" action="{% url 'todo:add_comment' task.id %}">
+    {% csrf_token %}
+    <textarea name="content" rows="3" cols="40" placeholder="コメントを入力"></textarea>
+    <br>
 
-      <button type="submit">+ コメントを追加</button>
-    </form>
-  {% endif %}
+    <p>投稿者表示設定：</p>
+    <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示</label><br>
+    <label><input type="radio" name="display_name" value="anonymous"> 非公開で表示</label><br>
+
+    <button type="submit">+ コメントを追加</button>
+  </form>
+{% endif %}
 
 {% endblock %}
-
