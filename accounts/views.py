@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from .models import EmailChangeToken
 from django.shortcuts import get_object_or_404, redirect
+from todo.models import Comment
 
 def signup_view(request):
     if request.method == 'POST':
@@ -247,3 +248,8 @@ def change_password(request):
     else:
         form = PasswordChangeForm(user=request.user)
     return render(request, 'accounts/change_password.html', {'form': form})
+
+@login_required
+def comment_history(request):
+    user_comments = Comment.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'accounts/comment_history.html', {'comments': user_comments})

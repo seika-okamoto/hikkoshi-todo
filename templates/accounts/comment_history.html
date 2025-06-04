@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>自分のコメント履歴</h2>
+  {% if comments %}
+    <ul>
+      {% for comment in comments %}
+        <li>
+          <strong>{{ comment.task.title }}</strong><br>
+          {{ comment.content }}<br>
+          <small>{{ comment.created_at|date:"Y年m月d日 H:i" }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>まだコメントがありません。</p>
+  {% endif %}
+  <p><a href="{% url 'accounts:mypage' %}">マイページへ戻る</a></p>
+{% endblock %}
