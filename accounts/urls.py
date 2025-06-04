@@ -12,4 +12,5 @@ urlpatterns = [
     path('edit_email/', views.edit_email, name='edit_email'),
     path('email_change_sent/', views.email_change_sent, name='email_change_sent'),
     path('confirm_email_change/<uuid:token>/', views.confirm_email_change, name='confirm_email_change'),
+    path('change_password/', views.change_password, name='change_password'),
 ]

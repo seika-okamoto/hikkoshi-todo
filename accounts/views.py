@@ -6,6 +6,8 @@ from .forms import SignUpForm
 from todo.models import Task ,Category
 from .models import Profile
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.core.mail import send_mail
 from django.urls import reverse
 from .models import EmailChangeToken
@@ -233,4 +235,15 @@ def confirm_email_change(request, token):
     messages.success(request, 'メールアドレスを変更しました！')
     return redirect('accounts:mypage')
 
-
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)  # ログイン状態維持
+            messages.success(request, 'パスワードを変更しました')
+            return redirect('accounts:mypage')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'accounts/change_password.html', {'form': form})

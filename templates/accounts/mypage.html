@@ -13,6 +13,8 @@
 
 <p>引っ越し予定日: {{ profile.planned_move_date|default:"未設定" }}</p>
 
+<p><a href="{% url 'accounts:change_password' %}">パスワードを変更する</a></p>
+
 <!-- ダイアログ部分（最初は非表示） -->
 <div id="editDialog" style="display:none; border:1px solid #ccc; padding:10px; margin:10px 0;">
   <form method="POST" action="{% url 'accounts:edit_username' %}">
