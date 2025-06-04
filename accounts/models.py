@@ -6,7 +6,6 @@ from datetime import timedelta
 import uuid
 
 
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -55,3 +54,4 @@ class EmailChangeToken(models.Model):
 
     def is_expired(self):
         return timezone.now() > self.created_at + timedelta(hours=1)  # 1時間有効
+   

@@ -8,6 +8,8 @@ from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.urls import reverse
+from .models import EmailChangeToken
+from django.shortcuts import get_object_or_404, redirect
 
 def signup_view(request):
     if request.method == 'POST':
@@ -17,7 +19,7 @@ def signup_view(request):
             login(request, user)  # ← 登録と同時にログインさせる！
 
             # Profile作成
-            Profile.objects.create(user=user, moving_date=None)
+            Profile.objects.create(user=user)
             print(f"✅ プロフィール作成: {user.email}")
             
             tasks_data = {
@@ -43,13 +45,13 @@ def signup_view(request):
                     "新居の家具・家電のレイアウト検討",
                     "新規で購入が必要なものの手配",
                 ],
-                "引っ越し14日前までにやること": [
+                "引っ越し2週間前までにやること": [
                     "使用頻度の低いものから梱包",
                     "オフシーズンの衣類などの梱包",
                     "必要な衣類・本などの処分・売却",
                     "定期配達サービスの契約変更・解約（利用者のみ）",
                 ],
-                "引っ越し7日前までにやること": [
+                "引っ越し1週間前までにやること": [
                     "粗大ごみの処分",
                     "使用頻度の高いものを梱包",
                     "郵便局への連絡（転居・転送）",
@@ -90,7 +92,7 @@ def signup_view(request):
                     "運転免許証の住所変更",
                     "引っ越しの挨拶（新居・近隣）",
                 ],
-                "引っ越し後の14日以内にやること": [
+                "引っ越し後の22週間以内にやること": [
                     "転入届を出す",
                     "マイナンバーカードの住所変更",
                     "印鑑登録の住所変更・登録手続き",
@@ -163,32 +165,72 @@ def edit_username(request):
     else:
         return redirect('accounts:mypage')
     
+@login_required
 def edit_email(request):
+    print("🟡 edit_email ビューが呼ばれました")  # ← 必須デバッグポイント！
     if request.method == 'POST':
         new_email = request.POST.get('new_email')
         password = request.POST.get('password')
+        print("📌 POSTリクエスト受け取った")
+        print("📌 入力された new_email:", new_email)
+        print("📌 入力された password:", password)
+
 
         user = authenticate(request, email=request.user.email, password=password)
-        print("パスワード認証:", user)
+        print("📌 パスワード認証結果:", user)
+
         if user is not None:
-            # メール送信処理（開発用: console）
-           send_mail(
+            # ✅ ここでトークンを作って保存！
+            email_token = EmailChangeToken.objects.create(
+                user=request.user,
+                new_email=new_email,
+            )
+
+            # ✅ 確認リンク生成
+            confirm_url = request.build_absolute_uri(
+                reverse('accounts:confirm_email_change', kwargs={'token': email_token.token})
+            )
+
+            # ✅ メール送信
+            send_mail(
                 'メールアドレス変更の確認',
-                f'http://127.0.0.1:8000/accounts/confirm_email/?email={new_email}',
+                f'以下のリンクをクリックしてメールアドレスを変更してください：\n{confirm_url}',
                 'no-reply@example.com',
                 [new_email],
                 fail_silently=False,
             )
-           print("メール送信完了")
-           return redirect(f"{reverse('accounts:email_change_sent')}?email={new_email}")
+            print("メール送信完了")
+
+            return redirect(f"{reverse('accounts:email_change_sent')}?email={new_email}")
         else:
-            return render(request, 'accounts/edit_email.html', {
-                'error': 'パスワードが間違っています。',
-                'hide_header': True
-            })
-    return render(request, 'accounts/edit_email.html', {'hide_header': True})
-    
+            # パスワードが間違っている場合など
+            messages.error(request, 'パスワードが正しくありません。')
+
+    # ✅ GETリクエスト or エラー時にフォーム表示
+    return render(request, 'accounts/edit_email.html')
+
+
 @login_required
 def email_change_sent(request):
     new_email = request.GET.get('email')
     return render(request, 'accounts/email_change_sent.html', {'new_email': new_email, 'hide_header': True})
+
+@login_required
+def confirm_email_change(request, token):
+    token_obj = get_object_or_404(EmailChangeToken, token=token)
+
+    if token_obj.is_expired():
+        messages.error(request, '確認リンクの有効期限が切れています。')
+        return redirect('accounts:mypage')
+
+    user = token_obj.user
+    user.email = token_obj.new_email
+    user.save()
+
+    # トークン削除（もしくは使用済みにしてもOK）
+    token_obj.delete()
+
+    messages.success(request, 'メールアドレスを変更しました！')
+    return redirect('accounts:mypage')
+
+

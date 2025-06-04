@@ -1,11 +1,12 @@
 from django.db import models
 from django.conf import settings
 
+
+
 class Category(models.Model):
-    name = models.CharField(max_length=128)
-    order = models.PositiveIntegerField(default=0)
-    days_before = models.IntegerField(default=0) 
-    
+    name = models.CharField(max_length=255)
+    display_order = models.PositiveIntegerField(default=0)  # ←追加
+
     def __str__(self):
         return self.name
 
@@ -21,7 +22,7 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
-
+    
 class Memo(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='memos')  # 関連するタスク
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # 投稿者
