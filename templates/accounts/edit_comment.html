@@ -6,14 +6,15 @@
   <form method="post">
     {% csrf_token %}
 
-    <label for="id_content">🧡 コメント内容：</label><br>
-    <textarea id="id_content" name="content" rows="4" maxlength="150" placeholder="例）段ボールの中身はマジックで大きく書くと、開封のとき楽でしたよ">{{ form.content.value }}</textarea><br>
+    <label for="{{ form.content.id_for_label }}">🧡 コメント内容：</label><br>
+    {{ form.content }}<br>
     <small><span id="char-count">0</span>/150文字</small>
+
     <br><br>
 
     <label>👤 投稿者表示設定：</label><br>
-    <input type="radio" name="display_name" value="True" {% if form.is_displayed.value == "True" %}checked{% endif %}> ニックネームで表示する<br>
-    <input type="radio" name="display_name" value="False" {% if form.is_displayed.value == "False" %}checked{% endif %}> 投稿者名を非表示にする（匿名ではありません）<br><br>
+    {{ form.display_name }}<br>
+  
 
     <button type="submit" name="save">✅ 保存</button>
     <button type="button" onclick="openModal()">🗑️ 削除</button>
