@@ -9,6 +9,7 @@
           <strong>{{ comment.task.title }}</strong><br>
           {{ comment.content }}<br>
           <small>{{ comment.created_at|date:"Y年m月d日 H:i" }}</small>
+          <a href="{% url 'accounts:edit_comment' comment.id %}">投稿を見る</a>
         </li>
       {% endfor %}
     </ul>

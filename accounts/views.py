@@ -12,7 +12,9 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from .models import EmailChangeToken
 from django.shortcuts import get_object_or_404, redirect
-from todo.models import Comment
+from todo.models import Comment 
+from .forms import CommentForm  
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -253,3 +255,21 @@ def change_password(request):
 def comment_history(request):
     user_comments = Comment.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'accounts/comment_history.html', {'comments': user_comments})
+
+@login_required
+def edit_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id, user=request.user)
+
+    if request.method == 'POST':
+        if 'save' in request.POST:
+            form = CommentForm(request.POST, instance=comment)
+            if form.is_valid():
+                form.save()
+                return redirect('accounts:comment_history')
+        elif 'delete' in request.POST:
+            comment.delete()
+            return redirect('accounts:comment_history')
+    else:
+        form = CommentForm(instance=comment)
+
+    return render(request, 'accounts/edit_comment.html', {'form': form})

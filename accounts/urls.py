@@ -14,5 +14,5 @@ urlpatterns = [
     path('confirm_email_change/<uuid:token>/', views.confirm_email_change, name='confirm_email_change'),
     path('change_password/', views.change_password, name='change_password'),
     path('comment_history/', views.comment_history, name='comment_history'),
-
+    path('edit_comment/<int:comment_id>/', views.edit_comment, name='edit_comment')
 ]

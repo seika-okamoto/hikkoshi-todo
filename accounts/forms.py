@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from todo.models import Comment
 
 User = get_user_model()  # カスタムUserモデルに対応するため
 
@@ -28,3 +29,9 @@ class SignUpForm(UserCreationForm):
         username = self.cleaned_data['username']
         # 追加のバリデーションがあればここで
         return username
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content', 'display_name']  # 表示名などあれば
