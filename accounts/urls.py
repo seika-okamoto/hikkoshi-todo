@@ -27,7 +27,6 @@ urlpatterns = [
         template_name='accounts/password_reset_confirm.html',
         success_url=reverse_lazy('accounts:password_reset_complete')
     ), name='password_reset_confirm'),
-
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         template_name='accounts/password_reset_complete.html'
     ), name='password_reset_complete'),
@@ -36,4 +35,5 @@ urlpatterns = [
         success_url=reverse_lazy('accounts:password_reset_done'),
         email_template_name='accounts/password_reset_email.html'  # ← 追加
     ), name='password_reset'),
+    path('about/', views.about_app, name='about_app'),
 ]

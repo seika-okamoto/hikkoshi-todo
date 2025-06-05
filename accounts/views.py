@@ -161,6 +161,7 @@ def mypage_view(request):
 
 @login_required
 def edit_username(request):
+    profile = request.user.profile
     if request.method == 'POST':
         new_username = request.POST.get('username')
         if new_username:
@@ -173,15 +174,9 @@ def edit_username(request):
     
 @login_required
 def edit_email(request):
-    print("🟡 edit_email ビューが呼ばれました")  # ← 必須デバッグポイント！
     if request.method == 'POST':
         new_email = request.POST.get('new_email')
         password = request.POST.get('password')
-        print("📌 POSTリクエスト受け取った")
-        print("📌 入力された new_email:", new_email)
-        print("📌 入力された password:", password)
-
-
         user = authenticate(request, email=request.user.email, password=password)
         print("📌 パスワード認証結果:", user)
 
@@ -276,3 +271,6 @@ def edit_comment(request, comment_id):
 
     return render(request, 'accounts/edit_comment.html', {'form': form})
 
+@login_required
+def about_app(request):
+    return render(request, 'accounts/about_app.html')

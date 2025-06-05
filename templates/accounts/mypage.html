@@ -3,7 +3,7 @@
 {% block content %}
 <h2>マイページ</h2>
 
-<p>ユーザー名: {{ profile.user.username }}
+<p>👤ニックネーム： {{ profile.user.username }}
   <a href="{% url 'accounts:edit_username' %}" id="editUsernameBtn">編集する</a>
 </p>
 
@@ -16,6 +16,8 @@
 <p><a href="{% url 'accounts:change_password' %}">パスワードを変更する</a></p>
 
 <p><a href="{% url 'accounts:comment_history' %}">自分のコメント履歴を見る</a></p>
+
+<p><a href="{% url 'accounts:about_app' %}">「ひっこしToDo」について</a></p>
 
 <!-- ダイアログ部分（最初は非表示） -->
 <div id="editDialog" style="display:none; border:1px solid #ccc; padding:10px; margin:10px 0;">
@@ -41,4 +43,5 @@
   });
 </script>
 {% endblock %}
+
 
