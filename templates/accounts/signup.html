@@ -1,41 +1,130 @@
-<h2>新規ユーザー登録</h2>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>新規ユーザー登録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .signup-container {
+      background: #fff;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .back-link {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .back-link a {
+      text-decoration: none;
+      color: #4a4ae2;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input {
+      padding: 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 100%;
+    }
+    .error-message {
+      color: red;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #357bd8;
+    }
+    .to-login {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .to-login a {
+      color: #4a4ae2;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="back-link">
+      ← <a href="{% url 'accounts:login' %}">戻る</a>
+    </div>
 
-<p>すでにアカウントをお持ちの方 → <a href="{% url 'accounts:login' %}">ログイン</a></p>
+    <h2>新規ユーザー登録</h2>
 
-<form method="post">
-  {% csrf_token %}
+    <form method="post">
+      {% csrf_token %}
 
-  <div>
-    <label for="id_username">ニックネーム</label><br>
-    {{ form.username }}
-    {% if form.username.errors %}
-      <p style="color: red">{{ form.username.errors }}</p>
-    {% endif %}
+      <label for="id_username">名前/ニックネーム：</label>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <div class="error-message">{{ form.username.errors }}</div>
+      {% endif %}
+
+      <label for="id_email">メールアドレス：</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <div class="error-message">{{ form.email.errors }}</div>
+      {% endif %}
+
+      <label for="id_password1">パスワード：</label>
+      {{ form.password1 }}
+      {% if form.password1.errors %}
+        <div class="error-message">{{ form.password1.errors }}</div>
+      {% endif %}
+
+      <label for="id_password2">パスワード再入力：</label>
+      {{ form.password2 }}
+      {% if form.password2.errors %}
+        <div class="error-message">{{ form.password2.errors }}</div>
+      {% endif %}
+
+      <button type="submit">登録</button>
+    </form>
+
+    <div class="to-login">
+      すでにアカウントをお持ちの方 → <a href="{% url 'accounts:login' %}">ログイン</a>
+    </div>
   </div>
+</body>
+</html>
 
-  <div>
-    <label for="id_email">メールアドレス</label><br>
-    {{ form.email }}
-    {% if form.email.errors %}
-      <p style="color: red">{{ form.email.errors }}</p>
-    {% endif %}
-  </div>
-
-  <div>
-    <label for="id_password1">パスワード</label><br>
-    {{ form.password1 }}
-    {% if form.password1.errors %}
-      <p style="color: red">{{ form.password1.errors }}</p>
-    {% endif %}
-  </div>
-
-  <div>
-    <label for="id_password2">パスワード（確認）</label><br>
-    {{ form.password2 }}
-    {% if form.password2.errors %}
-      <p style="color: red">{{ form.password2.errors }}</p>
-    {% endif %}
-  </div>
-
-  <button type="submit">新規登録する</button>
-</form>
