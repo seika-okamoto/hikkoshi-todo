@@ -18,13 +18,30 @@
 <p><a href="{% url 'todo:index' %}">共有をやめて戻る</a></p>
 
 <script>
-  document.getElementById('copyBtn')?.addEventListener('click', function() {
-    const text = Array.from(document.querySelectorAll('li'))
-                      .map(li => li.innerText)
-                      .join('\n');
-    navigator.clipboard.writeText(text).then(function() {
-      alert('共有用テキストをコピーしました！');
+  document.getElementById('copyBtn').addEventListener('click', function () {
+  const text = Array.from(document.querySelectorAll('li'))
+                    .map(li => li.innerText)
+                    .join('\n');
+
+  const isMobile = /iPhone|Android.+Mobile/.test(navigator.userAgent);
+
+  if (navigator.share && isMobile) {
+    navigator.share({
+      title: '引っ越しToDoリスト（未完了）',
+      text: text,
+    }).catch(err => {
+      console.log('共有キャンセル:', err);
+      // fallback
+      navigator.clipboard.writeText(text).then(() => {
+        alert('テキストをコピーしました！（LINEなどに貼り付けてください）');
+      });
     });
-  });
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('テキストをコピーしました！（LINEなどに貼り付けてください）');
+    });
+  }
+});
+
 </script>
 {% endblock %}
