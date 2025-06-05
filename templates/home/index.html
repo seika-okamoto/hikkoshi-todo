@@ -1,44 +1,130 @@
-<h2>ひっこしToDo</h2><a href="{% url 'accounts:mypage' %}">⚙️</a>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ひっこしToDo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mypage-link {
+      font-size: 14px;
+      text-decoration: none;
+      color: #4a4ae2;
+    }
+    h2 {
+      margin-top: 24px;
+    }
+    form {
+      margin: 20px 0;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+    input[type="date"] {
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .center-text {
+      text-align: center;
+    }
+    .notification {
+      margin-top: 10px;
+    }
+    .notification li {
+      margin-bottom: 5px;
+    }
+    .danger {
+      color: red;
+      font-weight: bold;
+    }
+    .todo-link {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #eee;
+      text-decoration: none;
+      border-radius: 6px;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
 
-<form method="post">
-  {% csrf_token %}
-  <label for="planned_move_date">引っ越し予定日：</label>
-  <input type="date" name="planned_move_date" value="{{ planned_move_date }}">
-  <button type="submit">保存</button>
-</form>
+  <div class="header">
+    <h2>ひっこしToDo</h2>
+    <a href="{% url 'accounts:mypage' %}" class="mypage-link">👤 マイページ</a>
+  </div>
 
-<h2>あなたの進捗状況</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="planned_move_date">📅 引っ越し予定日を選んでください：</label>
+    <input type="date" name="planned_move_date" value="{{ planned_move_date }}">
+    <button type="submit">保存</button>
+  </form>
 
-{% if remaining_days is not None %}
-  <p>引っ越しまであと {{ remaining_days }} 日！</p>
-{% else %}
-{% endif %}
+  <h2 class="center-text">あなたの進捗状況</h2>
+  <div class="center-text">
+    {% if remaining_days is not None %}
+      <p>引っ越しまであと <strong>{{ remaining_days }}</strong> 日！</p>
+    {% endif %}
+    <p>完了件数: {{ completed_tasks }} / {{ total_tasks }}（達成率: {{ percent }}%）</p>
+  </div>
 
-<p>完了件数: {{ completed_tasks }} / {{ total_tasks }}（達成率: {{ percent }}%）</p>
+  <h2>お知らせ</h2>
+  <div class="notification">
+    {% if notification_tasks %}
+      <ul>
+        {% for item in notification_tasks %}
+          <li>
+            {% if item.status == '期限切れ' %}
+              <span class="danger">{{ item.task.title }} : 🔥期限切れ！</span>
+            {% elif item.status == '今日が期限' %}
+              <span class="danger">{{ item.task.title }} : 🔴今日が期限！</span>
+            {% else %}
+              {{ item.task.title }} : {{ item.status }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
 
-<h2>お知らせ</h2>
-{% if notification_tasks %}
- <ul>
-    {% for item in notification_tasks %}
-      <li>
-        {% if item.status == '期限切れ' %}
-          <span style="color:red;">{{ item.task.title }} : 🔥期限切れ！</span>
-        {% elif item.status == '今日が期限' %}
-          <span style="color:red;">{{ item.task.title }} : 🔴今日が期限！</span>
-        {% else %}
-          {{ item.task.title }} : {{ item.status }}
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
+      {% if notification_all_count >= 3 %}
+        <p class="danger">他にも期限が迫っているタスクがあります🚨</p>
+      {% endif %}
+    {% else %}
+      <p>今のところお知らせはありません！</p>
+    {% endif %}
+  </div>
 
-  {% if notification_all_count >= 3 %}
-    <p>他にも期限が迫っているタスクがあります🚨</p>
-  {% endif %}
+  <div class="center-text">
+    <a href="/todo/" class="todo-link">ToDoリストを見る</a>
+  </div>
 
-{% else %}
-  <p>今のところお知らせはありません！</p>
-{% endif %}
-
-
-<p><a href="/todo/">ToDoリストへ進む</a></p>
+</body>
+</html>
