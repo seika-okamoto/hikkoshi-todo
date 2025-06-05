@@ -16,6 +16,7 @@ from todo.models import Comment
 from .forms import CommentForm  
 
 
+
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
