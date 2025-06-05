@@ -6,31 +6,47 @@
   <h2>{{ task.title }}</h2>
 
   <!-- タブ切り替えボタン -->
-  <p>
-    <a href="?view=memo" {% if view == "memo" %}style="font-weight:bold;"{% endif %}>メモ</a> |
-    <a href="?view=comment" {% if view == "comment" %}style="font-weight:bold;"{% endif %}>コメント</a>
-  </p>
+<p>
+  <a href="?view=memo"
+     {% if view == "memo" %}style="font-weight:bold;"{% endif %}>メモ</a> |
+
+  {% if sort %}
+    <a href="?view=comment&sort={{ sort }}"
+       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>コメント</a>
+  {% else %}
+    <a href="?view=comment"
+       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>コメント</a>
+  {% endif %}
+</p>
+
 
   <!-- 表示内容 -->
-  {% if view == "memo" %}
-    <h3>メモ</h3>
-    <ul>
-      {% for memo in memos %}
-        <li>{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</li>
+
+{% if view == "memo" %}
+  <h3>メモ</h3>
+  <ul>
+    {% for memo in memos %}
+      <li>{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</li>
     {% empty %}
       <li>メモはまだありません。</li>
-      {% endfor %}
-    </ul>
-    <form method="POST" action="{% url 'todo:add_memo' task.id %}">
-        {% csrf_token %}
-        <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea>
-        <br>
-        <button type="submit">+ メモを追加</button>
-      </form>
-    {% endif %}
+    {% endfor %}
+  </ul>
+  <form method="POST" action="{% url 'todo:add_memo' task.id %}">
+      {% csrf_token %}
+      <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea>
+      <br>
+      <button type="submit">+ メモを追加</button>
+  </form>
+{% endif %}
 
 {% if view == "comment" %}
-  <h3>コメント</h3>
+  <h3>みんなのコメント（{{ comment_count }}件）</h3>
+  
+  <p>並び替え：
+    <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
+    <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
+  </p>
+  
   <ul>
     {% for comment in comments %}
       <li>
@@ -71,5 +87,4 @@
     <button type="submit">+ コメントを追加</button>
   </form>
 {% endif %}
-
 {% endblock %}

@@ -8,9 +8,8 @@ from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
 from .models import Like
- 
-
-
+from django.db.models import Count
+from todo.models import Comment, Like
 
 
 @require_POST
@@ -111,17 +110,23 @@ def add_task(request):
 def task_detail(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     view = request.GET.get('view', 'memo')
+    sort = request.GET.get('sort', 'newest')
 
     memos = Memo.objects.filter(task=task).order_by('-created')
-    comments = Comment.objects.filter(task=task).order_by('-created_at')  
-    
+
+    if sort == 'popular':
+        comments = Comment.objects.filter(task=task).annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
+    else:
+        comments = Comment.objects.filter(task=task).order_by('-created_at')
 
     return render(request, 'todo/task_detail.html', {
         'task': task,
         'view': view,
+        'sort': sort,
         'memos': memos,
         'comments': comments,
-        'hide_header': True  # 必要ならナビ非表示
+        'comment_count': comments.count(),  # ✅ これでテンプレートで使える！
+        'hide_header': True
     })
 
 @login_required
@@ -176,3 +181,21 @@ def toggle_like(request, comment_id):
 
     return redirect(f"{reverse('todo:task_detail', args=[comment.task.id])}?view=comment")
 
+def comment_list(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    sort = request.GET.get('sort', 'newest')
+
+    comments = Comment.objects.filter(task=task)
+
+    if sort == 'popular':
+        comments = comments.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
+    else:
+        comments = comments.order_by('-created_at')
+
+    context = {
+        'task': task,
+        'comments': comments,
+        'comment_count': comments.count(),
+        'sort': sort,
+    }
+    return render(request, 'todo/comment_list.html', context)

@@ -271,5 +271,7 @@ def edit_comment(request, comment_id):
             return redirect('accounts:comment_history')
     else:
         form = CommentForm(instance=comment)
+        print(form.errors)
 
     return render(request, 'accounts/edit_comment.html', {'form': form})
+
