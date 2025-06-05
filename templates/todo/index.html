@@ -2,6 +2,7 @@
 
 <h2>ToDo</h2>
 <a href="{% url 'todo:edit' %}">編集モード</a>
+<a href="{% url 'todo:share_items' %}" class="btn">📤 共有</a>
 
 <p>完了件数: {{ done_count }} / {{ total_count }}（達成率: {{ done_rate }}%）</p>
 {% for category, tasks in grouped_tasks.items %}

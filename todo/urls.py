@@ -14,5 +14,6 @@ urlpatterns = [
     path('task/<int:task_id>/add_memo/', views.add_memo, name='add_memo'),
     path('task/<int:task_id>/add_comment/', views.add_comment, name='add_comment'),
     path('like/<int:comment_id>/', views.toggle_like, name='toggle_like'),
+    path('share_items/', views.share_items, name='share_items'),
 ]
 

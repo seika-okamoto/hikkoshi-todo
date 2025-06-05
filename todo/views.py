@@ -2,12 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from collections import defaultdict
 from django.views.decorators.http import require_POST
-from .models import Task, Category, Memo, Comment
+from todo.models import Task, Category, Memo, Comment
 import datetime
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
-from .models import Like
 from django.db.models import Count
 from todo.models import Comment, Like
 
@@ -199,3 +198,11 @@ def comment_list(request, task_id):
         'sort': sort,
     }
     return render(request, 'todo/comment_list.html', context)
+
+@login_required
+def share_items(request):
+    incomplete_tasks = Task.objects.filter(user=request.user, is_done=False)
+
+    return render(request, 'todo/share_items.html', {
+        'tasks': incomplete_tasks
+    })
