@@ -1,30 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>タスク追加</h2>
+  <a href="{% url 'todo:index' %}" class="back-link">← 戻る</a>
 
-  <form method="POST">
+  <h2 class="form-title">ToDoの追加</h2>
+
+  <form method="POST" class="task-form">
     {% csrf_token %}
 
-    <label for="category">やるべき期限</label>
+    <label for="category">やるべき期限：</label>
     <select name="category" id="category" required>
       {% for cat in categories %}
         <option value="{{ cat.id }}">{{ cat.name }}</option>
       {% endfor %}
     </select>
 
-    <br><br>
+    <label for="title">内容：</label>
+    <input type="text" name="title" id="title" placeholder="例）ご近所へ挨拶用のギフトを手配" required>
 
-    <label for="title">タスク内容</label>
-    <input type="text" name="title" id="title" required>
+    <label for="memo">メモ：</label>
+    <textarea name="memo" id="memo" rows="4" placeholder="自分用メモ（任意）"></textarea>
 
-    <br><br>
-
-    <label for="memo">メモ（任意）</label>
-    <textarea name="memo" id="memo" rows="4" cols="40"></textarea>
-
-    <br><br>
-
-    <button type="submit">保存</button>
+    <button type="submit" class="submit-btn">✅ 保存</button>
   </form>
 {% endblock %}
