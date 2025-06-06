@@ -1,27 +1,90 @@
-<a href="{% url 'home:index' %}">🔙戻る</a>
+<a href="{% url 'home:index' %}">← 戻る</a>
 
-<h2>ToDo</h2>
-<a href="{% url 'todo:edit' %}">編集モード</a>
-<a href="{% url 'todo:share_items' %}" class="btn">📤 共有</a>
+<div class="todo-header">
+  <h2 class="todo-title">ToDo</h2>
+  <div class="todo-actions">
+    <a href="{% url 'todo:edit' %}">✏️ 編集</a>
+    <a href="{% url 'todo:share_items' %}">📤 共有</a>
+  </div>
+</div>
 
-<p>完了件数: {{ done_count }} / {{ total_count }}（達成率: {{ done_rate }}%）</p>
+<style>
+  .task-section {
+  margin-top: 30px;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.task-left {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.task-title {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.arrow {
+  font-size: 18px;
+  color: #888;
+  margin-left: 8px;
+}
+
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.todo-title {
+  flex: 1;
+  text-align: center;
+  font-size: 28px;
+  margin: 0;
+}
+
+.todo-actions {
+  white-space: nowrap;
+}
+
+.todo-actions a {
+  font-size: 18px;
+  margin-left: 12px;
+  text-decoration: none;
+  color: #4a4ae2;
+}
+</style>
+
 {% for category, tasks in grouped_tasks.items %}
-  <h3>{{ category }}</h3>
-  <ul>
+  <div class="task-section">
+    <h3>{{ category }}</h3>
+
     {% for task in tasks %}
-      <li>
-        <form method="POST" action="{% url 'todo:toggle_done' task.id %}">
-          {% csrf_token %}
-          <label>
+      <form method="POST" action="{% url 'todo:toggle_done' task.id %}">
+        {% csrf_token %}
+        <div class="task-card">
+          <div class="task-left">
             <input type="checkbox" name="is_done" onchange="this.form.submit()" {% if task.is_done %}checked{% endif %}>
-            {{ task.title }}
-            <a href="{% url 'todo:task_detail' task.id %}?view=memo" title="メモを見る">
-              &gt;
-          </label>
-        </form>
-      </li>
+            <span class="task-title">{{ task.title }}</span>
+          </div>
+          <a href="{% url 'todo:task_detail' task.id %}?view=memo" class="arrow">&gt;</a>
+        </div>
+      </form>
     {% endfor %}
-  </ul>
+  </div>
 {% empty %}
   <p>まだタスクはありません。</p>
 {% endfor %}
