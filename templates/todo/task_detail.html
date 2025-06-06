@@ -10,7 +10,8 @@
 
 <p><a href="{% url 'todo:index' %}">←戻る</a></p>
 
-  <h2>{{ task.title }}</h2>
+<h2>{{ task.title }}</h2>
+
 <!-- タブ切り替えボタン -->
 <p>
   <a href="?view=memo"
@@ -21,17 +22,16 @@
        {% if view == "comment" %}style="font-weight:bold;"{% endif %}>💬コメント</a>
   {% else %}
     <a href="?view=comment"
-       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>コメント</a>
+       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>💬コメント</a>
   {% endif %}
 </p>
 
-  <!-- ✅ 自分用メモ表示 -->
-
+<!-- ✅ メモ表示（viewがmemoのときだけ） -->
+{% if view == "memo" %}
+  <h3>📝 自分用メモ</h3>
   <ul>
     {% for memo in memos %}
       <li>{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</li>
-    {% empty %}
-      <!-- メモがない時は何も表示しない -->
     {% endfor %}
   </ul>
 
@@ -42,9 +42,12 @@
   </form>
 
   <hr>
+{% endif %}
 
-  <!-- ✅ コメント一覧 -->
+<!-- ✅ コメント表示（viewがmemoまたはcommentのとき） -->
+{% if view == "memo" or view == "comment" %}
   <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
+
   <p>並び替え：
     <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
     <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
@@ -53,16 +56,18 @@
   <ul>
     {% for comment in comments %}
       <li>
-        {% if comment.display_name == 'nickname' %}
-          投稿者: {{ comment.user.username }}
-        {% else %}
-          投稿者: 非公開
-        {% endif %}
-        <br>
-        {{ comment.content }}
-　　　　　<!-- ✅ 日付を下・右側に -->
+        <p><strong>投稿者:</strong>
+          {% if comment.display_name == 'nickname' %}
+            {{ comment.user.username }}
+          {% else %}
+            非公開
+          {% endif %}
+        </p>
+        <p>{{ comment.content }}</p>
+
+        <!-- ✅ 日付：右下寄せ用 -->
         <p class="comment-date">{{ comment.created_at|date:"Y/m/d H:i" }}</p>
-        
+
         <!-- いいね -->
         <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
           {% csrf_token %}
@@ -76,7 +81,7 @@
     {% endfor %}
   </ul>
 
-  <!-- ✅ コメント追加フォーム -->
+  <!-- コメント追加フォーム -->
   <form method="POST" action="{% url 'todo:add_comment' task.id %}">
     {% csrf_token %}
     <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="例）段ボールの中身はマジックで大きく書くと、開封のとき楽でしたよ"></textarea><br>
@@ -89,5 +94,5 @@
 
     <button type="submit">＋ コメントを追加</button>
   </form>
+{% endif %}
 {% endblock %}
-
