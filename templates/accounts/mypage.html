@@ -14,7 +14,7 @@
 <div class="info-row">
   <span class="info-label">👤 ニックネーム：</span>
   <span class="info-value">{{ profile.user.username }}</span>
-  <a class="edit-link" href="{% url 'accounts:edit_username' %}">編集する</a>
+  <a href="javascript:void(0)" class="edit-link" id="editUsernameBtn">編集する</a>
 </div>
 
 <div class="info-row">
@@ -41,6 +41,7 @@
 
 
   <!-- 以下ダイアログ（JSはそのまま） -->
+  <div id="overlay"></div>
   <div id="editDialog" style="display:none; border:1px solid #ccc; padding:10px; margin:10px 0;">
     <form method="POST" action="{% url 'accounts:edit_username' %}">
       {% csrf_token %}
@@ -59,14 +60,17 @@
 </div>
 
 <script>
-  document.getElementById('editUsernameBtn')?.addEventListener('click', function(e) {
+document.getElementById('editUsernameBtn')?.addEventListener('click', function(e) {
     e.preventDefault();
     document.getElementById('editDialog').style.display = 'block';
-  });
+    document.getElementById('overlay').style.display = 'block';
+});
 
   document.getElementById('cancelEdit')?.addEventListener('click', function() {
     document.getElementById('editDialog').style.display = 'none';
-  });
+    document.getElementById('overlay').style.display = 'none';
+});
+
 
   document.getElementById('logoutBtn')?.addEventListener('click', function() {
     document.getElementById('logoutDialog').style.display = 'block';
