@@ -8,6 +8,7 @@
  {% block extra_css %}{% endblock %}
 </head>
 <body>
+    {% block header %}
     {% if not hide_header|default:False %}
     <header>
         <h1><a href="{% url 'home:index' %}">ひっこしToDo</a></h1>
@@ -20,6 +21,7 @@
         </nav>
     </header>
     {% endif %}
+    {% endblock %}
 
     <main>
         {% block content %}

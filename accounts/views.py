@@ -203,6 +203,7 @@ def edit_email(request):
             print("メール送信完了")
 
             return redirect(f"{reverse('accounts:email_change_sent')}?email={new_email}")
+    
         else:
             # パスワードが間違っている場合など
             messages.error(request, 'パスワードが正しくありません。')
