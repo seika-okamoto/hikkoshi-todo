@@ -1,0 +1,88 @@
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 6px;
+}
+
+.info-label {
+  flex: 1 1 100%;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  flex: 1 1 auto;
+  word-break: break-all;
+}
+
+.edit-link {
+  flex-shrink: 0;
+  color: #6a1b9a;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+
+
+
+
+.mypage-wrapper {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #6a1b9a;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+
+.button-box {
+  margin: 10px 0;
+}
+
+.button-box a,
+.button-box button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  background-color: white;
+  border: 2px solid #6a1b9a;
+  color: #6a1b9a;
+  border-radius: 8px;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-box a:hover,
+.button-box button:hover {
+  background-color: #f3e5f5;
+}
+
+.logout button {
+  color: red;
+  border-color: red;
+}
+
+.back-home {
+  margin-top: 20px;
+  text-align: center;
+}

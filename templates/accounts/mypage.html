@@ -1,70 +1,83 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>マイページ</h2>
+<div class="mypage-wrapper">
+  <p><a href="{% url 'todo:index' %}" class="back-link">← 戻る</a></p>
 
-<p>👤ニックネーム： {{ profile.user.username }}
-  <a href="{% url 'accounts:edit_username' %}" id="editUsernameBtn">編集する</a>
-</p>
+  <h2>マイページ</h2>
 
-<p>メールアドレス: {{ profile.user.email }}
-  <a href="{% url 'accounts:edit_email' %}">変更する</a>
-</p>
-
-<p>引っ越し予定日: {{ profile.planned_move_date|default:"未設定" }}</p>
-
-<p><a href="{% url 'accounts:change_password' %}">パスワードを変更する</a></p>
-
-<p><a href="{% url 'accounts:comment_history' %}">自分のコメント履歴を見る</a></p>
-
-<p><a href="{% url 'accounts:about_app' %}">「ひっこしToDo」について</a></p>
-
-<!-- ログアウトボタン -->
-<button id="logoutBtn" style="color:red;">🚫 ログアウトする</button>
-
-<!-- ダイアログ部分（最初は非表示） -->
-<div id="editDialog" style="display:none; border:1px solid #ccc; padding:10px; margin:10px 0;">
-  <form method="POST" action="{% url 'accounts:edit_username' %}">
-    {% csrf_token %}
-    <label>ニックネームを編集してください</label><br>
-    <input type="text" name="username" value="{{ profile.user.username }}"><br>
-    <button type="submit">保存</button>
-    <button type="button" id="cancelEdit">キャンセル</button>
-  </form>
-</div>
-<!-- ログアウト確認ダイアログ -->
-<div id="logoutDialog" style="display:none; border:1px solid #ccc; padding:10px; background:#f9f9f9; margin-top:10px;">
-  <p>🚫 ログアウトしますか？</p>
-  <button id="confirmLogout">ログアウト</button>
-  <button id="cancelLogout">キャンセル</button>
+<div class="info-row">
+  <span class="info-label">👤 ニックネーム：</span>
+  <span class="info-value">{{ profile.user.username }}</span>
+  <a class="edit-link" href="{% url 'accounts:edit_username' %}">編集する</a>
 </div>
 
-<p><a href="{% url 'home:index' %}">ホームへ戻る</a></p>
+<div class="info-row">
+  <span class="info-label">📧 メールアドレス：</span>
+  <span class="info-value">{{ profile.user.email }}</span>
+  <a class="edit-link" href="{% url 'accounts:edit_email' %}">変更する</a>
+</div>
+
+  <p class="info-line">📅 引っ越し予定日：{{ profile.planned_move_date|default:"未設定" }}</p>
+
+  <div class="button-box">
+    <a href="{% url 'accounts:change_password' %}">パスワードを変更する</a>
+  </div>
+  <div class="button-box">
+    <a href="{% url 'accounts:comment_history' %}">自分のコメント履歴を見る</a>
+  </div>
+  <div class="button-box">
+    <a href="{% url 'accounts:about_app' %}">「ひっこしToDo」について</a>
+  </div>
+
+  <div class="button-box logout">
+    <button id="logoutBtn">🚫 ログアウトする</button>
+  </div>
+
+
+  <!-- 以下ダイアログ（JSはそのまま） -->
+  <div id="editDialog" style="display:none; border:1px solid #ccc; padding:10px; margin:10px 0;">
+    <form method="POST" action="{% url 'accounts:edit_username' %}">
+      {% csrf_token %}
+      <label>ニックネームを編集してください</label><br>
+      <input type="text" name="username" value="{{ profile.user.username }}"><br>
+      <button type="submit">保存</button>
+      <button type="button" id="cancelEdit">キャンセル</button>
+    </form>
+  </div>
+
+  <div id="logoutDialog" style="display:none; border:1px solid #ccc; padding:10px; background:#f9f9f9; margin-top:10px;">
+    <p>🚫 ログアウトしますか？</p>
+    <button id="confirmLogout">ログアウト</button>
+    <button id="cancelLogout">キャンセル</button>
+  </div>
+</div>
 
 <script>
-  document.getElementById('editUsernameBtn').addEventListener('click', function(e) {
+  document.getElementById('editUsernameBtn')?.addEventListener('click', function(e) {
     e.preventDefault();
     document.getElementById('editDialog').style.display = 'block';
   });
 
-  document.getElementById('cancelEdit').addEventListener('click', function() {
+  document.getElementById('cancelEdit')?.addEventListener('click', function() {
     document.getElementById('editDialog').style.display = 'none';
   });
-</script>
-<script>
-  document.getElementById('logoutBtn').addEventListener('click', function() {
+
+  document.getElementById('logoutBtn')?.addEventListener('click', function() {
     document.getElementById('logoutDialog').style.display = 'block';
   });
 
-  document.getElementById('cancelLogout').addEventListener('click', function() {
+  document.getElementById('cancelLogout')?.addEventListener('click', function() {
     document.getElementById('logoutDialog').style.display = 'none';
   });
 
-  document.getElementById('confirmLogout').addEventListener('click', function() {
+  document.getElementById('confirmLogout')?.addEventListener('click', function() {
     window.location.href = "{% url 'accounts:logout' %}";
   });
 </script>
-
 {% endblock %}
-
-
