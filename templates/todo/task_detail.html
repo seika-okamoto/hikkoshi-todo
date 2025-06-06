@@ -1,52 +1,55 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/task_detail.css' %}">
+{% endblock %}
 
 {% block content %}
-  <p><a href="{% url 'todo:index' %}">🔙戻る</a></p>
+<div class="task-detail-wrapper">
+
+<p><a href="{% url 'todo:index' %}">←戻る</a></p>
 
   <h2>{{ task.title }}</h2>
-
-  <!-- タブ切り替えボタン -->
+<!-- タブ切り替えボタン -->
 <p>
   <a href="?view=memo"
-     {% if view == "memo" %}style="font-weight:bold;"{% endif %}>メモ</a> |
+     {% if view == "memo" %}style="font-weight:bold;"{% endif %}>📝メモ</a> |
 
   {% if sort %}
     <a href="?view=comment&sort={{ sort }}"
-       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>コメント</a>
+       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>💬コメント</a>
   {% else %}
     <a href="?view=comment"
        {% if view == "comment" %}style="font-weight:bold;"{% endif %}>コメント</a>
   {% endif %}
 </p>
 
+  <!-- ✅ 自分用メモ表示 -->
 
-  <!-- 表示内容 -->
-
-{% if view == "memo" %}
-  <h3>メモ</h3>
   <ul>
     {% for memo in memos %}
       <li>{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</li>
     {% empty %}
-      <li>メモはまだありません。</li>
+      <!-- メモがない時は何も表示しない -->
     {% endfor %}
   </ul>
-  <form method="POST" action="{% url 'todo:add_memo' task.id %}">
-      {% csrf_token %}
-      <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea>
-      <br>
-      <button type="submit">+ メモを追加</button>
-  </form>
-{% endif %}
 
-{% if view == "comment" %}
-  <h3>みんなのコメント（{{ comment_count }}件）</h3>
-  
+  <form method="POST" action="{% url 'todo:add_memo' task.id %}">
+    {% csrf_token %}
+    <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
+    <button type="submit">＋ メモを追加</button>
+  </form>
+
+  <hr>
+
+  <!-- ✅ コメント一覧 -->
+  <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
   <p>並び替え：
     <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
     <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
   </p>
-  
+
   <ul>
     {% for comment in comments %}
       <li>
@@ -56,17 +59,15 @@
           投稿者: 非公開
         {% endif %}
         <br>
-        {{ comment.content }}（{{ comment.created_at|date:"Y/m/d H:i" }}）
-
-        <!-- いいね表示 -->
+        {{ comment.content }}
+　　　　　<!-- ✅ 日付を下・右側に -->
+        <p class="comment-date">{{ comment.created_at|date:"Y/m/d H:i" }}</p>
+        
+        <!-- いいね -->
         <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
           {% csrf_token %}
           {% with comment.likes.count as like_count %}
-            {% if like_count > 0 %}
-              <button type="submit">👍 {{ like_count }} いいね</button>
-            {% else %}
-              <button type="submit">👍 いいね</button>
-            {% endif %}
+            <button type="submit">👍 {{ like_count|default:"いいね" }}</button>
           {% endwith %}
         </form>
       </li>
@@ -75,16 +76,18 @@
     {% endfor %}
   </ul>
 
+  <!-- ✅ コメント追加フォーム -->
   <form method="POST" action="{% url 'todo:add_comment' task.id %}">
     {% csrf_token %}
-    <textarea name="content" rows="3" cols="40" placeholder="コメントを入力"></textarea>
-    <br>
+    <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="例）段ボールの中身はマジックで大きく書くと、開封のとき楽でしたよ"></textarea><br>
+    <small>0/150文字</small><br><br>
 
-    <p>投稿者表示設定：</p>
-    <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示</label><br>
-    <label><input type="radio" name="display_name" value="anonymous"> 非公開で表示</label><br>
+    <p>👤 投稿者表示設定：</p>
+    <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示する</label><br>
+    <label><input type="radio" name="display_name" value="anonymous"> 投稿者名を非公開にする</label><br>
+    <p><small>この端末からの投稿には編集・削除が可能です</small></p>
 
-    <button type="submit">+ コメントを追加</button>
+    <button type="submit">＋ コメントを追加</button>
   </form>
-{% endif %}
 {% endblock %}
+
