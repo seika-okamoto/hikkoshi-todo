@@ -282,7 +282,10 @@ def edit_comment(request, comment_id):
         form = CommentForm(instance=comment)
         print(form.errors)
 
-    return render(request, 'accounts/edit_comment.html', {'form': form})
+    return render(request, 'accounts/edit_comment.html', {
+        'form': form,
+        'hide_header': True  # ← ヘッダーを消す用
+})
 
 @login_required
 def about_app(request):
