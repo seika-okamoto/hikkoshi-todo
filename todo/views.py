@@ -41,7 +41,8 @@ def task_list(request):
         'grouped_tasks': dict(grouped_tasks),
         'total_count': total_count,
         'done_count': done_count,
-        'done_rate': done_rate
+        'done_rate': done_rate,
+        'hide_header': True,
     })
 
 @login_required
