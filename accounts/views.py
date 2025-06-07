@@ -284,3 +284,8 @@ def edit_comment(request, comment_id):
 @login_required
 def about_app(request):
     return render(request, 'accounts/about_app.html')
+
+def password_reset_done(request):
+    return render(request, 'accounts/password_reset_done.html', {
+        'hide_header': True 
+    })

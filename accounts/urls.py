@@ -19,8 +19,9 @@ urlpatterns = [
     path('edit_comment/<int:comment_id>/', views.edit_comment, name='edit_comment'),
     # ✅ password reset 関連
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
-        template_name='accounts/password_reset_done.html'
-    ), name='password_reset_done'),
+        template_name='accounts/password_reset_done.html',
+        extra_context={'hide_header': True}  
+        ), name='password_reset_done'),
 
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
         template_name='accounts/password_reset_confirm.html',
