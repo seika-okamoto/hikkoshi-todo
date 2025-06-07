@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/share_items.css' %}">
+{% endblock %}
 
 {% block content %}
 <h2>🔗 共有する項目</h2>
@@ -6,42 +11,41 @@
 {% if tasks %}
   <ul>
     {% for task in tasks %}
-      <li>・{{ task.title }}</li>
+      <li>{{ task.title }}</li>
     {% endfor %}
   </ul>
 
-  <button id="copyBtn">この内容で共有</button>
+  <div class="share-buttons">
+    <button id="copyBtn">この内容で共有</button>
+    <a href="{% url 'todo:index' %}" class="back-link">共有をやめて戻る</a>
+  </div>
 {% else %}
-  <p>未完了のタスクはありません。</p>
+  <p class="center-text">未完了のタスクはありません。</p>
 {% endif %}
-
-<p><a href="{% url 'todo:index' %}">共有をやめて戻る</a></p>
 
 <script>
   document.getElementById('copyBtn').addEventListener('click', function () {
-  const text = Array.from(document.querySelectorAll('li'))
-                    .map(li => li.innerText)
-                    .join('\n');
+    const text = Array.from(document.querySelectorAll('li'))
+                      .map(li => li.innerText)
+                      .join('\n');
 
-  const isMobile = /iPhone|Android.+Mobile/.test(navigator.userAgent);
+    const isMobile = /iPhone|Android.+Mobile/.test(navigator.userAgent);
 
-  if (navigator.share && isMobile) {
-    navigator.share({
-      title: '引っ越しToDoリスト（未完了）',
-      text: text,
-    }).catch(err => {
-      console.log('共有キャンセル:', err);
-      // fallback
+    if (navigator.share && isMobile) {
+      navigator.share({
+        title: '引っ越しToDoリスト（未完了）',
+        text: text,
+      }).catch(err => {
+        console.log('共有キャンセル:', err);
+        navigator.clipboard.writeText(text).then(() => {
+          alert('テキストをコピーしました！（LINEなどに貼り付けてください）');
+        });
+      });
+    } else {
       navigator.clipboard.writeText(text).then(() => {
         alert('テキストをコピーしました！（LINEなどに貼り付けてください）');
       });
-    });
-  } else {
-    navigator.clipboard.writeText(text).then(() => {
-      alert('テキストをコピーしました！（LINEなどに貼り付けてください）');
-    });
-  }
-});
-
+    }
+  });
 </script>
 {% endblock %}

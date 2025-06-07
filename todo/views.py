@@ -205,5 +205,6 @@ def share_items(request):
     incomplete_tasks = Task.objects.filter(user=request.user, is_done=False)
 
     return render(request, 'todo/share_items.html', {
-        'tasks': incomplete_tasks
+        'tasks': incomplete_tasks,
+        'hide_header': True,
     })
