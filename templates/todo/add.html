@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/todo_add.css' %}">
+{% endblock %}
 
 {% block content %}
+
   <a href="{% url 'todo:index' %}" class="back-link">← 戻る</a>
 
   <h2 class="form-title">ToDoの追加</h2>
@@ -23,10 +29,5 @@
 
     <button type="submit" class="submit-btn">✅ 保存</button>
   </form>
-<style>
-  form.task-form {
-    background-color: pink;  /* テスト用 */
-  }
-</style>
 
 {% endblock %}

@@ -1,0 +1,81 @@
+.task-form {
+max-width: 400px;
+margin: 40px auto;
+padding: 30px 20px;
+background-color: #ffffff;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.form-title {
+text-align: center;
+margin-bottom: 24px;
+font-size: 22px;
+}
+
+label {
+font-weight: bold;
+font-size: 14px;
+}
+
+input[type="text"],
+select,
+textarea {
+width: 100%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 6px;
+font-size: 14px;
+box-sizing: border-box;
+}
+
+.submit-btn {
+padding: 12px;
+font-size: 16px;
+background-color: #4CAF50;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+}
+
+.submit-btn:hover {
+background-color: #45a049;
+}
+
+.back-link {
+display: inline-block;
+margin: 20px;
+color: #333;
+text-decoration: none;
+}
+
+.task-form {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px 20px;
+  background-color: #fff;  /* ✅ ← ここが白 */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 白いボタン */
+.submit-btn {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #ffffff;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #f2fff2;
+}
