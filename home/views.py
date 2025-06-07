@@ -80,4 +80,6 @@ def index(request):
         'notification_all_count': notification_all_count,
         'today': today,  # 今日の日付をテンプレートでも使えるように渡す
     }
+    context['hide_header'] = True
     return render(request, 'home/index.html', context)
+
