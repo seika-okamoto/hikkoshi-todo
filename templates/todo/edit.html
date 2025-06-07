@@ -26,6 +26,7 @@
 
   <!-- 編集用モーダル -->
   <div class="modal edit-modal" id="edit-modal-{{ task.id }}" style="display:none;">
+    <p class="modal-title">内容を編集してください</p>
     <form method="POST" action="{% url 'todo:edit_task' task.id %}">
       {% csrf_token %}
       <input type="text" name="title" value="{{ task.title }}">

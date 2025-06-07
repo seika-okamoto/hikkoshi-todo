@@ -71,17 +71,23 @@
 /* 簡易モーダル */
 .modal {
   position: fixed;
-  background: white;
-  padding: 24px;
-  border: 1px solid #ccc;
-  top: 10%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  transform: translate(-50%, -50%);
+  background: #fff;
   border-radius: 12px;
-  width: 300px;
+  padding: 24px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 90%;
+  max-width: 360px;
   text-align: center;
+}
+
+.modal-title {
+  font-size: 14px;
+  margin-bottom: 16px;
+  color: #333;
 }
 
 .modal input[type="text"] {
@@ -91,6 +97,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+
 
 .modal button {
   padding: 8px 16px;
