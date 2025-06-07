@@ -9,7 +9,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Count
 from todo.models import Comment, Like
-
+from django.http import JsonResponse
+import json
 
 @require_POST
 @login_required  # ← ログインしてる人だけアクセスできる
@@ -208,3 +209,13 @@ def share_items(request):
         'tasks': incomplete_tasks,
         'hide_header': True,
     })
+
+@require_POST
+def toggle_done_ajax(request, task_id):
+    if request.user.is_authenticated:
+        task = get_object_or_404(Task, id=task_id, user=request.user)
+        data = json.loads(request.body)
+        task.is_done = data.get('is_done', False)
+        task.save()
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'unauthorized'}, status=401)

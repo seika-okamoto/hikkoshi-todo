@@ -22,19 +22,57 @@
     <h3>{{ category }}</h3>
 
     {% for task in tasks %}
-      <form method="POST" action="{% url 'todo:toggle_done' task.id %}">
-        {% csrf_token %}
-        <div class="task-card">
-          <div class="task-left">
-            <input type="checkbox" name="is_done" onchange="this.form.submit()" {% if task.is_done %}checked{% endif %}>
-            <span class="task-title">{{ task.title }}</span>
-          </div>
-          <a href="{% url 'todo:task_detail' task.id %}?view=memo" class="arrow">&gt;</a>
+      <div class="task-card">
+        <div class="task-left">
+          <input type="checkbox" 
+                 class="checkbox"
+                 data-task-id="{{ task.id }}"
+                 {% if task.is_done %}checked{% endif %}>
+          <span class="task-title">{{ task.title }}</span>
         </div>
-      </form>
+        <a href="{% url 'todo:task_detail' task.id %}?view=memo" class="arrow">&gt;</a>
+      </div>
     {% endfor %}
   </div>
 {% empty %}
   <p>まだタスクはありません。</p>
 {% endfor %}
+<script>
+  document.querySelectorAll('.checkbox').forEach((checkbox) => {
+    checkbox.addEventListener('change', function () {
+      const taskId = this.dataset.taskId;
+      const isDone = this.checked;
+
+      fetch(`/todo/toggle_done_ajax/${taskId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify({ is_done: isDone })
+      }).then(res => {
+        if (!res.ok) {
+          alert("更新に失敗しました");
+        }
+      });
+    });
+  });
+
+  // Django CSRFトークン取得関数
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
+
 {% endblock %}
