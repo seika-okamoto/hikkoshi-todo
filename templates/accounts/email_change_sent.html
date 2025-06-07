@@ -17,12 +17,20 @@
 
   <p>メール内のリンクをクリックして、新しいメールアドレスの確認を完了してください。</p>
 
+  {% if messages %}
+    <div class="message-box">
+      {% for message in messages %}
+        <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
   <div class="button-group">
     <a href="{% url 'home:index' %}" class="button">🏠 ホーム画面へ戻る</a>
     <form method="POST" action="{% url 'accounts:resend_email' %}" style="display:inline;">
       {% csrf_token %}
       <input type="hidden" name="email" value="{{ new_email }}">
-      <button type="submit" class="button">再送信する</button>
+      <button type="submit" class="button">✉再送信する</button>
     </form>
   </div>
 

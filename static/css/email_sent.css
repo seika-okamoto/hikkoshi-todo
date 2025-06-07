@@ -47,3 +47,18 @@ h2 {
   margin-top: 24px;
   text-align: center;
 }
+
+.message-box {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.message.success {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  border: 1px solid #81c784;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: inline-block;
+}

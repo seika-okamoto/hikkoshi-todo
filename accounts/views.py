@@ -240,7 +240,7 @@ def confirm_email_change(request, token):
 def resend_email(request):
     email = request.POST.get('email')
     # 再送信処理（例：send_mailなど）
-    messages.success(request, f"{email} に確認メールを再送信しました")
+    messages.success(request, "確認メールを再送信しました。")
     return redirect(f"{reverse('accounts:email_change_sent')}?email={email}")
 
 
