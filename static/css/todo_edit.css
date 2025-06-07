@@ -1,0 +1,120 @@
+.todo-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.todo-title {
+  font-size: 24px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.add-btn {
+  position: absolute;
+  right: 0;
+  font-size: 24px;
+  text-decoration: none;
+  color: #4a4ae2;
+  padding-right: 8px;
+}
+
+.back-link {
+  font-size: 16px;
+  text-decoration: none;
+  color: #4a4ae2;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.task-left {
+  display: flex;
+  align-items: center;
+}
+
+.task-title {
+  font-size: 16px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  color: #4a90e2;
+}
+
+.delete-btn:hover {
+  color: red;
+}
+
+/* 簡易モーダル */
+.modal {
+  position: fixed;
+  background: white;
+  padding: 24px;
+  border: 1px solid #ccc;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal input[type="text"] {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.modal button {
+  padding: 8px 16px;
+  margin: 4px;
+  border: 1px solid #4a90e2;
+  background: white;
+  color: #4a90e2;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal button[type="submit"] {
+  background: #4a90e2;
+  color: white;
+}
+
+.delete-btn {
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black; /* ← これ重要！ */
+}
+
+.delete-btn:hover {
+  color: red;
+}

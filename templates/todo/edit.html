@@ -1,3 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/todo_edit.css' %}">
+{% endblock %}
+
+{% block content %}
 <p><a href="{% url 'todo:index' %}" class="back-link">← 戻る</a></p>
 
 <div class="todo-header">
@@ -28,7 +36,7 @@
 
   <!-- 削除用モーダル -->
   <div class="modal delete-modal" id="delete-modal-{{ task.id }}" style="display:none;">
-    <p>この項目を削除しますか？</p>
+    <p style="margin-bottom: 16px;">この項目を削除しますか？</p>
     <form method="POST" action="{% url 'todo:delete_task' task.id %}">
       {% csrf_token %}
       <button type="submit">削除</button>
@@ -37,87 +45,28 @@
   </div>
 {% endfor %}
 
-<style>
-.todo-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
+<!-- ✅ここに移動 -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.edit-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const id = button.dataset.taskId;
+      document.getElementById(`edit-modal-${id}`).style.display = 'block';
+    });
+  });
 
-.todo-title {
-  font-size: 24px;
-  margin: 0 auto;
-  text-align: center;
-}
+  document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const id = button.dataset.taskId;
+      document.getElementById(`delete-modal-${id}`).style.display = 'block';
+    });
+  });
 
-.add-btn {
-  position: absolute;
-  right: 0;
-  font-size: 24px;
-  text-decoration: none;
-  color: #4a4ae2;
-  padding-right: 8px;
-}
-
-.back-link {
-  font-size: 16px;
-  text-decoration: none;
-  color: #4a4ae2;
-}
-
-.task-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  padding: 12px 16px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-.task-left {
-  display: flex;
-  align-items: center;
-}
-
-.task-title {
-  font-size: 16px;
-}
-
-.task-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.edit-btn, .delete-btn {
-  font-size: 18px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.edit-btn:hover {
-  color: #4a90e2;
-}
-
-.delete-btn:hover {
-  color: red;
-}
-
-/* 簡易モーダル */
-.modal {
-  position: fixed;
-  background: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -30%);
-  z-index: 1000;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-</style>
+  document.querySelectorAll('.cancel-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      button.closest('.modal').style.display = 'none';
+    });
+  });
+});
+</script>
+{% endblock %}
