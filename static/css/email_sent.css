@@ -51,6 +51,7 @@ h2 {
 .message-box {
   margin-top: 12px;
   text-align: center;
+  transition: opacity 0.5s ease;
 }
 
 .message.success {

@@ -17,13 +17,14 @@
 
   <p>メール内のリンクをクリックして、新しいメールアドレスの確認を完了してください。</p>
 
-  {% if messages %}
-    <div class="message-box">
-      {% for message in messages %}
-        <p class="message {{ message.tags }}">{{ message }}</p>
-      {% endfor %}
-    </div>
-  {% endif %}
+{% if messages %}
+<div id="flash-message" class="message-box">
+  {% for message in messages %}
+    <p class="message {{ message.tags }}">{{ message }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
 
   <div class="button-group">
     <a href="{% url 'home:index' %}" class="button">🏠 ホーム画面へ戻る</a>
@@ -36,4 +37,22 @@
 
   <p class="note">※数分待ってもメールが届かない場合は、迷惑メールフォルダをご確認ください。</p>
 </div>
+
+<script>
+  // 3秒後にフェードアウト
+  window.addEventListener('DOMContentLoaded', () => {
+    const flash = document.getElementById('flash-message');
+    if (flash) {
+      setTimeout(() => {
+        flash.style.transition = "opacity 0.8s";
+        flash.style.opacity = 0;
+        setTimeout(() => {
+          flash.remove();
+        }, 800);
+      }, 3000);
+    }
+  });
+</script>
 {% endblock %}
+
+
