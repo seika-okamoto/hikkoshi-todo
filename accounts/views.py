@@ -270,6 +270,9 @@ def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id, user=request.user)
 
     if request.method == 'POST':
+        print("📨 POST内容:", request.POST)  # ← 関数の外だとNG！
+
+        
         if 'save' in request.POST:
             form = CommentForm(request.POST, instance=comment)
             if form.is_valid():
@@ -286,6 +289,7 @@ def edit_comment(request, comment_id):
         'form': form,
         'hide_header': True  # ← ヘッダーを消す用
 })
+
 
 @login_required
 def about_app(request):

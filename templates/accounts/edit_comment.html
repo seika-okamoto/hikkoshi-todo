@@ -17,10 +17,17 @@
     
 
     <label>👤 投稿者表示設定：</label>
-    <div class="radio-wrapper">
-       <label><input type="radio" name="display_name" value="True" {% if form.is_displayed.value == "True" %}checked{% endif %}> ニックネームで表示する</label><br>
-       <label><input type="radio" name="display_name" value="False" {% if form.is_displayed.value == "False" %}checked{% endif %}> 投稿者名を非表示にする</label>
-    </div>
+<div class="radio-wrapper">
+  <label>
+    <input type="radio" name="display_name" value="nickname" {% if form.display_name.value == "nickname" %}checked{% endif %}>
+    ニックネームで表示する
+  </label><br>
+  <label>
+    <input type="radio" name="display_name" value="anonymous" {% if form.display_name.value == "anonymous" %}checked{% endif %}>
+    非公開で表示する
+  </label>
+</div>
+
 
     <p class="note">この端末からの投稿には編集・削除が可能です</p>
 
