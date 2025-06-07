@@ -293,8 +293,10 @@ def edit_comment(request, comment_id):
 
 @login_required
 def about_app(request):
-    return render(request, 'accounts/about_app.html')
-
+    return render(request, 'accounts/about_app.html', {
+        'hide_header': True  # 👈 これでbase.html内のヘッダーを消せる
+    })
+    
 def password_reset_done(request):
     return render(request, 'accounts/password_reset_done.html', {
         'hide_header': True 
