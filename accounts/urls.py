@@ -17,9 +17,8 @@ urlpatterns = [
     path('change_password/', views.change_password, name='change_password'),
     path('comment_history/', views.comment_history, name='comment_history'),
     path('edit_comment/<int:comment_id>/', views.edit_comment, name='edit_comment'),
-
     # ✅ password reset 関連
-     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='accounts/password_reset_done.html'
     ), name='password_reset_done'),
 
@@ -36,4 +35,5 @@ urlpatterns = [
         email_template_name='accounts/password_reset_email.html'  # ← 追加
     ), name='password_reset'),
     path('about/', views.about_app, name='about_app'),
+    path('resend_email/', views.resend_email, name='resend_email'),
 ]

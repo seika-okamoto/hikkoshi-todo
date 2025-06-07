@@ -1,16 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block header %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/email_sent.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>確認メールを送信しました</h2>
+<div class="email-sent-wrapper">
+  <a href="{% url 'accounts:mypage' %}" class="back-link">← 戻る</a>
 
-<p>{{ new_email }} 宛に確認メールを送りました。</p>
+  <h2>📧 確認メールを送信しました</h2>
 
-<p>メール内のリンクをクリックして、新しいメールアドレスの確認を完了してください。</p>
+  <p>{{ new_email }} 宛に確認メールを送りました。</p>
 
-<p>
-  <a href="{% url 'home:index' %}">🏠 ホーム画面に戻る</a>
-</p>
+  <p>メール内のリンクをクリックして、新しいメールアドレスの確認を完了してください。</p>
 
-<p>※数分待ってもメールが届かない場合は、迷惑メールフォルダをご確認ください。</p>
+  <div class="button-group">
+    <a href="{% url 'home:index' %}" class="button">🏠 ホーム画面へ戻る</a>
+    <form method="POST" action="{% url 'accounts:resend_email' %}" style="display:inline;">
+      {% csrf_token %}
+      <input type="hidden" name="email" value="{{ new_email }}">
+      <button type="submit" class="button">再送信する</button>
+    </form>
+  </div>
 
+  <p class="note">※数分待ってもメールが届かない場合は、迷惑メールフォルダをご確認ください。</p>
+</div>
 {% endblock %}

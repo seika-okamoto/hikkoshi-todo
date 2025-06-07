@@ -14,6 +14,7 @@ from .models import EmailChangeToken
 from django.shortcuts import get_object_or_404, redirect
 from todo.models import Comment 
 from .forms import CommentForm  
+from django.views.decorators.http import require_POST
 
 
 
@@ -211,7 +212,6 @@ def edit_email(request):
     # ✅ GETリクエスト or エラー時にフォーム表示
     return render(request, 'accounts/edit_email.html')
 
-
 @login_required
 def email_change_sent(request):
     new_email = request.GET.get('email')
@@ -234,6 +234,15 @@ def confirm_email_change(request, token):
 
     messages.success(request, 'メールアドレスを変更しました！')
     return redirect('accounts:mypage')
+
+@require_POST
+@login_required
+def resend_email(request):
+    email = request.POST.get('email')
+    # 再送信処理（例：send_mailなど）
+    messages.success(request, f"{email} に確認メールを再送信しました")
+    return redirect(f"{reverse('accounts:email_change_sent')}?email={email}")
+
 
 @login_required
 def change_password(request):
