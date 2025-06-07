@@ -1,0 +1,54 @@
+
+.comment-history-wrapper {
+  max-width: 600px;
+  margin: 0 auto; /* 中央寄せ */
+  text-align: center; /* テキストも中央 */
+}
+
+.comment-box {
+  border: 2px solid #ccc;
+  border-radius: 16px;
+  padding: 16px;
+  background-color: #fff;
+  position: relative;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.comment-date,
+.comment-text,
+.comment-task {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.comment-text {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.comment-task {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+.view-post-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-top: 12px;
+  border: 1px solid #666;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  font-size: 14px;
+}
+
+.view-post-btn:hover {
+  background-color: #eee;
+}
+
+.back-link {
+  display: block;
+  text-align: left; /* 戻るボタンだけ左に寄せたい場合 */
+  margin-bottom: 10px;
+}

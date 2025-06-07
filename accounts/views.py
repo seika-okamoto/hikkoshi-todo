@@ -260,7 +260,10 @@ def change_password(request):
 @login_required
 def comment_history(request):
     user_comments = Comment.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'accounts/comment_history.html', {'comments': user_comments})
+    return render(request, 'accounts/comment_history.html', {
+                  'comments': user_comments,
+                  'hide_header': True  # ← ヘッダーを非表示にするために追加
+    })
 
 @login_required
 def edit_comment(request, comment_id):

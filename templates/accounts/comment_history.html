@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>自分のコメント履歴</h2>
-  {% if comments %}
-    <ul>
-      {% for comment in comments %}
-        <li>
-          <strong>{{ comment.task.title }}</strong><br>
-          {{ comment.content }}<br>
-          <small>{{ comment.created_at|date:"Y年m月d日 H:i" }}</small>
-          <a href="{% url 'accounts:edit_comment' comment.id %}">投稿を見る</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
+  <div class="comment-history-wrapper">
+  <a href="{% url 'accounts:mypage' %}" class="back-link">← 戻る</a>
+  <h2>コメント履歴</h2>
+  {% for comment in comments %}
+    <div class="comment-box">
+      <p class="comment-task">◆ {{ comment.task.title }}</p>
+      <p class="comment-text">💬「{{ comment.content }}」</p>
+      <p class="comment-date">📅 {{ comment.created_at|date:"Y/m/d" }}</p>
+      <a class="view-post-btn" href="{% url 'accounts:edit_comment' comment.id %}">投稿を見る &gt;</a>
+    </div>
+  
+  {% empty %}
     <p>まだコメントがありません。</p>
-  {% endif %}
-  <p><a href="{% url 'accounts:mypage' %}">マイページへ戻る</a></p>
+  {% endfor %}
+  </div>
+
 {% endblock %}
