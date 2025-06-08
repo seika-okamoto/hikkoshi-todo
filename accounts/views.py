@@ -210,7 +210,10 @@ def edit_email(request):
             messages.error(request, 'パスワードが正しくありません。')
 
     # ✅ GETリクエスト or エラー時にフォーム表示
-    return render(request, 'accounts/edit_email.html')
+    return render(request, 'accounts/edit_email.html', {
+       'hide_header': True,         # ヘッダー非表示
+    })
+
 
 @login_required
 def email_change_sent(request):

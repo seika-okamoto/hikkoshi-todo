@@ -46,3 +46,19 @@ button[type="submit"] {
   color: #555;
   margin-top: 16px;
 }
+.back-link-inside {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.back-link-inside a {
+  font-size: 14px;
+  text-decoration: none;
+  color: #5a2ca0;
+}
+@media (max-width: 480px) {
+  .email-edit-wrapper {
+    margin: 20px 16px;
+    padding: 20px;
+  }
+}

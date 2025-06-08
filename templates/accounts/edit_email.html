@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block header %}{% endblock %}  ← ヘッダー完全に非表示！
-
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/edit_email.css' %}">
 {% endblock %}
-
 {% block content %}
 <div class="email-edit-wrapper">
-  <p><a href="{% url 'accounts:mypage' %}" class="back-link">← 戻る</a></p>
+  
+  <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'accounts:mypage' %}">← 戻る</a>
+  </p>
 
   <h2>メールアドレスの変更</h2>
 

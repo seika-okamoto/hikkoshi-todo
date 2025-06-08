@@ -12,31 +12,36 @@
   <link rel="stylesheet" href="{% static 'css/todo_edit.css' %}">
   <link rel="stylesheet" href="{% static 'css/todo_index.css' %}">
   <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/edit_email.css' %}">
+
   {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% block header %}
-    {% if not hide_header|default:False %}
+
+  
+
+  <!-- ✅ 通常ヘッダー（ロゴ・ナビなど） -->
+  {% if not hide_header|default:False %}
     <header>
-        <h1><a href="{% url 'home:index' %}">ひっこしToDo</a></h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'todo:index' %}">ToDoリスト</a></li>
-                <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
-                <li><a href="{% url 'accounts:signup' %}">新規登録</a></li>
-            </ul>
-        </nav>
+      <h1><a href="{% url 'home:index' %}">ひっこしToDo</a></h1>
+      <nav>
+        <ul>
+          <li><a href="{% url 'todo:index' %}">ToDoリスト</a></li>
+          <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+          <li><a href="{% url 'accounts:signup' %}">新規登録</a></li>
+        </ul>
+      </nav>
     </header>
-    {% endif %}
+  {% endif %}
+
+  <main>
+    {% block content %}
     {% endblock %}
+  </main>
 
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-
-    <footer>
-        <p>&copy; 2025 ひっこしToDo</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 ひっこしToDo</p>
+  </footer>
 </body>
 </html>
