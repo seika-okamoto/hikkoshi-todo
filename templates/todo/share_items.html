@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block content %}
+<div class="comment-history-wrapper">
+    <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'todo:edit' %}">← 戻る</a>
+  </p> 
 <h2>🔗 共有する項目</h2>
 
 {% if tasks %}
@@ -17,8 +22,11 @@
 
   <div class="share-buttons">
     <button id="copyBtn">この内容で共有</button>
+  </div>
+  <div style="text-align: center; margin-top: 24px;">
     <a href="{% url 'todo:index' %}" class="back-link">共有をやめて戻る</a>
   </div>
+
 {% else %}
   <p class="center-text">未完了のタスクはありません。</p>
 {% endif %}

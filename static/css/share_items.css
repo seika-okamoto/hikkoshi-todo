@@ -37,7 +37,19 @@ h2 {
   background-color: #45a049;
 }
 
-a.back-link {
-  color: #4a4ae2;
+.back-link {
+  display: inline-block;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.share-buttons {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.share-buttons .back-link a {
+  font-size: 14px;
   text-decoration: none;
+  color: #5a2ca0;
 }

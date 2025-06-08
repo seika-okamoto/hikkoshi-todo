@@ -6,8 +6,12 @@
 {% endblock %}
 
 {% block content %}
+<div class="comment-history-wrapper">
+    <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'todo:index' %}">← 戻る</a>
+  </p> 
 
-  <a href="{% url 'todo:index' %}" class="back-link">← 戻る</a>
 
   <h2 class="form-title">ToDoの追加</h2>
 
