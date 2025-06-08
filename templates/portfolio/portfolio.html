@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>作品No.1：peko Lunch</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
+{% block content %}
   <h1>作品No.1：peko Lunch</h1>
 
   <div class="screenshot-area">
-    <img src="calendar.png" alt="カレンダー画面">
-    <img src="recipe.png" alt="レシピ詳細画面">
+    <img src="{% static 'portfolio/calendar.png' %}" alt="カレンダー画面">
+    <img src="{% static 'portfolio/recipe.png' %}" alt="レシピ詳細画面">
   </div>
 
   <div class="description">
@@ -29,6 +24,4 @@
 
     <a class="access-btn" href="#">アプリにアクセス</a>
   </div>
-
-</body>
-</html>
+{% endblock %}
