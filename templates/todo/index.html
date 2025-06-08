@@ -6,13 +6,14 @@
 {% endblock %}
 
 {% block content %}
-<p><a href="{% url 'todo:index' %}" class="back-link">← 戻る</a></p>
+<p><a href="{% url 'home:index' %}" class="back-link">← 戻る</a></p>
+
 <div class="todo-title-row">
   <h1 class="todo-title">ToDo</h1>
 
   <div class="action-buttons">
-    <a href="#"><span>✏️</span> 編集</a>
-    <a href="#"><span>📤</span> 共有</a>
+    <a href="{% url 'todo:edit' %}"><span>✏️</span> 編集</a>
+    <a href="{% url 'todo:share_items' %}"><span>📤</span> 共有</a>
   </div>
 </div>
 
@@ -36,6 +37,7 @@
 {% empty %}
   <p>まだタスクはありません。</p>
 {% endfor %}
+
 <script>
   document.querySelectorAll('.checkbox').forEach((checkbox) => {
     checkbox.addEventListener('change', function () {
@@ -73,5 +75,4 @@
     return cookieValue;
   }
 </script>
-</div>
 {% endblock %}
