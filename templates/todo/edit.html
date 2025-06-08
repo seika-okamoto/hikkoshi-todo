@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block content %}
-<p><a href="{% url 'todo:index' %}" class="back-link">← 戻る</a></p>
+<div class="comment-history-wrapper">
+    <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'todo:index' %}">← 戻る</a>
+  </p>  
 
 <div class="todo-header">
   <h2 class="todo-title">ToDo（編集モード）</h2>

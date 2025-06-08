@@ -49,7 +49,10 @@ def task_list(request):
 @login_required
 def edit_todo(request):
     tasks = Task.objects.filter(user=request.user)
-    return render(request, 'todo/edit.html', {'tasks': tasks})
+    return render(request, 'todo/edit.html', {
+        'tasks': tasks,
+        'hide_header': True  
+        })
 
 @login_required
 def edit_task(request, task_id):
@@ -58,7 +61,9 @@ def edit_task(request, task_id):
     if new_title:
         task.title = new_title
         task.save()
-    return redirect('todo:edit')
+    return render(request, 'todo/edit.html', {
+        'hide_header': True  
+    })
 
 @login_required
 def delete_task(request, task_id):
