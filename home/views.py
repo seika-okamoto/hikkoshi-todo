@@ -83,3 +83,5 @@ def index(request):
     context['hide_header'] = True
     return render(request, 'home/index.html', context)
 
+def portfolio_view(request):
+    return render(request, 'portfolio/portfolio.html')
