@@ -258,7 +258,11 @@ def change_password(request):
             return redirect('accounts:mypage')
     else:
         form = PasswordChangeForm(user=request.user)
-    return render(request, 'accounts/change_password.html', {'form': form})
+    return render(request, 'accounts/change_password.html', {
+        'form': form,
+        'hide_header': True  # ← ヘッダー非表示フラグ追加！
+    })
+
 
 @login_required
 def comment_history(request):

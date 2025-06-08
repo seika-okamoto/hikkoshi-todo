@@ -9,7 +9,11 @@
 
 {% block content %}
 <div class="email-sent-wrapper">
-  <a href="{% url 'accounts:mypage' %}" class="back-link">← 戻る</a>
+  <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'accounts:mypage' %}">← 戻る</a>
+  </p>
+  
 
   <h2>📧 確認メールを送信しました</h2>
 
@@ -26,13 +30,11 @@
 {% endif %}
 
 
-  <div class="button-group">
-    <a href="{% url 'home:index' %}" class="button">🏠 ホーム画面へ戻る</a>
-    <form method="POST" action="{% url 'accounts:resend_email' %}" style="display:inline;">
-      {% csrf_token %}
-      <input type="hidden" name="email" value="{{ new_email }}">
-      <button type="submit" class="button">✉再送信する</button>
-    </form>
+  <!-- ✅ 両方リンク形式 -->
+  <div class="link-group">
+    <a href="{% url 'home:index' %}">🏠 ホーム画面へ戻る</a>
+    |
+    <a href="{% url 'accounts:resend_email' %}">✉️ 再送信する</a>
   </div>
 
   <p class="note">※数分待ってもメールが届かない場合は、迷惑メールフォルダをご確認ください。</p>
