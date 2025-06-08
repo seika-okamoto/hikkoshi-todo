@@ -6,16 +6,15 @@
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'home:index' %}">← 戻る</a>
+<p><a href="{% url 'todo:index' %}" class="back-link">← 戻る</a></p>
+<div class="todo-title-row">
+  <h1 class="todo-title">ToDo</h1>
 
-<div class="todo-header">
-  <h2 class="todo-title">ToDo</h2>
-  <div class="todo-actions">
-    <a href="{% url 'todo:edit' %}">✏️ 編集</a>
-    <a href="{% url 'todo:share_items' %}">📤 共有</a>
+  <div class="action-buttons">
+    <a href="#"><span>✏️</span> 編集</a>
+    <a href="#"><span>📤</span> 共有</a>
   </div>
 </div>
-
 
 {% for category, tasks in grouped_tasks.items %}
   <div class="task-section">
@@ -74,5 +73,5 @@
     return cookieValue;
   }
 </script>
-
+</div>
 {% endblock %}

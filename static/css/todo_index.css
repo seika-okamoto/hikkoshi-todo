@@ -1,4 +1,4 @@
- .task-section {
+.task-section {
   margin-top: 30px;
 }
 
@@ -20,7 +20,7 @@
 }
 
 .task-title {
-  margin-left: 10px;
+  margin-left: 24px;
   font-size: 16px;
 }
 
@@ -30,28 +30,56 @@
   margin-left: 8px;
 }
 
+/* ==== タイトル行全体（戻る＋タイトル＋編集・共有） ==== */
 .todo-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+/* ← 戻る を左端に寄せる */
+.back-link {
+  align-self: flex-start;
+  color: #5e3ebd;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+/* ToDoのタイトルと右のボタンを横並びにする */
+.todo-title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
   flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 8px;
 }
 
 .todo-title {
-  flex: 1;
-  text-align: center;
   font-size: 28px;
-  margin: 0;
+  margin: 0 auto;
+  text-align: center;
+  flex: 1;
 }
 
+/* 編集・共有ボタン */
 .todo-actions {
+  display: flex;
+  gap: 12px;
   white-space: nowrap;
 }
 
 .todo-actions a {
   font-size: 18px;
-  margin-left: 12px;
   text-decoration: none;
   color: #4a4ae2;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;  /* ← これで右寄せ */
+  gap: 12px;
+  width: 100%;               /* ← 親の横幅に合わせて展開 */
+  padding-right: 16px;       /* ← 右に少し余白 */
 }
