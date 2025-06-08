@@ -127,7 +127,7 @@ def signup_view(request):
                         is_done=False
                     )
 
-            return redirect('todo:index')  # ← 初期登録済みでToDoへ遷移
+            return redirect('home:index')  # ← 初期登録済みでToDoへ遷移
     else:
         form = SignUpForm()
     
@@ -142,7 +142,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('todo:index')  # 成功したらtodoアプリのトップへ
+            return redirect('home:index')  # 成功したらtodoアプリのトップへ
         else:
             messages.error(request, 'メールアドレスまたはパスワードが間違っています')
     
