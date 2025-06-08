@@ -20,10 +20,13 @@
     </p>
 
     <p class="links">
-      <a href="#">企画書・画面設計図</a>　
-      <a href="#">画面遷移図</a>　
-      <a href="#">ER図</a>
-    </p>
+      {% load static %}
+
+<p class="links">
+  <a href="{% static 'docs/kikakusyogamennsekkeizu.pdf' %}" target="_blank">企画書・画面設計図</a>
+  <a href="{% static 'docs/gamensenizu.svg' %}" target="_blank">画面遷移図</a>
+  <a href="{% static 'docs/ERzu.svg' %}" target="_blank">ER図</a>
+</p>
 
     <a class="access-btn" href="#">アプリにアクセス</a>
   </div>
