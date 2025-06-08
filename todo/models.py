@@ -4,7 +4,7 @@ from django.conf import settings
 class Category(models.Model):
     name = models.CharField(max_length=255)
     display_order = models.PositiveIntegerField(default=0)  
-    days_before = models.PositiveIntegerField(default=0)  
+    days_before = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
