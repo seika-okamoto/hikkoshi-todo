@@ -67,3 +67,53 @@ h1 {
 .mypage-link:hover {
   text-decoration: underline;
 }
+
+/* お知らせ */
+.notification {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.notification ul {
+  text-align: left;
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0 auto;
+  max-width: 320px;
+}
+
+.notification li {
+  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* 色分け */
+.notification li.expired {
+  color: crimson;
+  font-weight: bold;
+}
+
+.notification li.today-deadline {
+  color: red;
+  font-weight: bold;
+}
+
+.notification li.one-day {
+  color: orange;
+}
+
+/* ボタン：ToDoリストを見る */
+.todo-link {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 10px 24px;
+  background-color: white;
+  border: 1.5px solid #333;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}

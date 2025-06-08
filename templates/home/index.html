@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block extra_css %}
+{% endblock %}
 {% block content %}
-<p>🔍 通知件数：{{ notification_tasks|length }}</p>
-<div class="main-container">
+
 
   <div class="header center-text">
     <h1>ひっこしToDo</h1>
@@ -30,13 +31,22 @@
   <h2 class="center-text">📣 お知らせ</h2>
   <div class="notification center-text">
     {% if notification_tasks %}
-      <ul>
-        {% for item in notification_tasks %}
-          <li>{{ item.task.title }} : {{ item.status }}</li>
-        {% endfor %}
+     <ul>
+      {% for item in notification_tasks %}
+        <li class="{% if item.status == '今日が期限' %}today-deadline
+                  {% elif '期限切れ' in item.status %}expired
+                  {% elif 'あと1日' in item.status %}one-day
+                  {% elif 'あと' in item.status %}upcoming
+                  {% else %}default{% endif %}">
+          {{ item.task.title }} : {{ item.status }}
+        </li>
+      {% endfor %}
       </ul>
     {% else %}
       <p>現在期限の近いタスクはありません</p>
+    {% endif %}
+    {% if notification_all_count > 3 %}
+  <p class="more-hint">他にも期限が迫っているタスクがあります 🔺</p>
     {% endif %}
   </div>
 
