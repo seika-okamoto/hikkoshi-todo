@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class="about-wrapper">
-
-  <a href="{% url 'accounts:mypage' %}" class="back-link">← 戻る</a>
+<!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'accounts:mypage' %}">← 戻る</a>
 
   <h2>「ひっこしToDo」について</h2>
 

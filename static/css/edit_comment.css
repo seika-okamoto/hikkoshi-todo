@@ -2,6 +2,9 @@
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.edit-comment-wrapper h2 {
   text-align: center;
 }
 
@@ -30,13 +33,13 @@
 
 .radio-wrapper {
   text-align: left;
-  padding-left: 10px;
+  padding-left: 4px;
 }
 
 .note {
   font-size: 12px;
   color: #555;
-  margin-top: -10px;
+  margin-top: 4px;
 }
 
 .button-row {
@@ -45,16 +48,33 @@
   gap: 16px;
   margin-top: 12px;
 }
-
+/* 全てのボタンに共通のベーススタイル */
 button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: #4CAF50;
-  color: white;
+  padding: 8px 12px;
   font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  color: white;
   cursor: pointer;
+  background-color: #6a1b9a; /* ← 通常の紫ボタン色 */
 }
+
+/* 削除ボタンだけ緑色にする */
+button.delete-button {
+  background-color: #4CAF50;
+}
+
+button.delete-button:hover {
+  background-color: #45a049;
+}
+
+/* 幅広のボタン（必要なときだけ） */
+button.wide-button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+}
+
 button:hover {
   background-color: #45a049;
 }
@@ -84,5 +104,12 @@ button:hover {
   text-align: right;
   font-size: 12px;
   color: #666;
-  margin-top: -8px;
+  margin-top: 4px;
+}
+
+/* 特定ボタン用：幅をautoに */
+.normal-button {
+  width: auto;
+  min-width: 100px;
+  padding: 10px 16px;
 }

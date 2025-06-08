@@ -12,8 +12,8 @@
 .task-form select,
 .task-form textarea,
 .task-form button {
-  display: block;
-  width: 100%;
+  display: inline-block;
+  width: auto;
   box-sizing: border-box;
 }
 

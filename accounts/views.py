@@ -277,9 +277,8 @@ def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id, user=request.user)
 
     if request.method == 'POST':
-        print("📨 POST内容:", request.POST)  # ← 関数の外だとNG！
+        print("📨 POST内容:", request.POST)
 
-        
         if 'save' in request.POST:
             form = CommentForm(request.POST, instance=comment)
             if form.is_valid():
@@ -288,14 +287,18 @@ def edit_comment(request, comment_id):
         elif 'delete' in request.POST:
             comment.delete()
             return redirect('accounts:comment_history')
+        else:
+            # 万が一のため：save でも delete でもないPOST
+            form = CommentForm(instance=comment)
     else:
         form = CommentForm(instance=comment)
-        print(form.errors)
 
     return render(request, 'accounts/edit_comment.html', {
         'form': form,
-        'hide_header': True  # ← ヘッダーを消す用
-})
+        'hide_header': True
+    })
+
+
 
 
 @login_required

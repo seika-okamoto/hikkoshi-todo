@@ -2,8 +2,11 @@
 
 {% block content %}
 <div class="edit-comment-wrapper">
+   <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'accounts:comment_history' %}">← 戻る</a>
 
-  <a href="{% url 'accounts:comment_history' %}" class="back-link">← 戻る</a>
+  
   <h2>💬 コメント編集画面</h2>
 
   <form method="post" class="comment-form">
@@ -32,7 +35,7 @@
     <p class="note">この端末からの投稿には編集・削除が可能です</p>
 
     <div class="button-row">
-      <button type="submit" name="save">✅ 保存</button>
+      <button type="submit" name="save">保存</button>
       <button type="button" onclick="openModal()">🗑️ 削除</button>
     </div>
   </form>
