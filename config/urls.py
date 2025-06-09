@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from home import views as home_views
-
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('todo/', include('todo.urls', namespace='todo')),
     path('accounts/', include('accounts.urls')), 
     path('home/', include('home.urls')),
+    path('', lambda request: redirect('accounts:login')),
 ]
+
