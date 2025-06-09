@@ -19,6 +19,7 @@
   </form>
 
   <div class="progress-section center-text">
+  {% if remaining_days is not None %}
     <h2 class="center-text">引っ越しまで 残り {{ remaining_days }} 日</h2>
     <div class="progress-bar-wrapper">
       <div class="progress-bar">
@@ -26,7 +27,12 @@
       </div>
       <p>{{ percent }}%</p>
     </div>
+  {% else %}
+    <h2 class="center-text">📅 引っ越し予定日がまだ設定されていません</h2>
+    <p>ToDoリストを始めるには、まず引っ越し日を入力してください。</p>
+  {% endif %}
   </div>
+
 
   <h2 class="center-text">📣 お知らせ</h2>
   <div class="notification center-text">
