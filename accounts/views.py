@@ -238,15 +238,6 @@ def confirm_email_change(request, token):
     messages.success(request, 'メールアドレスを変更しました！')
     return redirect('accounts:mypage')
 
-@require_POST
-@login_required
-def resend_email(request):
-    email = request.POST.get('email')
-    # 再送信処理（例：send_mailなど）
-    messages.success(request, "確認メールを再送信しました。")
-    return redirect(f"{reverse('accounts:email_change_sent')}?email={email}")
-
-
 @login_required
 def change_password(request):
     if request.method == 'POST':

@@ -36,5 +36,4 @@ urlpatterns = [
         email_template_name='accounts/password_reset_email.html'  # ← 追加
     ), name='password_reset'),
     path('about/', views.about_app, name='about_app'),
-    path('resend_email/', views.resend_email, name='resend_email'),
 ]

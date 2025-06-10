@@ -33,28 +33,11 @@
   <!-- ✅ 両方リンク形式 -->
   <div class="link-group">
     <a href="{% url 'home:index' %}">🏠 ホーム画面へ戻る</a>
-    |
-    <a href="{% url 'accounts:resend_email' %}">✉️ 再送信する</a>
   </div>
 
   <p class="note">※数分待ってもメールが届かない場合は、迷惑メールフォルダをご確認ください。</p>
 </div>
-
-<script>
-  // 3秒後にフェードアウト
-  window.addEventListener('DOMContentLoaded', () => {
-    const flash = document.getElementById('flash-message');
-    if (flash) {
-      setTimeout(() => {
-        flash.style.transition = "opacity 0.8s";
-        flash.style.opacity = 0;
-        setTimeout(() => {
-          flash.remove();
-        }, 800);
-      }, 3000);
-    }
-  });
-</script>
+   
 {% endblock %}
 
 
