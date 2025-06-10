@@ -12,8 +12,8 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from .models import EmailChangeToken
 from django.shortcuts import get_object_or_404, redirect
-from todo.models import Comment 
-from .forms import CommentForm  
+from todo.models import Comment
+from .forms import CommentForm
 from django.views.decorators.http import require_POST
 
 
@@ -28,7 +28,7 @@ def signup_view(request):
             # Profile作成
             Profile.objects.create(user=user)
             print(f"✅ プロフィール作成: {user.email}")
-            
+
             tasks_data = {
                 "引っ越し1か月前までにやること": [
                     "引っ越し日を決定する",
@@ -111,14 +111,14 @@ def signup_view(request):
                     "引っ越しのお知らせを友人などに送る",
                 ],
             }
-            
+
             print("✅ タスク登録スタート！")
             for category_name, tasks in tasks_data.items():
                 category_obj = Category.objects.get(name=category_name)  # ← Categoryオブジェクトを取得！
                 if category_obj is None:
                     print(f"⚠️ カテゴリが見つからない: {category_name}")
                     continue
-                            
+
                 for title in tasks:
                     Task.objects.create(
                         user=user,
@@ -130,9 +130,9 @@ def signup_view(request):
             return redirect('home:index')  # ← 初期登録済みでToDoへ遷移
     else:
         form = SignUpForm()
-    
+
     return render(request, 'accounts/signup.html', {'form': form})
-    
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -145,7 +145,7 @@ def login_view(request):
             return redirect('home:index')  # 成功したらtodoアプリのトップへ
         else:
             messages.error(request, 'メールアドレスまたはパスワードが間違っています')
-    
+
     return render(request, 'accounts/login.html')
 
 def logout_view(request):
@@ -172,7 +172,7 @@ def edit_username(request):
         return redirect('accounts:mypage')
     else:
         return redirect('accounts:mypage')
-    
+
 @login_required
 def edit_email(request):
     if request.method == 'POST':
@@ -204,7 +204,7 @@ def edit_email(request):
             print("メール送信完了")
 
             return redirect(f"{reverse('accounts:email_change_sent')}?email={new_email}")
-    
+
         else:
             # パスワードが間違っている場合など
             messages.error(request, 'パスワードが正しくありません。')
@@ -297,8 +297,8 @@ def about_app(request):
     return render(request, 'accounts/about_app.html', {
         'hide_header': True  # 👈 これでbase.html内のヘッダーを消せる
     })
-    
+
 def password_reset_done(request):
     return render(request, 'accounts/password_reset_done.html', {
-        'hide_header': True 
+        'hide_header': True
     })
