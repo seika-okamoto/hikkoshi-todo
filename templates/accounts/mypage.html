@@ -7,8 +7,9 @@
 
 {% block content %}
 <div class="mypage-wrapper">
-  <p><a href="{% url 'todo:index' %}" class="back-link">← 戻る</a></p>
-
+ <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'accounts:comment_history' %}">← 戻る</a>
   <h2>マイページ</h2>
 
 <div class="info-row">
