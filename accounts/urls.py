@@ -19,21 +19,23 @@ urlpatterns = [
     path('edit_comment/<int:comment_id>/', views.edit_comment, name='edit_comment'),
     # ✅ password reset 関連
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
-        template_name='accounts/password_reset_done.html',
-        extra_context={'hide_header': True}  
-        ), name='password_reset_done'),
+        extra_context={'hide_header': True}  # テンプレート指定なし → registration/password_reset_done.html を自動使用
+    ), name='password_reset_done'),
 
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-        template_name='accounts/password_reset_confirm.html',
+        # テンプレート指定なし → registration/password_reset_confirm.html を自動使用
         success_url=reverse_lazy('accounts:password_reset_complete')
     ), name='password_reset_confirm'),
+
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
-        template_name='accounts/password_reset_complete.html'
+        # テンプレート指定なし → registration/password_reset_complete.html を自動使用
     ), name='password_reset_complete'),
+
     path('password_reset/', auth_views.PasswordResetView.as_view(
-        template_name='accounts/password_reset.html',
+        # テンプレート指定なし → registration/password_reset_form.html を自動使用
         success_url=reverse_lazy('accounts:password_reset_done'),
-        email_template_name='accounts/password_reset_email.html'  # ← 追加
+        email_template_name='registration/password_reset_email.html'  # ← ここだけは明示が必要
     ), name='password_reset'),
+
     path('about/', views.about_app, name='about_app'),
 ]
