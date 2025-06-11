@@ -9,6 +9,14 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body>
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="message {{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+`
 
   
 
