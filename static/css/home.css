@@ -105,18 +105,21 @@ h1 {
   color: orange;
 }
 
-.btn {
-  display: inline-block;
-  padding: 6px 12px;
+.home-page.btn {
+  display: block;
+  margin: 20px auto;            /* ← 中央寄せ */
+  padding: 12px 24px;           /* ← タップしやすい余白 */
   border: 1px solid #666;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #333;
+  border-radius: 12px;          /* ← 丸み強め */
   background-color: #f9f9f9;
-  font-size: 14px;
-  margin-top: 12px;
+  color: #333;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;           /* ← 内容に合わせた幅！ */
+  max-width: 100%;
 }
 
-.btn:hover {
+.home-page.btn:hover {
   background-color: #eee;
 }

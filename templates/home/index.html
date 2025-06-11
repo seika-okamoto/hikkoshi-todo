@@ -8,6 +8,7 @@
 {% block content %}
   <div class="header center-text">
     <h1>ひっこしToDo</h1>
+  </div>
   <div class="user-info">
     <a href="{% url 'accounts:mypage' %}" class="mypage-link">👤 マイページ</a>
   </div>
@@ -16,7 +17,7 @@
     {% csrf_token %}
     <label for="planned_move_date">📅 引っ越し予定日を選んでください：</label><br>
     <input type="date" name="planned_move_date" value="{{ planned_move_date }}">
-    <button type="submit" class="btn">✅保存</button>
+    <button type="submit" class="btn home-page">✅保存</button>
   </form>
 
   <div class="progress-section center-text">
@@ -57,11 +58,10 @@
     {% endif %}
   </div>
 
-  <div class="center-text">
-    <form action="/todo/" method="get">
-      <button type="submit" class="btn">ToDoリストを見る</button>
-    </form>
-  </div>
+<div class="center-text">
+<form action="/todo/" method="get">
+  <button type="submit" class="btn home-page">ToDoリストを見る</button>
+</form>
 
 
 </div>
