@@ -16,6 +16,8 @@ urlpatterns = [
     path('like/<int:comment_id>/', views.toggle_like, name='toggle_like'),
     path('share_items/', views.share_items, name='share_items'),
     path('toggle_done_ajax/<int:task_id>/', views.toggle_done_ajax, name='toggle_done_ajax'),
+    path('memo/edit/<int:memo_id>/', views.edit_memo, name='edit_memo'),
+    path('memo/delete/<int:memo_id>/', views.delete_memo, name='delete_memo'),
 
 ]
 

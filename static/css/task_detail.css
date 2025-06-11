@@ -116,3 +116,61 @@ a:hover {
   text-align: left;
   margin-bottom: 16px;
 }
+
+
+/* 簡易モーダル */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 14px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.modal input[type="text"] {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+
+.modal button {
+  padding: 8px 16px;
+  margin: 4px;
+  border: 1px solid #666666;
+  background: white;
+  color: #333333;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.modal button:hover {
+  background-color: #f0f0f0; /* 少し明るいグレー */
+  border-color: #777;     
+  color: #333;
+}
+
+.modal button[type="submit"] {
+  background: white;
+  color: #333;
+}
+
+.modal button:hover {
+  background-color: #f0f0f0; /* 少し明るいグレー */
+  border-color: #777;     
+  color: #333;
+}

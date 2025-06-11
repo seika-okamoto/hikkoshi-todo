@@ -8,9 +8,10 @@ from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Count
-from todo.models import Comment, Like
+from todo.models import Comment, Like, Memo
 from django.http import JsonResponse
 import json
+
 
 @require_POST
 @login_required  # ← ログインしてる人だけアクセスできる
@@ -224,3 +225,32 @@ def toggle_done_ajax(request, task_id):
         task.save()
         return JsonResponse({'status': 'ok'})
     return JsonResponse({'status': 'unauthorized'}, status=401)
+
+@login_required
+def edit_memo(request, memo_id):
+    memo = get_object_or_404(Memo, id=memo_id, user=request.user)
+
+    if request.method == 'POST':
+        new_context = request.POST.get('context')
+        memo.context = new_context
+        memo.save()
+        return redirect('todo:task_detail', task_id=memo.task.id)  # task画面に戻す
+
+@login_required
+def edit_memo(request, memo_id):
+    memo = get_object_or_404(Memo, id=memo_id, user=request.user)
+
+    if request.method == 'POST':
+        memo.context = request.POST.get('context')
+        memo.save()
+        return redirect('todo:task_detail', task_id=memo.task.id)
+
+    # GETで来た場合は task_detail にリダイレクト（直接URL叩かれたとき）
+    return redirect('todo:task_detail', task_id=memo.task.id)
+
+@login_required
+def delete_memo(request, memo_id):
+    memo = get_object_or_404(Memo, id=memo_id, user=request.user)
+    task_id = memo.task.id
+    memo.delete()
+    return redirect('todo:task_detail', task_id=task_id)
