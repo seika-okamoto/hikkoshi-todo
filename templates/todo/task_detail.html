@@ -5,10 +5,13 @@
 <link rel="stylesheet" href="{% static 'css/task_detail.css' %}">
 {% endblock %}
 
+
 {% block content %}
 <div class="task-detail-wrapper">
-
-<p><a href="{% url 'todo:index' %}">←戻る</a></p>
+    <!-- ✅ 枠内左上に「← 戻る」 -->
+  <p class="back-link-inside">
+    <a href="{% url 'todo:index' %}">← 戻る</a>
+  </p>
 
 <h2>{{ task.title }}</h2>
 
@@ -36,9 +39,9 @@
   </ul>
 
   <form method="POST" action="{% url 'todo:add_memo' task.id %}">
-    {% csrf_token %}
-    <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
-    <button type="submit">＋ メモを追加</button>
+      {% csrf_token %}
+      <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
+      <button type="submit" class="btn">＋ メモを追加</button>
   </form>
 
   <hr>
@@ -70,10 +73,10 @@
 
         <!-- いいね -->
         <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
-          {% csrf_token %}
-          {% with comment.likes.count as like_count %}
-            <button type="submit">👍 {{ like_count|default:"いいね" }}</button>
-          {% endwith %}
+            {% csrf_token %}
+            {% with comment.likes.count as like_count %}
+                <button type="submit" class="btn">👍 {{ like_count|default:"いいね" }}</button>
+            {% endwith %}
         </form>
       </li>
     {% empty %}
@@ -84,7 +87,7 @@
   <!-- コメント追加フォーム -->
   <form method="POST" action="{% url 'todo:add_comment' task.id %}">
     {% csrf_token %}
-    <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="例）段ボールの中身はマジックで大きく書くと、開封のとき楽でしたよ"></textarea><br>
+    <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="コメントを入力"></textarea><br>
     <small>0/150文字</small><br><br>
 
     <p>👤 投稿者表示設定：</p>
@@ -92,7 +95,8 @@
     <label><input type="radio" name="display_name" value="anonymous"> 投稿者名を非公開にする</label><br>
     <p><small>この端末からの投稿には編集・削除が可能です</small></p>
 
-    <button type="submit">＋ コメントを追加</button>
-  </form>
+    <button type="submit" class="btn">＋ コメントを追加</button>
+</form>
+
 {% endif %}
 {% endblock %}

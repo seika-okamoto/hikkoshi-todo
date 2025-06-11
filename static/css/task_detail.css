@@ -17,7 +17,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-/* 見出し中央揃え（または左寄せで統一でもOK） */
+/* 見出し中央揃え */
 .task-detail-wrapper h2,
 .task-detail-wrapper h3 {
   text-align: center;
@@ -35,28 +35,20 @@
   margin-top: 8px;
 }
 
-/* ボタン */
-.task-detail-wrapper button {
-  background-color: #6a1b9a;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  margin: 12px auto 0;
-  font-size: 14px;
-  cursor: pointer;
-  display: block;
-}
-
-/* いいねボタン */
-.task-detail-wrapper form[action*="toggle_like"] button {
-  background-color: #eee;
-  color: #333;
-  font-size: 13px;
-  border: 1px solid #ccc;
-  padding: 4px 8px;
+/* ✅ 共通ボタンデザイン（統一） */
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #666;
   border-radius: 6px;
-  margin-top: 4px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  margin-top: 12px;
+}
+.btn:hover {
+  background-color: #eee;
 }
 
 /* コメントボックスの装飾 */
@@ -70,7 +62,7 @@
   list-style: none;
 }
 
-/* ✅ コメント日付の位置調整 */
+/* コメント日付の位置調整 */
 .task-detail-wrapper .comment-date {
   text-align: right;
   font-size: 12px;
@@ -78,7 +70,7 @@
   margin-top: 8px;
 }
 
-/* いいねボタンをコメント右上に固定（オプション） */
+/* いいねボタンの配置位置（右上） */
 .task-detail-wrapper ul li form[action*="toggle_like"] {
   position: absolute;
   top: 10px;
@@ -91,7 +83,7 @@
   margin-bottom: 16px;
 }
 
-/* 戻るリンク */
+/* 戻るリンク中央寄せ */
 .task-detail-wrapper .back-link {
   text-align: center;
   display: block;

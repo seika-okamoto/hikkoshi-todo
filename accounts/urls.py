@@ -30,12 +30,10 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         # テンプレート指定なし → registration/password_reset_complete.html を自動使用
     ), name='password_reset_complete'),
-
     path('password_reset/', auth_views.PasswordResetView.as_view(
-        # テンプレート指定なし → registration/password_reset_form.html を自動使用
         success_url=reverse_lazy('accounts:password_reset_done'),
-        email_template_name='registration/password_reset_email.html'  # ← ここだけは明示が必要
+        email_template_name='registration/password_reset_email.html',
+        extra_context={'hide_header': True}  # ← 追加！
     ), name='password_reset'),
-
     path('about/', views.about_app, name='about_app'),
 ]
