@@ -1,54 +1,60 @@
-
 .comment-history-wrapper {
   max-width: 600px;
-  margin: 0 auto; /* 中央寄せ */
-  text-align: center; /* テキストも中央 */
+  margin: 0 auto;
+  padding: 16px;
 }
 
+/* ✅ 1コメントカード */
 .comment-box {
   border: 2px solid #ccc;
   border-radius: 16px;
   padding: 16px;
   background-color: #fff;
-  position: relative;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.comment-date,
-.comment-text,
-.comment-task {
-  margin: 8px 0;
-  font-size: 15px;
-}
-
-.comment-text {
-  font-weight: bold;
-  font-size: 16px;
-}
-
+/* ✅ 投稿タイトルや日時の装飾 */
 .comment-task {
   color: #d9534f;
   font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
-.view-post-btn {
+.comment-text {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.comment-date {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.btn {
   display: inline-block;
   padding: 6px 12px;
-  margin-top: 12px;
   border: 1px solid #666;
   border-radius: 6px;
   text-decoration: none;
   color: #333;
   background-color: #f9f9f9;
   font-size: 14px;
+  margin-top: 12px;
 }
 
-.view-post-btn:hover {
+.btn:hover {
   background-color: #eee;
 }
 
+
+/* ✅ 戻るリンク */
 .back-link {
   display: block;
-  text-align: left; /* 戻るボタンだけ左に寄せたい場合 */
-  margin-bottom: 10px;
+  text-align: left;
+  margin-bottom: 16px;
 }

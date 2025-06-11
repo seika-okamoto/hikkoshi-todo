@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/comment_history.css' %}">
+{% endblock %}
 
 {% block content %}
   <div class="comment-history-wrapper">
@@ -12,7 +17,7 @@
       <p class="comment-task">◆ {{ comment.task.title }}</p>
       <p class="comment-text">💬「{{ comment.content }}」</p>
       <p class="comment-date">📅 {{ comment.created_at|date:"Y/m/d" }}</p>
-      <a class="view-post-btn" href="{% url 'accounts:edit_comment' comment.id %}">投稿を見る &gt;</a>
+      <a class="btn" href="{% url 'accounts:edit_comment' comment.id %}">投稿を見る &gt;</a>
     </div>
   
   {% empty %}
