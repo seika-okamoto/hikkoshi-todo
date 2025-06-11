@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="comment-history-wrapper">
+<div class="todo-add-wrapper">
     <!-- ✅ 枠内左上に「← 戻る」 -->
   <p class="back-link-inside">
     <a href="{% url 'todo:index' %}">← 戻る</a>
@@ -31,7 +31,7 @@
     <label for="memo">メモ：</label>
     <textarea name="memo" id="memo" rows="4" placeholder="自分用メモ（任意）"></textarea>
 
-    <button type="submit" class="submit-btn">✅ 保存</button>
+    <button type="submit" class="btn">✅ 保存</button>
   </form>
 
 {% endblock %}

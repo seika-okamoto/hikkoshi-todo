@@ -41,3 +41,22 @@ h2,
 .note {
   text-align: center;
 }
+
+/* 全体の文字色（安全に統一） */
+body,
+.task-detail {
+  color: #333;
+}
+
+/* 🔗 リンク色をすべて黒に */
+a,
+a:visited,
+a:hover,
+a:active {
+  color: #333;
+  text-decoration: none; /* ← 必要なら下線も消す */
+}
+
+a:hover {
+  text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
+}

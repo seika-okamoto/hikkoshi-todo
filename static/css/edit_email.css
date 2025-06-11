@@ -29,12 +29,13 @@ input[type="password"] {
 }
 
 .btn {
-  display: inline-block;
+  display: block;
   padding: 6px 12px;
   border: 1px solid #666;
   border-radius: 6px;
   text-decoration: none;
   color: #333;
+  text-align: center;
   background-color: #f9f9f9;
   font-size: 14px;
   margin-top: 12px;
@@ -65,3 +66,22 @@ input[type="password"] {
     padding: 20px;
   }
 } 
+
+/* 全体の文字色（安全に統一） */
+body,
+.task-detail {
+  color: #333;
+}
+
+/* 🔗 リンク色をすべて黒に */
+a,
+a:visited,
+a:hover,
+a:active {
+  color: #333;
+  text-decoration: none; /* ← 必要なら下線も消す */
+}
+
+a:hover {
+  text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
+}

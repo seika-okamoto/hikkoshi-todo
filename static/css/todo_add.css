@@ -32,19 +32,7 @@ font-size: 14px;
 box-sizing: border-box;
 }
 
-.submit-btn {
-padding: 12px;
-font-size: 16px;
-background-color: #4CAF50;
-color: white;
-border: none;
-border-radius: 8px;
-cursor: pointer;
-}
 
-.submit-btn:hover {
-background-color: #45a049;
-}
 
 .back-link {
 display: inline-block;
@@ -64,18 +52,37 @@ text-decoration: none;
   flex-direction: column;
   gap: 16px;
 }
-
-/* 白いボタン */
-.submit-btn {
-  padding: 12px;
-  font-size: 16px;
-  background-color: #ffffff;
-  color: #4CAF50;
-  border: 2px solid #4CAF50;
-  border-radius: 8px;
-  cursor: pointer;
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #666;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  margin-top: 12px;
 }
 
-.submit-btn:hover {
-  background-color: #f2fff2;
+.btn:hover {
+  background-color: #eee;
+}
+
+/* 全体の文字色（安全に統一） */
+body,
+.task-detail {
+  color: #333;
+}
+
+/* 🔗 リンク色をすべて黒に */
+a,
+a:visited,
+a:hover,
+a:active {
+  color: #333;
+  text-decoration: none; /* ← 必要なら下線も消す */
+}
+
+a:hover {
+  text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
 }
