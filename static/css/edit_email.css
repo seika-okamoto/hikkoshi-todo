@@ -29,17 +29,22 @@ input[type="password"] {
 }
 
 .btn {
-  display: block;
+  display: inline-block;
   padding: 6px 12px;
   border: 1px solid #666;
   border-radius: 6px;
   text-decoration: none;
   color: #333;
-  text-align: center;
   background-color: #f9f9f9;
   font-size: 14px;
   margin-top: 12px;
 }
+
+.btn:hover {
+  background-color: #eee;
+}
+
+
 
 .btn:hover {
   background-color: #eee;
@@ -84,4 +89,15 @@ a:active {
 
 a:hover {
   text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
+}
+
+/* ✅ 中央寄せのためのラッパー */
+.edit-email-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
 }
