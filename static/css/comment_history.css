@@ -58,3 +58,14 @@
   text-align: left;
   margin-bottom: 16px;
 }
+
+.back-link-inside a,
+.back-link-inside a:visited,
+.back-link-inside a:hover {
+  color: #666 !important;
+  text-decoration: none;
+}
+
+.back-link-inside a:hover {
+  text-decoration: underline;
+}

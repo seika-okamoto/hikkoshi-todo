@@ -25,7 +25,7 @@
 .back-link {
   font-size: 16px;
   text-decoration: none;
-  color: #4a4ae2;
+  color: #333;
 }
 
 .task-card {
@@ -53,20 +53,32 @@
   gap: 10px;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
   font-size: 18px;
-  background: none;
-  border: none;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 10px;
   cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
 }
 
 .edit-btn:hover {
-  color: #4a90e2;
+  background-color: #e6f0ff;
+  border-color: #777;
+  color: #333;
 }
 
 .delete-btn:hover {
-  color: red;
+  background-color: #fff0f0;
+  border-color: #777;
+  color: #777;
 }
+
+
+
 
 /* 簡易モーダル */
 .modal {
@@ -102,26 +114,43 @@
 .modal button {
   padding: 8px 16px;
   margin: 4px;
-  border: 1px solid #4a90e2;
+  border: 1px solid #666666;
   background: white;
-  color: #4a90e2;
+  color: #333333;
   border-radius: 6px;
   cursor: pointer;
 }
+.modal button:hover {
+  background-color: #f0f0f0; /* 少し明るいグレー */
+  border-color: #777;     
+  color: #333;
+}
 
 .modal button[type="submit"] {
-  background: #4a90e2;
-  color: white;
+  background: white;
+  color: #333;
+}
+
+.modal button:hover {
+  background-color: #f0f0f0; /* 少し明るいグレー */
+  border-color: #777;     
+  color: #333;
 }
 
 .delete-btn {
   font-size: 20px;
-  background: none;
-  border: none;
+  background: white;
+  border: 1px solid #ccc; /* ← これが正しい書き方！ */
+  border-radius: 6px;
   cursor: pointer;
-  color: black; /* ← これ重要！ */
+  color: #333;
+  padding: 6px 10px;
+}
+input[type="checkbox"] {
+  appearance: auto;
+  width: 16px;
+  height: 16px;
+  accent-color: #4a4ae2;
+  margin-right: 8px;
 }
 
-.delete-btn:hover {
-  color: red;
-}

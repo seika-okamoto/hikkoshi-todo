@@ -76,7 +76,7 @@ footer {
   margin-left: 20px;
   margin-bottom: 10px;
   font-size: 14px;
-  color: #4a4ae2;
+  color: #666;
   text-decoration: none;
 }
 
@@ -90,6 +90,11 @@ footer {
   padding: 20px;
 }
 
+.change-password-wrapper form .btn {
+  display: inline-block;
+  margin: 20px auto;
+  text-align: center;
+}
 
 
 

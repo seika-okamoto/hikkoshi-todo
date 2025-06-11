@@ -38,7 +38,7 @@
 
   <form method="post" action="{% url 'accounts:logout' %}" class="button-box logout">
     {% csrf_token %}
-    <button type="submit">🚫 ログアウトする</button>
+    <button type="button" id="logoutBtn">🚫 ログアウトする</button>
   </form>
 
 

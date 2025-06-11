@@ -74,10 +74,11 @@
   margin-bottom: 10px;
 }
 
+/* モーダル全体 */
 .modal {
   display: none;
   position: fixed;
-  z-index: 999;
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
@@ -85,13 +86,57 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* モーダル枠 */
 .modal-content {
-  background: white;
-  padding: 20px;
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 420px;
   margin: 20% auto;
-  width: 300px;
   text-align: center;
-  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* モーダル内の文 */
+.modal-content p {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.modal-content form button,
+.modal-content > button {
+  padding: 8px 16px;                 /* ← 少し大きく */
+  font-size: 14px;                    /* ← 読みやすく */
+  border-radius: 8px;                /* ← 丸みアップ */
+  cursor: pointer;
+  border: none;
+  margin: 0 6px;
+  font-weight: bold;                  /* ← ボタン内の文字もはっきり */
+  transition: background-color 0.2s ease;
+}
+
+/* ✅ 削除ボタン */
+.modal-content form button {
+  background-color: white;
+  color: #333;
+  border: 2px solid #666666;
+}
+
+.modal-content form button:hover {
+  background-color: #eee;
+}
+
+/* ✅ キャンセルボタン */
+.modal-content > button {
+  background-color: white;
+  color: #333;
+  border: 2px solid #666666;
+}
+
+.modal-content > button:hover {
+  background-color: #eee;
 }
 
 .char-count-box {

@@ -31,3 +31,17 @@
   max-width: none !important; /* ← 親のmax-widthを打ち消す */
   text-align: left !important; /* ← 中央寄せの影響を打ち消す */
 }
+
+.change-password-wrapper .back-link {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.change-password-wrapper .back-link a {
+  color: #666 !important;
+  text-decoration: none;
+}
+
+.change-password-wrapper .back-link a:hover {
+  text-decoration: underline;
+}

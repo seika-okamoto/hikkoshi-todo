@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="comment-history-wrapper">
+<div class="todo-edit-wrapper">
     <!-- ✅ 枠内左上に「← 戻る」 -->
   <p class="back-link-inside">
     <a href="{% url 'todo:index' %}">← 戻る</a>
@@ -20,6 +20,7 @@
 {% for task in tasks %}
   <div class="task-card">
     <div class="task-left">
+      <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
       <span class="task-title">{{ task.title }}</span>
     </div>
     <div class="task-actions">
@@ -34,8 +35,8 @@
     <form method="POST" action="{% url 'todo:edit_task' task.id %}">
       {% csrf_token %}
       <input type="text" name="title" value="{{ task.title }}">
-      <button type="submit">保存</button>
-      <button type="button" class="cancel-btn">キャンセル</button>
+      <button type="submit">✅保存</button>
+      <button type="button" class="cancel-btn">❌キャンセル</button>
     </form>
   </div>
 
@@ -44,8 +45,8 @@
     <p style="margin-bottom: 16px;">この項目を削除しますか？</p>
     <form method="POST" action="{% url 'todo:delete_task' task.id %}">
       {% csrf_token %}
-      <button type="submit">削除</button>
-      <button type="button" class="cancel-btn">キャンセル</button>
+      <button type="submit">🗑️削除</button>
+      <button type="button" class="cancel-btn">❌キャンセル</button>
     </form>
   </div>
 {% endfor %}
