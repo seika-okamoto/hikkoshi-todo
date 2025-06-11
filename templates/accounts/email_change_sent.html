@@ -4,11 +4,11 @@
 {% block header %}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/email_sent.css' %}">
+<link rel="stylesheet" href="{% static 'css/email_change_sent.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="email-sent-wrapper">
+<div class="email-change-sent-wrapper">
   <!-- ✅ 枠内左上に「← 戻る」 -->
   <p class="back-link-inside">
     <a href="{% url 'accounts:mypage' %}">← 戻る</a>
