@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static %} 
+
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
+
 {% block content %}
-
-
   <div class="header center-text">
     <h1>ひっこしToDo</h1>
   <div class="user-info">
@@ -15,7 +16,7 @@
     {% csrf_token %}
     <label for="planned_move_date">📅 引っ越し予定日を選んでください：</label><br>
     <input type="date" name="planned_move_date" value="{{ planned_move_date }}">
-    <button type="submit">保存</button>
+    <button type="submit" class="btn">✅保存</button>
   </form>
 
   <div class="progress-section center-text">
@@ -57,8 +58,11 @@
   </div>
 
   <div class="center-text">
-    <a href="/todo/" class="todo-link">ToDoリストを見る</a>
+    <form action="/todo/" method="get">
+      <button type="submit" class="btn">ToDoリストを見る</button>
+    </form>
   </div>
+
 
 </div>
 {% endblock %}

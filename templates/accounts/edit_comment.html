@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_comment.css' %}">
+{% endblock %}
+
 
 {% block content %}
 <div class="edit-comment-wrapper">
@@ -35,9 +41,10 @@
     <p class="note">この端末からの投稿には編集・削除が可能です</p>
 
     <div class="button-row">
-      <button type="submit" name="save">保存</button>
-      <button type="button" onclick="openModal()">🗑️ 削除</button>
+      <button type="submit" name="save" class="btn">✅保存</button>
+      <button type="button" onclick="openModal()" class="btn">🗑️ 削除</button>
     </div>
+
   </form>
 
   <!-- モーダル -->

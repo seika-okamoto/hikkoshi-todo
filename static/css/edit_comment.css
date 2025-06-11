@@ -48,35 +48,24 @@
   gap: 16px;
   margin-top: 12px;
 }
-/* 全てのボタンに共通のベーススタイル */
-button {
-  padding: 8px 12px;
-  font-size: 14px;
-  border: none;
+
+/* ✅ 共通ボタンスタイル */
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #666;
   border-radius: 6px;
-  color: white;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  margin-top: 12px;
   cursor: pointer;
-  background-color: #6a1b9a; /* ← 通常の紫ボタン色 */
+  text-align: center;
 }
 
-/* 削除ボタンだけ緑色にする */
-button.delete-button {
-  background-color: #4CAF50;
-}
-
-button.delete-button:hover {
-  background-color: #45a049;
-}
-
-/* 幅広のボタン（必要なときだけ） */
-button.wide-button {
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #45a049;
+.btn:hover {
+  background-color: #eee;
 }
 
 .back-link {
@@ -89,9 +78,13 @@ button:hover {
   display: none;
   position: fixed;
   z-index: 999;
-  left: 0; top: 0; width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-content {
   background: white;
   padding: 20px;
@@ -100,16 +93,10 @@ button:hover {
   text-align: center;
   border-radius: 8px;
 }
+
 .char-count-box {
   text-align: right;
   font-size: 12px;
   color: #666;
   margin-top: 4px;
-}
-
-/* 特定ボタン用：幅をautoに */
-.normal-button {
-  width: auto;
-  min-width: 100px;
-  padding: 10px 16px;
 }

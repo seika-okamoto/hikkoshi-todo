@@ -23,8 +23,8 @@ urlpatterns = [
     ), name='password_reset_done'),
 
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-        # テンプレート指定なし → registration/password_reset_confirm.html を自動使用
-        success_url=reverse_lazy('accounts:password_reset_complete')
+        success_url=reverse_lazy('accounts:password_reset_complete'),
+        extra_context={'hide_header': True}
     ), name='password_reset_confirm'),
 
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
