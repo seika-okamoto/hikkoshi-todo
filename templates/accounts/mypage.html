@@ -36,29 +36,35 @@
     <a href="{% url 'accounts:about_app' %}">「ひっこしToDo」について</a>
   </div>
 
-  <div class="button-box logout">
-    <button id="logoutBtn">🚫 ログアウトする</button>
-  </div>
+  <form method="post" action="{% url 'accounts:logout' %}" class="button-box logout">
+    {% csrf_token %}
+    <button type="submit">🚫 ログアウトする</button>
+  </form>
+
 
 
   <!-- 以下ダイアログ（JSはそのまま） -->
   <div id="overlay"></div>
+
   <div id="editDialog" style="display:none; border:1px solid #ccc; padding:10px; margin:10px 0;">
     <form method="POST" action="{% url 'accounts:edit_username' %}">
       {% csrf_token %}
       <label>ニックネームを編集してください</label><br>
       <input type="text" name="username" value="{{ profile.user.username }}"><br>
-      <button type="submit">保存</button>
-      <button type="button" id="cancelEdit">キャンセル</button>
+      <button type="submit">✅保存</button>
+      <button type="button" id="cancelEdit">❌キャンセル</button>
     </form>
   </div>
-
-  <div id="logoutDialog" style="display:none; border:1px solid #ccc; padding:10px; background:#f9f9f9; margin-top:10px;">
-    <p>🚫 ログアウトしますか？</p>
-    <button id="confirmLogout">ログアウト</button>
-    <button id="cancelLogout">キャンセル</button>
+<!-- 🔻 ログアウトも統一！ -->
+  <div id="logoutDialog" style="display:none;">
+    <form method="POST" action="{% url 'accounts:logout' %}">
+      {% csrf_token %}
+      <label>🚫 ログアウトしますか？</label><br>
+      <button type="submit" class="logout-btn">ログアウト</button>
+      <button type="button" id="cancelLogout" class="cancel-btn">❌キャンセル</button>
+    </form>
   </div>
-</div>
+  </div>
 
 <script>
 document.getElementById('editUsernameBtn')?.addEventListener('click', function(e) {
