@@ -14,11 +14,14 @@
   </div>
 
   <form method="post" class="center-text">
-    {% csrf_token %}
-    <label for="planned_move_date">📅 引っ越し予定日を選んでください：</label><br>
+  {% csrf_token %}
+  <label for="planned_move_date">📅 引っ越し予定日を選んでください：</label><br>
+  <div class="date-row">
     <input type="date" name="planned_move_date" value="{{ planned_move_date }}">
-    <button type="submit" class="btn home-page">✅保存</button>
-  </form>
+    <button type="submit" class="btn save-btn">保存</button>
+  </div>
+</form>
+
 
   <div class="progress-section center-text">
   {% if remaining_days is not None %}

@@ -9,7 +9,7 @@
 .back-link a {
   font-size: 14px;
   text-decoration: none;
-  color: #5a2ca0;
+  color: #000;
 }
 
 .back-link-absolute {
@@ -22,7 +22,7 @@
 .back-link-absolute a {
   font-size: 14px;
   text-decoration: none;
-  color: #5a2ca0;
+  color: #000;
 }
 
 .back-link-wrapper {

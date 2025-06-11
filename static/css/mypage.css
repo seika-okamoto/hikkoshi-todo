@@ -20,7 +20,7 @@
 
 .edit-link {
   flex-shrink: 0;
-  color: #6a1b9a;
+  color: #000;
   font-size: 14px;
   white-space: nowrap;
 }
@@ -39,7 +39,7 @@
 .back-link {
   display: inline-block;
   margin-bottom: 10px;
-  color: #6a1b9a;
+  color: #000;
   text-decoration: none;
 }
 
@@ -64,8 +64,8 @@ h2 {
   padding: 10px;
   text-align: center;
   background-color: white;
-  border: 2px solid #6a1b9a;
-  color: #6a1b9a;
+  border: 2px solid #000;
+  color: #000;
   border-radius: 8px;
   font-size: 15px;
   text-decoration: none;
@@ -80,6 +80,7 @@ h2 {
 .logout button {
   color: red;
   border-color: red;
+  text-align: center;
 }
 
 .back-home {
@@ -130,7 +131,7 @@ h2 {
 }
 
 #editDialog button[type="submit"] {
-  background-color: #6a1b9a;
+  background-color: #000;
   color: white;
 }
 
@@ -149,4 +150,23 @@ h2 {
   background: rgba(0, 0, 0, 0.3);
   z-index: 999;
   display: none;
+}
+
+.btn {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 24px;
+  border: 1px solid #666;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.btn:hover {
+  background-color: #eee;
 }
