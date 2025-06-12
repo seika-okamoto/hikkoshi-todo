@@ -25,6 +25,6 @@ urlpatterns = [
     path('todo/', include('todo.urls', namespace='todo')),
     path('accounts/', include('accounts.urls')),
     path('home/', include('home.urls')),
-    path('', lambda request: redirect('home:index')),
+    path('', lambda request: redirect('accounts:login')),
 ]
 
