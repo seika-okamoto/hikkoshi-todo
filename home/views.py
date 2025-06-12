@@ -26,7 +26,7 @@ def index(request):
         if planned_date:
             profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
             profile.save()
-            messages.success(request, "予定日を保存しました！")
+            
 
             # 🔥 ここでタスクのdue_dateを再計算
             for task in tasks:
