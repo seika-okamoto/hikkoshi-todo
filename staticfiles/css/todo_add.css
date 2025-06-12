@@ -1,0 +1,88 @@
+.task-form {
+max-width: 400px;
+margin: 40px auto;
+padding: 30px 20px;
+background-color: #ffffff;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.form-title {
+text-align: center;
+margin-bottom: 24px;
+font-size: 22px;
+}
+
+label {
+font-weight: bold;
+font-size: 14px;
+}
+
+input[type="text"],
+select,
+textarea {
+width: 100%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 6px;
+font-size: 14px;
+box-sizing: border-box;
+}
+
+
+
+.back-link {
+display: inline-block;
+margin: 20px;
+color: #333;
+text-decoration: none;
+}
+
+.task-form {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px 20px;
+  background-color: #fff;  /* ✅ ← ここが白 */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #666;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.btn:hover {
+  background-color: #eee;
+}
+
+/* 全体の文字色（安全に統一） */
+body,
+.task-detail {
+  color: #333;
+}
+
+/* 🔗 リンク色をすべて黒に */
+a,
+a:visited,
+a:hover,
+a:active {
+  color: #333;
+  text-decoration: none; /* ← 必要なら下線も消す */
+}
+
+a:hover {
+  text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
+}

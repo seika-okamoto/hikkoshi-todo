@@ -1,0 +1,148 @@
+h1, h2 {
+  text-align: center;
+}
+
+.main-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+}
+
+.center-text {
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.progress-bar-wrapper {
+ margin: 16px auto;
+  max-width: 300px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 16px;
+  background-color: #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #4a4ae2;;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.todo-link {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 10px 20px;
+  background-color: #eee;
+  text-decoration: none;
+  border-radius: 6px;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.progress-section {
+  margin-top: 20px;
+}
+
+.user-info {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.mypage-link {
+  font-size: 14px;
+  text-decoration: none;
+  color: #333;
+}
+
+.mypage-link:hover {
+  text-decoration: underline;
+}
+
+/* お知らせ */
+.notification {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.notification ul {
+  text-align: left;
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0 auto;
+  max-width: 320px;
+}
+
+.notification li {
+  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* 色分け */
+.notification li.expired {
+  color: crimson;
+  font-weight: bold;
+}
+
+.notification li.today-deadline {
+  color: red;
+  font-weight: bold;
+}
+
+.notification li.one-day {
+  color: orange;
+}
+
+.home-page.btn {
+  display: block;
+  margin: 20px auto;            /* ← 中央寄せ */
+  padding: 12px 24px;           /* ← タップしやすい余白 */
+  border: 1px solid #666;
+  border-radius: 12px;          /* ← 丸み強め */
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;           /* ← 内容に合わせた幅！ */
+  max-width: 100%;
+}
+
+.home-page.btn:hover {
+  background-color: #eee;
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.save-btn {
+  padding: 6px 16px;
+  font-size: 14px;
+  border: 1px solid #666;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-btn:hover {
+  background-color: #eee;
+}

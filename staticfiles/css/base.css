@@ -1,0 +1,47 @@
+.back-link-wrapper {
+  padding: 10px 0 0 16px;
+}
+
+.back-link {
+  text-align: left;
+}
+
+.back-link a {
+  font-size: 14px;
+  text-decoration: none;
+  color: #000;
+}
+
+.back-link-absolute {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+.back-link-absolute a {
+  font-size: 14px;
+  text-decoration: none;
+  color: #000;
+}
+
+.back-link-wrapper {
+  padding: 10px 0 0 16px;
+  width: 100vw;              /* ← 画面幅を強制指定 */
+  max-width: none !important; /* ← 親のmax-widthを打ち消す */
+  text-align: left !important; /* ← 中央寄せの影響を打ち消す */
+}
+
+.change-password-wrapper .back-link {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.change-password-wrapper .back-link a {
+  color: #666 !important;
+  text-decoration: none;
+}
+
+.change-password-wrapper .back-link a:hover {
+  text-decoration: underline;
+}

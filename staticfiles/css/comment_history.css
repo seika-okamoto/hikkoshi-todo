@@ -1,0 +1,90 @@
+.comment-history-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ✅ 1コメントカード */
+.comment-box {
+  border: 2px solid #ccc;
+  border-radius: 16px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ✅ 投稿タイトルや日時の装飾 */
+.comment-task {
+  color: #d9534f;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.comment-text {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.comment-date {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #666;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.btn:hover {
+  background-color: #eee;
+}
+
+
+/* ✅ 戻るリンク */
+.back-link {
+  display: block;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.back-link-inside a,
+.back-link-inside a:visited,
+.back-link-inside a:hover {
+  color: #666 !important;
+  text-decoration: none;
+}
+
+.back-link-inside a:hover {
+  text-decoration: underline;
+}
+
+/* 全体の文字色（安全に統一） */
+body,
+.task-detail {
+  color: #333;
+}
+
+/* 🔗 リンク色をすべて黒に */
+a,
+a:visited,
+a:hover,
+a:active {
+  color: #333;
+  text-decoration: none; /* ← 必要なら下線も消す */
+}
+
+a:hover {
+  text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
+}

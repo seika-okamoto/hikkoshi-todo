@@ -21,6 +21,8 @@ DEBUG = False
 ALLOWED_HOSTS = ['seika1224.pythonanywhere.com']
 
 
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'seika1224.pythonanywhere.com']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -115,6 +117,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
