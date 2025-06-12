@@ -18,20 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from home import views as home_views
 from django.shortcuts import redirect
-<<<<<<< HEAD
-=======
 
->>>>>>> 2e61121 (fix: PythonAnywhereで一時的に編集した内容を保存)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('todo/', include('todo.urls', namespace='todo')),
     path('accounts/', include('accounts.urls')),
     path('home/', include('home.urls')),
-<<<<<<< HEAD
-    path('', lambda request: redirect('accounts:login')),
-=======
     path('', lambda request: redirect('home:index')),
->>>>>>> 2e61121 (fix: PythonAnywhereで一時的に編集した内容を保存)
 ]
 

@@ -17,23 +17,19 @@ urlpatterns = [
     path('change_password/', views.change_password, name='change_password'),
     path('comment_history/', views.comment_history, name='comment_history'),
     path('edit_comment/<int:comment_id>/', views.edit_comment, name='edit_comment'),
-    # ✅ password reset 関連
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
-        extra_context={'hide_header': True}  # テンプレート指定なし → registration/password_reset_done.html を自動使用
+        extra_context={'hide_header': True}  
     ), name='password_reset_done'),
-
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
         success_url=reverse_lazy('accounts:password_reset_complete'),
         extra_context={'hide_header': True}
     ), name='password_reset_confirm'),
-
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
-        # テンプレート指定なし → registration/password_reset_complete.html を自動使用
     ), name='password_reset_complete'),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         success_url=reverse_lazy('accounts:password_reset_done'),
         email_template_name='registration/password_reset_email.html',
-        extra_context={'hide_header': True}  # ← 追加！
+        extra_context={'hide_header': True}  
     ), name='password_reset'),
     path('about/', views.about_app, name='about_app'),
 ]
