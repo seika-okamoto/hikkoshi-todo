@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 {% load static %}
 
 {% block extra_css %}
@@ -7,79 +7,86 @@
 
 {% block content %}
 <div class="comment-history-wrapper">
-    <!-- ✅ 枠内左上に「← 戻る」 -->
+  <!-- ✅ 枠内左上に「← 戻る」 -->
   <p class="back-link-inside">
     <a href="{% url 'home:index' %}">← 戻る</a>
+  </p>
 
-
-<div class="todo-title-row">
-  <h1 class="todo-title">ToDo</h1>
-
-  <div class="action-buttons">
-    <a href="{% url 'todo:edit' %}"><span>✏️</span> 編集・追加</a>
-    <a href="{% url 'todo:share_items' %}"><span>📤</span> 共有</a>
+  <div class="todo-title-row">
+    <h1 class="todo-title">ToDo</h1>
+    <div class="action-buttons">
+      <a href="{% url 'todo:edit' %}"><span>✏️</span> 編集・追加</a>
+      <a href="{% url 'todo:share_items' %}"><span>📤</span> 共有</a>
+    </div>
   </div>
+
+  {% for category, tasks in grouped_tasks.items %}
+    <div class="task-section">
+      <h3>{{ category }}</h3>
+
+      {% for task in tasks %}
+        <a href="{% url 'todo:task_detail' task.id %}?view=memo" class="task-card">
+          <div class="task-left">
+            <input type="checkbox" 
+                   class="checkbox task-checkbox"
+                   data-task-id="{{ task.id }}"
+                   {% if task.is_done %}checked{% endif %}>
+            <span class="task-title">{{ task.title }}</span>
+          </div>
+          <span class="arrow">＞</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% empty %}
+    <p>まだタスクはありません。</p>
+  {% endfor %}
 </div>
 
-{% for category, tasks in grouped_tasks.items %}
-  <div class="task-section">
-    <h3>{{ category }}</h3>
-
-    {% for task in tasks %}
-      <div class="task-card">
-        <div class="task-left">
-          <input type="checkbox" 
-                 class="checkbox"
-                 data-task-id="{{ task.id }}"
-                 {% if task.is_done %}checked{% endif %}>
-          <span class="task-title">{{ task.title }}</span>
-        </div>
-        <a href="{% url 'todo:task_detail' task.id %}?view=memo" class="arrow">&gt;</a>
-      </div>
-    {% endfor %}
-  </div>
-{% empty %}
-  <p>まだタスクはありません。</p>
-{% endfor %}
-
 <script>
-  document.querySelectorAll('.checkbox').forEach((checkbox) => {
-    checkbox.addEventListener('change', function () {
-      const taskId = this.dataset.taskId;
-      const isDone = this.checked;
-
-      fetch(`/todo/toggle_done_ajax/${taskId}/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': getCookie('csrftoken'),
-        },
-        body: JSON.stringify({ is_done: isDone })
-      }).then(res => {
-        if (!res.ok) {
-          alert("更新に失敗しました");
-        }
+  document.addEventListener('DOMContentLoaded', function () {
+    // ✅ チェックボックスだけリンクを無効にする
+    document.querySelectorAll('.task-checkbox').forEach(cb => {
+      cb.addEventListener('click', function (e) {
+        e.stopPropagation();
       });
     });
-  });
 
-  // Django CSRFトークン取得関数
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let cookie of cookies) {
-        cookie = cookie.trim();
-        if (cookie.startsWith(name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
+    // ✅ Ajaxでチェック状態を保存
+    document.querySelectorAll('.checkbox').forEach((checkbox) => {
+      checkbox.addEventListener('change', function () {
+        const taskId = this.dataset.taskId;
+        const isDone = this.checked;
+
+        fetch(`/todo/toggle_done_ajax/${taskId}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+          },
+          body: JSON.stringify({ is_done: isDone })
+        }).then(res => {
+          if (!res.ok) {
+            alert("更新に失敗しました");
+          }
+        });
+      });
+    });
+
+    // Django CSRFトークン取得関数
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+          if (cookie.startsWith(name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
       }
+      return cookieValue;
     }
-    return cookieValue;
-  }
+  });
 </script>
 {% endblock %}
-
-<p style="color:red;">★テンプレートは反映されています★</p>
-<p style="color:red;">【これは index.html のテスト表示】</p>
