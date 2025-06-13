@@ -172,3 +172,9 @@ a:active {
 a:hover {
   text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
 }
+
+.template-label {
+  font-size: 14px;
+  color: #aaa;
+  padding: 4px 8px;
+}

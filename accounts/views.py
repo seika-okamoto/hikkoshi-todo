@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404, redirect
 from todo.models import Comment
 from .forms import CommentForm
 from django.views.decorators.http import require_POST
-
+from django.db import models
 
 
 def signup_view(request):
@@ -114,17 +114,19 @@ def signup_view(request):
 
             print("✅ タスク登録スタート！")
             for category_name, tasks in tasks_data.items():
-                category_obj = Category.objects.get(name=category_name)  # ← Categoryオブジェクトを取得！
-                if category_obj is None:
-                    print(f"⚠️ カテゴリが見つからない: {category_name}")
-                    continue
+                # ← カテゴリがなければ自動で作る
+                category_obj, created = Category.objects.get_or_create(
+                    name=category_name,
+                    defaults={'user': user}
+                )
 
                 for title in tasks:
                     Task.objects.create(
                         user=user,
                         title=title,
                         category=category_obj,
-                        is_done=False
+                        is_done=False,
+                        is_template=True
                     )
 
             return redirect('home:index')  # ← 初期登録済みでToDoへ遷移

@@ -7,51 +7,61 @@
 
 {% block content %}
 <div class="todo-edit-wrapper">
-    <!-- ✅ 枠内左上に「← 戻る」 -->
+  <!-- ← 戻る -->
   <p class="back-link-inside">
     <a href="{% url 'todo:index' %}">← 戻る</a>
-  </p>  
+  </p>
 
-<div class="todo-header">
-  <h2 class="todo-title">ToDo（編集・追加モード）</h2>
-  <a href="{% url 'todo:add_task' %}" class="add-btn">➕</a>
+  <div class="todo-header">
+    <h2 class="todo-title">ToDo（編集・追加モード）</h2>
+    <a href="{% url 'todo:add_task' %}" class="add-btn">➕</a>
+  </div>
+
+  {% for task in tasks %}
+    <div class="task-card">
+      <div class="task-left">
+        <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
+        <span class="task-title">{{ task.title }}</span>
+      </div>
+
+      {% if not task.is_template %}
+        <div class="task-actions">
+          <button class="edit-btn" data-task-id="{{ task.id }}">✏️</button>
+          <button class="delete-btn" data-task-id="{{ task.id }}">🗑</button>
+        </div>
+      {% else %}
+        <div class="task-actions">
+          <span class="template-label">🔒</span>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if not task.is_template %}
+      <!-- 編集モーダル -->
+      <div class="modal edit-modal" id="edit-modal-{{ task.id }}" style="display:none;">
+        <p class="modal-title">内容を編集してください</p>
+        <form method="POST" action="{% url 'todo:edit_task' task.id %}">
+          {% csrf_token %}
+          <input type="text" name="title" value="{{ task.title }}">
+          <button type="submit">✅保存</button>
+          <button type="button" class="cancel-btn">❌キャンセル</button>
+        </form>
+      </div>
+
+      <!-- 削除モーダル -->
+      <div class="modal delete-modal" id="delete-modal-{{ task.id }}" style="display:none;">
+        <p style="margin-bottom: 16px;">この項目を削除しますか？</p>
+        <form method="POST" action="{% url 'todo:delete_task' task.id %}">
+          {% csrf_token %}
+          <button type="submit">🗑️削除</button>
+          <button type="button" class="cancel-btn">❌キャンセル</button>
+        </form>
+      </div>
+    {% endif %}
+  {% endfor %}
 </div>
 
-{% for task in tasks %}
-  <div class="task-card">
-    <div class="task-left">
-      <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
-      <span class="task-title">{{ task.title }}</span>
-    </div>
-    <div class="task-actions">
-      <button class="edit-btn" data-task-id="{{ task.id }}">✏️</button>
-      <button class="delete-btn" data-task-id="{{ task.id }}">🗑</button>
-    </div>
-  </div>
-
-  <!-- 編集用モーダル -->
-  <div class="modal edit-modal" id="edit-modal-{{ task.id }}" style="display:none;">
-    <p class="modal-title">内容を編集してください</p>
-    <form method="POST" action="{% url 'todo:edit_task' task.id %}">
-      {% csrf_token %}
-      <input type="text" name="title" value="{{ task.title }}">
-      <button type="submit">✅保存</button>
-      <button type="button" class="cancel-btn">❌キャンセル</button>
-    </form>
-  </div>
-
-  <!-- 削除用モーダル -->
-  <div class="modal delete-modal" id="delete-modal-{{ task.id }}" style="display:none;">
-    <p style="margin-bottom: 16px;">この項目を削除しますか？</p>
-    <form method="POST" action="{% url 'todo:delete_task' task.id %}">
-      {% csrf_token %}
-      <button type="submit">🗑️削除</button>
-      <button type="button" class="cancel-btn">❌キャンセル</button>
-    </form>
-  </div>
-{% endfor %}
-
-<!-- ✅ここに移動 -->
+<!-- モーダル制御スクリプト -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.edit-btn').forEach(button => {
