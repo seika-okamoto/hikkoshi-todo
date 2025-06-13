@@ -76,7 +76,7 @@
 {% endif %}
 
 <!-- ✅ コメント表示（viewがmemoまたはcommentのとき） -->
-{% if view == "memo" or view == "comment" %}
+{% if view == "memo" or view == "comment" and task.is_template %}
   <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
 
   <p>並び替え：
@@ -125,7 +125,8 @@
 
     <button type="submit" class="btn">＋ コメントを追加</button>
 </form>
-
+{% elif view == "comment" %}
+  <p>※このタスクはコメントできません。</p>
 {% endif %}
 
 <script>

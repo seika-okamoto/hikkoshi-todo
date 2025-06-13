@@ -120,25 +120,19 @@ def add_task(request):
         return render(request, 'todo/add.html', {'categories': categories, 'hide_header': True})
 
 @login_required
+@login_required
 def task_detail(request, task_id):
-    task = get_object_or_404(Task, id=task_id, user=request.user)
+    task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形限定！
+
     view = request.GET.get('view', 'memo')
-    sort = request.GET.get('sort', 'newest')
-
     memos = Memo.objects.filter(task=task).order_by('-created')
-
-    if sort == 'popular':
-        comments = Comment.objects.filter(task=task).annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
-    else:
-        comments = Comment.objects.filter(task=task).order_by('-created_at')
+    comments = Comment.objects.filter(task=task).order_by('-created_at')
 
     return render(request, 'todo/task_detail.html', {
         'task': task,
         'view': view,
-        'sort': sort,
         'memos': memos,
         'comments': comments,
-        'comment_count': comments.count(),  # ✅ これでテンプレートで使える！
         'hide_header': True
     })
 
@@ -153,15 +147,13 @@ def add_memo(request, task_id):
             user=request.user,
             context=context
         )
-        messages.success(request, "メモを追加しました！")
-    else:
-        messages.error(request, "メモの内容が空です。")
 
     return redirect('todo:task_detail', task_id=task.id)
 
 @login_required
 def add_comment(request, task_id):
-    task = get_object_or_404(Task, id=task_id, user=request.user)
+    task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形だけ対象！
+
     content = request.POST.get('content')
     display_name = request.POST.get('display_name', 'nickname')
 
@@ -172,32 +164,15 @@ def add_comment(request, task_id):
             content=content,
             display_name=display_name
         )
-        messages.success(request, "コメントを追加しました！")
-    else:
-        messages.error(request, "コメント内容が空です。")
 
     return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=comment")
 
 @require_POST
 @login_required
-def toggle_like(request, comment_id):
-    comment = get_object_or_404(Comment, id=comment_id)
-    user = request.user
-
-    # すでにいいねしていたら取り消し、なければ追加
-    like, created = Like.objects.get_or_create(comment=comment, user=user)
-    if not created:
-        like.delete()
-        messages.info(request, "いいねを取り消しました。")
-    else:
-        messages.success(request, "いいねしました！")
-
-    return redirect(f"{reverse('todo:task_detail', args=[comment.task.id])}?view=comment")
-
 def comment_list(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
-    sort = request.GET.get('sort', 'newest')
+    task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形だけ表示
 
+    sort = request.GET.get('sort', 'newest')
     comments = Comment.objects.filter(task=task)
 
     if sort == 'popular':
@@ -260,3 +235,15 @@ def delete_memo(request, memo_id):
     task_id = memo.task.id
     memo.delete()
     return redirect('todo:task_detail', task_id=task_id)
+
+@require_POST
+@login_required
+def toggle_like(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    user = request.user
+
+    like, created = Like.objects.get_or_create(comment=comment, user=user)
+    if not created:
+        like.delete()
+
+    return redirect(f"{reverse('todo:task_detail', args=[comment.task.id])}?view=comment")
