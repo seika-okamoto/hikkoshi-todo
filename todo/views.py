@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Count
-from todo.models import Comment, Like, Memo
+from todo.models import Comment, Like, Memo, Task
 from django.http import JsonResponse
 import json
 
@@ -59,10 +59,16 @@ def edit_todo(request):
 def edit_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     new_title = request.POST.get('title')
+    
     if new_title:
         task.title = new_title
         task.save()
+
+    # 🔑 new_titleがなくてもtasksを定義しておく！
+    tasks = Task.objects.filter(user=request.user)
+
     return render(request, 'todo/edit.html', {
+        'tasks': tasks,
         'hide_header': True  
     })
 
