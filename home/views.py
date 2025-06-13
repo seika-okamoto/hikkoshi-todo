@@ -34,7 +34,9 @@ def index(request):
                     task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
                     task.save()
 
-            return redirect('home:index')
+            return render(request, 'home/index.html', context)
+
+
 
 
 

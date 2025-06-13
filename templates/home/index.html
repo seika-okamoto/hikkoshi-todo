@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block content %}
-
-  <div class="header center-text">
+<div class="main-container"> 
+  <div class="home-wrapper">
     <h1>ひっこしToDo</h1>
   </div>
   <div class="user-info">
@@ -62,9 +62,11 @@
     {% endif %}
   </div>
 
-<div class="center-text">
-<form action="/todo/" method="get">
-  <button type="submit" class="btn home-page">ToDoリストを見る</button>
-</form>
+  <div class="center-text">
+  <form action="/todo/" method="get">
+    <button type="submit" class="btn home-page">ToDoリストを見る</button>
+  </form>
+  </div>
 </div>
 {% endblock %}
+

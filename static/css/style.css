@@ -96,5 +96,11 @@ footer {
   text-align: center;
 }
 
+main, .main-container, .container {
+  max-width: 700px;     /* スマホにもPCにもバランスが良い */
+  margin: 0 auto;
+  padding: 0 24px;      /* 左右に余白、スマホでも読める */
+  box-sizing: border-box;
+}
 
 
