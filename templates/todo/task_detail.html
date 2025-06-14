@@ -2,155 +2,96 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/task_detail.css' %}">
+  <link rel="stylesheet" href="{% static 'css/task_detail.css' %}">
 {% endblock %}
 
-
 {% block content %}
-<div class="task-detail-wrapper">
-    <!-- ✅ 枠内左上に「← 戻る」 -->
-  <p class="back-link-inside">
-    <a href="{% url 'todo:index' %}">← 戻る</a>
-  </p>
+  <div class="task-detail-wrapper">
+    <p class="back-link-inside"><a href="{% url 'todo:index' %}">← 戻る</a></p>
+    <h2>{{ task.title }}</h2>
+    <p>
+      <a href="?view=memo" {% if view == "memo" %}style="font-weight:bold;"{% endif %}>📝メモ</a> |
+      <a href="?view=comment&sort={{ sort|default:'newest' }}" {% if view == "comment" %}style="font-weight:bold;"{% endif %}>💬コメント</a>
+    </p>
 
-<h2>{{ task.title }}</h2>
+    {% if view == "memo" %}
+      <h3>📝 自分用メモ</h3>
+      {% for memo in memos %}
+        <div class="task-card">
+          <div class="task-left">
+            <span class="task-title">・{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</span>
+          </div>
+          <div class="task-actions">
+            <button class="edit-memo-btn" data-memo-id="{{ memo.id }}" data-context="{{ memo.context }}">📝編集</button>
+            <button class="delete-memo-btn" data-memo-id="{{ memo.id }}">🗑️削除</button>
+          </div>
+        </div>
 
-<!-- タブ切り替えボタン -->
-<p>
-  <a href="?view=memo"
-     {% if view == "memo" %}style="font-weight:bold;"{% endif %}>📝メモ</a> |
+        <div class="modal edit-modal" id="edit-memo-modal-{{ memo.id }}" style="display:none;">
+          <p class="modal-title">内容を編集してください</p>
+          <form method="POST" action="{% url 'todo:edit_memo' memo.id %}">
+            {% csrf_token %}
+            <textarea name="context">{{ memo.context }}</textarea><br>
+            <button type="submit">✅保存</button>
+            <button type="button" class="cancel-btn">❌キャンセル</button>
+          </form>
+        </div>
 
-  {% if sort %}
-    <a href="?view=comment&sort={{ sort }}"
-       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>💬コメント</a>
-  {% else %}
-    <a href="?view=comment"
-       {% if view == "comment" %}style="font-weight:bold;"{% endif %}>💬コメント</a>
-  {% endif %}
-</p>
-
-<!-- ✅ メモ表示（viewがmemoのときだけ） -->
-{% if view == "memo" %}
-  <h3>📝 自分用メモ</h3>
-
-  {% for memo in memos %}
-    <div class="task-card">
-      <div class="task-left">
-        <span class="task-title">・{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</span>
-      </div>
-      <div class="task-actions">
-        <button class="edit-memo-btn" data-memo-id="{{ memo.id }}" data-context="{{ memo.context }}">📝編集</button>
-        <button class="delete-memo-btn" data-memo-id="{{ memo.id }}">🗑️削除</button>
-      </div>
-    </div>
-  
-
-    <!-- 編集モーダル -->
-    <div class="modal edit-modal" id="edit-memo-modal-{{ memo.id }}" style="display:none;">
-      <p class="modal-title">内容を編集してください</p>
-      <form method="POST" action="{% url 'todo:edit_memo' memo.id %}">
+        <div class="modal delete-modal" id="delete-memo-modal-{{ memo.id }}" style="display:none;">
+          <p style="margin-bottom: 16px;">このメモを削除しますか？</p>
+          <form method="POST" action="{% url 'todo:delete_memo' memo.id %}">
+            {% csrf_token %}
+            <button type="submit">🗑️削除</button>
+            <button type="button" class="cancel-btn">❌キャンセル</button>
+          </form>
+        </div>
+      {% endfor %}
+      <p>デバッグ表示: {{ comments }}</p>
+      <form method="POST" action="{% url 'todo:add_memo' task.id %}">
         {% csrf_token %}
-        <textarea name="context">{{ memo.context }}</textarea><br>
-        <button type="submit">✅保存</button>
-        <button type="button" class="cancel-btn">❌キャンセル</button>
+        <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
+        <button type="submit" class="btn">➕ メモを追加</button>
       </form>
-    </div>
+    {% endif %}
 
-    <!-- 削除モーダル -->
-    <div class="modal delete-modal" id="delete-memo-modal-{{ memo.id }}" style="display:none;">
-      <p style="margin-bottom: 16px;">このメモを削除しますか？</p>
-      <form method="POST" action="{% url 'todo:delete_memo' memo.id %}">
-        {% csrf_token %}
-        <button type="submit">🗑️削除</button>
-        <button type="button" class="cancel-btn">❌キャンセル</button>
-      </form>
-    </div>
-  {% endfor %}
+    <!-- 👇コメント表示：viewに関係なくテンプレートタスクなら常時表示 -->
+    {% if task.is_template %}
+      <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
 
-  <!-- メモ追加 -->
-  <form method="POST" action="{% url 'todo:add_memo' task.id %}">
-      {% csrf_token %}
-      <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
-      <button type="submit" class="btn">＋ メモを追加</button>
-  </form>
-{% endif %}
+      {% if view == "comment" %}
+        <p>並び替え：
+          <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
+          <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
+        </p>
+      {% endif %}
 
-<!-- ✅ コメント表示（viewがmemoまたはcommentのとき） -->
-{% if view == "memo" or view == "comment" and task.is_template %}
-  <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
-
-  <p>並び替え：
-    <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
-    <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
-  </p>
-
-  <ul>
+   <ul>
     {% for comment in comments %}
       <li>
-        <p><strong>投稿者:</strong>
-          {% if comment.display_name == 'nickname' %}
-            {{ comment.user.username }}
-          {% else %}
-            非公開
-          {% endif %}
-        </p>
+        <p><strong>投稿者:</strong> {{ comment.user.username }}</p>
         <p>{{ comment.content }}</p>
-
-        <!-- ✅ 日付：右下寄せ用 -->
         <p class="comment-date">{{ comment.created_at|date:"Y/m/d H:i" }}</p>
-
-        <!-- いいね -->
-        <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
-            {% csrf_token %}
-            {% with comment.likes.count as like_count %}
-                <button type="submit" class="btn">👍 {{ like_count|default:"いいね" }}</button>
-            {% endwith %}
-        </form>
       </li>
     {% empty %}
       <li>コメントはまだありません。</li>
     {% endfor %}
   </ul>
 
-  <!-- コメント追加フォーム -->
-  <form method="POST" action="{% url 'todo:add_comment' task.id %}">
-    {% csrf_token %}
-    <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="コメントを入力"></textarea><br>
-    <small>0/150文字</small><br><br>
+      <!-- ✅ 投稿フォーム：ここに1つだけ残す -->
+      <form method="POST" action="{% url 'todo:add_comment' task.id %}">
+        {% csrf_token %}
+        <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="コメントを入力"></textarea><br>
+        <small>0/150文字</small><br><br>
 
-    <p>👤 投稿者表示設定：</p>
-    <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示する</label><br>
-    <label><input type="radio" name="display_name" value="anonymous"> 投稿者名を非公開にする</label><br>
-    <p><small>この端末からの投稿には編集・削除が可能です</small></p>
+        <p>👤 投稿者表示設定：</p>
+        <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示する</label><br>
+        <label><input type="radio" name="display_name" value="anonymous"> 投稿者名を非公開にする</label><br>
+        <p><small>この端末からの投稿には編集・削除が可能です</small></p>
 
-    <button type="submit" class="btn">＋ コメントを追加</button>
-</form>
-{% elif view == "comment" %}
-  <p>※このタスクはコメントできません。</p>
-{% endif %}
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.edit-memo-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        const id = button.dataset.memoId;
-        document.getElementById(`edit-memo-modal-${id}`).style.display = 'block';
-      });
-    });
-
-    document.querySelectorAll('.delete-memo-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        const id = button.dataset.memoId;
-        document.getElementById(`delete-memo-modal-${id}`).style.display = 'block';
-      });
-    });
-
-    document.querySelectorAll('.cancel-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        button.closest('.modal').style.display = 'none';
-      });
-    });
-  });
-</script>
-
+        <button type="submit" class="btn">➕ コメントを追加</button>
+      </form>
+    {% else %}
+      <p>※このタスクはコメントできません。</p>
+    {% endif %}
+  </div>
 {% endblock %}

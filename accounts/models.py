@@ -11,7 +11,11 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("メールアドレスは必須です")
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=email, username=extra_fields.get("username", ""), **extra_fields)
+        if password is None:
+            raise ValueError("パスワードは必須です")  # 👈 ここでエラーにする！
+
+        
         user.set_password(password)
         user.save(using=self._db)
         return user

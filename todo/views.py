@@ -8,9 +8,100 @@ from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Count
-from todo.models import Comment, Like, Memo, Task
 from django.http import JsonResponse
 import json
+from django.http import HttpResponseForbidden
+
+@login_required
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+
+    # 雛形でないかつ、自分のタスクでない → アクセス禁止
+    if not task.is_template and task.user != request.user:
+        return HttpResponseForbidden("このタスクにはアクセスできません。")
+
+    view = request.GET.get('view', 'memo')
+    sort = request.GET.get('sort', 'newest')
+
+    memos = Memo.objects.filter(task=task).order_by('-created')
+
+    # 雛形タスクのみコメントを取得
+    comments = None
+    comment_count = 0
+    
+    if task.is_template:
+        comments = Comment.objects.filter(task=task)
+        if sort == 'popular':
+            comments = comments.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
+        else:
+            comments = comments.order_by('-created_at')
+        comment_count = comments.count()
+
+    print(f"View: {view}, Comment count: {comment_count}")  # デバッグ用
+
+
+    return render(request, 'todo/task_detail.html', {
+        'task': task,
+        'view': view,
+        'memos': memos,
+        'comments': comments,
+        'comment_count': comment_count,
+        'sort': sort,
+        'hide_header': True
+    })
+    
+@login_required
+def add_memo(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    context = request.POST.get('context')
+
+    if context:
+        Memo.objects.create(
+            task=task,
+            user=request.user,
+            context=context
+        )
+
+    return redirect('todo:task_detail', task_id=task.id)
+
+@login_required
+def add_comment(request, task_id):
+    # ✅ 雛形タスクを取得（誰のでもOK）
+    task = get_object_or_404(Task, id=task_id, is_template=True)
+
+    content = request.POST.get('content')
+    display_name = request.POST.get('display_name', 'nickname')
+
+    if content:
+        Comment.objects.create(
+            task=task,
+            user=request.user,
+            content=content,
+            display_name=display_name
+        )
+
+    return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=comment")
+
+@require_POST
+@login_required
+def comment_list(request, task_id):
+    task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形だけ表示
+
+    sort = request.GET.get('sort', 'newest')
+    comments = Comment.objects.filter(task=task)
+
+    if sort == 'popular':
+        comments = comments.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
+    else:
+        comments = comments.order_by('-created_at')
+
+    context = {
+        'task': task,
+        'comments': comments,
+        'comment_count': comments.count(),
+        'sort': sort,
+    }
+    return render(request, 'todo/comment_list.html', context)
 
 
 @require_POST
@@ -119,74 +210,7 @@ def add_task(request):
         categories = Category.objects.all()
         return render(request, 'todo/add.html', {'categories': categories, 'hide_header': True})
 
-@login_required
-@login_required
-def task_detail(request, task_id):
-    task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形限定！
 
-    view = request.GET.get('view', 'memo')
-    memos = Memo.objects.filter(task=task).order_by('-created')
-    comments = Comment.objects.filter(task=task).order_by('-created_at')
-
-    return render(request, 'todo/task_detail.html', {
-        'task': task,
-        'view': view,
-        'memos': memos,
-        'comments': comments,
-        'hide_header': True
-    })
-
-@login_required
-def add_memo(request, task_id):
-    task = get_object_or_404(Task, id=task_id, user=request.user)
-    context = request.POST.get('context')
-
-    if context:
-        Memo.objects.create(
-            task=task,
-            user=request.user,
-            context=context
-        )
-
-    return redirect('todo:task_detail', task_id=task.id)
-
-@login_required
-def add_comment(request, task_id):
-    task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形だけ対象！
-
-    content = request.POST.get('content')
-    display_name = request.POST.get('display_name', 'nickname')
-
-    if content:
-        Comment.objects.create(
-            task=task,
-            user=request.user,
-            content=content,
-            display_name=display_name
-        )
-
-    return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=comment")
-
-@require_POST
-@login_required
-def comment_list(request, task_id):
-    task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形だけ表示
-
-    sort = request.GET.get('sort', 'newest')
-    comments = Comment.objects.filter(task=task)
-
-    if sort == 'popular':
-        comments = comments.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
-    else:
-        comments = comments.order_by('-created_at')
-
-    context = {
-        'task': task,
-        'comments': comments,
-        'comment_count': comments.count(),
-        'sort': sort,
-    }
-    return render(request, 'todo/comment_list.html', context)
 
 @login_required
 def share_items(request):

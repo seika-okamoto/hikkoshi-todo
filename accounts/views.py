@@ -170,7 +170,6 @@ def edit_username(request):
         if new_username:
             request.user.username = new_username
             request.user.save()
-            messages.success(request, 'ニックネームを更新しました')
         return redirect('accounts:mypage')
     else:
         return redirect('accounts:mypage')
@@ -264,6 +263,13 @@ def comment_history(request):
                   'comments': user_comments,
                   'hide_header': True  # ← ヘッダーを非表示にするために追加
     })
+
+
+@login_required  
+def my_view(request):
+    from todo.models import Comment  # 🔥 関数の中でインポートして循環を防ぐ！
+    comments = Comment.objects.all()
+
 
 @login_required
 def edit_comment(request, comment_id):
