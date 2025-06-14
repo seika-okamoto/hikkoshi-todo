@@ -46,7 +46,6 @@
           </form>
         </div>
       {% endfor %}
-      <p>デバッグ表示: {{ comments }}</p>
       <form method="POST" action="{% url 'todo:add_memo' task.id %}">
         {% csrf_token %}
         <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
