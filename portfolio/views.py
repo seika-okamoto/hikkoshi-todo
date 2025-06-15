@@ -13,30 +13,29 @@ from django.db.models import Q
 def index(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user)
-
-    # タスク情報
     tasks = Task.objects.filter(user=user)
     total_tasks = tasks.count()
     completed_tasks = tasks.filter(is_done=True).count()
     percent = round((completed_tasks / total_tasks) * 100, 1) if total_tasks > 0 else 0
 
-    # 予定日を保存（POST処理）
     if request.method == "POST":
         planned_date = request.POST.get('planned_move_date')
-        if planned_date:
-            profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
-            profile.save()
-            
+        try:
+            if planned_date:
+                profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
+                profile.save()
 
-            # 🔥 ここでタスクのdue_dateを再計算
-            for task in tasks:
-                if task.category and task.category.days_before is not None:
-                    task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
-                    task.save()
+                # 🔥 タスクの期限を再計算
+                for task in tasks:
+                    if task.category and task.category.days_before is not None:
+                        task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
+                        task.save()
 
-            return redirect('home:index')
-
-
+                messages.success(request, "引っ越し予定日を保存しました！")  # ← 追加
+        except Exception as e:
+            messages.error(request, f"保存中にエラーが発生しました: {str(e)}")  # ← 追加
+        
+        return redirect('home:index')  # ← POST後はリダイレクトで再読み込み
 
     # 残り日数
     today = timezone.now().date()
@@ -65,8 +64,8 @@ def index(request):
     # 3件以上ならフラグを立てる
     notification_all_count = len(notifications)
 
-
     today_tasks = tasks.filter(due_date=today)
+
 
     context = {
         'planned_move_date': profile.planned_move_date,
@@ -78,12 +77,10 @@ def index(request):
         'notifications': notifications,
         'notification_tasks': notification_tasks,
         'notification_all_count': notification_all_count,
-        'today': today,  # 今日の日付をテンプレートでも使えるように渡す
+        'today': today, 
+        'hide_header': True,
     }
-    context['hide_header'] = True
+   
     return render(request, 'home/index.html', context)
 
-def portfolio_view(request):
-    return render(request, 'portfolio/portfolio.html',{
-                  'hide_header': True
-                  })
+    
