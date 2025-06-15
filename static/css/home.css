@@ -159,6 +159,3 @@ body .main-container {
   max-width: 720px;
 }
 
-.message.success { color: green; }
-.message.error { color: red; }
-.message.warning { color: orange; }

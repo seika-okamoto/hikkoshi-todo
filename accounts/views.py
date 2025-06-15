@@ -16,6 +16,8 @@ from todo.models import Comment
 from .forms import CommentForm
 from django.views.decorators.http import require_POST
 from django.db import models
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 def signup_view(request):
@@ -162,17 +164,28 @@ def mypage_view(request):
         'hide_header': True
         })
 
+
+
 @login_required
 def edit_username(request):
     profile = request.user.profile
+
     if request.method == 'POST':
         new_username = request.POST.get('username')
+
         if new_username:
-            request.user.username = new_username
-            request.user.save()
+            # 自分以外に同じユーザー名がいないかチェック
+            if User.objects.filter(username=new_username).exclude(id=request.user.id).exists():
+                messages.error(request, "このニックネームはすでに使われています。別の名前を入力してください。")
+            else:
+                request.user.username = new_username
+                request.user.save()
+                messages.success(request, "ニックネームを更新しました！")
+
         return redirect('accounts:mypage')
-    else:
-        return redirect('accounts:mypage')
+
+    return redirect('accounts:mypage')
+
 
 @login_required
 def edit_email(request):
@@ -263,12 +276,6 @@ def comment_history(request):
                   'comments': user_comments,
                   'hide_header': True  # ← ヘッダーを非表示にするために追加
     })
-
-
-@login_required  
-def my_view(request):
-    from todo.models import Comment  # 🔥 関数の中でインポートして循環を防ぐ！
-    comments = Comment.objects.all()
 
 
 @login_required

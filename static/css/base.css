@@ -45,3 +45,31 @@
 .change-password-wrapper .back-link a:hover {
   text-decoration: underline;
 }
+
+.message {
+  padding: 12px;
+  border-radius: 6px;
+  margin: 16px auto;
+  max-width: 600px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.message.success {
+  background-color: #e0fbe0;
+  color: #2d7a2d;
+  border: 1px solid #a5d6a7;
+}
+
+.message.error {
+  background-color: #fdecea;
+  color: #d32f2f;
+  border: 1px solid #f5c6cb;
+}
+
+.message.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
