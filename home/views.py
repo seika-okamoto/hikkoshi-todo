@@ -20,25 +20,6 @@ def index(request):
     completed_tasks = tasks.filter(is_done=True).count()
     percent = round((completed_tasks / total_tasks) * 100, 1) if total_tasks > 0 else 0
 
-    # 予定日を保存（POST処理）
-    if request.method == "POST":
-        planned_date = request.POST.get('planned_move_date')
-        if planned_date:
-            profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
-            profile.save()
-            
-
-            # 🔥 ここでタスクのdue_dateを再計算
-            for task in tasks:
-                if task.category and task.category.days_before is not None:
-                    task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
-                    task.save()
-
-            return render(request, 'home/index.html', context)
-
-
-
-
 
     # 残り日数
     today = timezone.now().date()
@@ -81,8 +62,31 @@ def index(request):
         'notification_tasks': notification_tasks,
         'notification_all_count': notification_all_count,
         'today': today,  # 今日の日付をテンプレートでも使えるように渡す
+        'hide_header': True,
     }
-    context['hide_header'] = True
+    
+       # 予定日を保存（POST処理）
+    if request.method == "POST":
+        planned_date = request.POST.get('planned_move_date')
+        try:
+            if planned_date:
+                profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
+                profile.save()
+                
+
+                # 🔥 ここでタスクのdue_dateを再計算
+                for task in tasks:
+                    if task.category and task.category.days_before is not None:
+                        task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
+                        task.save()
+                messages.success(request, "引っ越し予定日を保存しました！")
+            return redirect('home:index')
+        except Exception as e:
+            messages.error(request, f"保存中にエラーが発生しました: {str(e)}")
+                # ⚠️ リダイレクトせずにそのまま進む（contextを定義してから render する）
+            return redirect('home:index')
+
+
     return render(request, 'home/index.html', context)
 
 def portfolio_view(request):
