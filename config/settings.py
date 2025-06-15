@@ -15,9 +15,10 @@ SECRET_KEY = 'django-insecure-zde7bb=fbmym1ujks^k5x#gyjp$7ofm-cn5q4(v8^1^du0m0tj
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG =False
 
 ALLOWED_HOSTS = ['seika1224.pythonanywhere.com']
+
 
 
 # Application definition
@@ -132,3 +133,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'ひっこしToDo<noreply@example.com>'
 
 LOGIN_REDIRECT_URL = '/home/'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://seika1224.pythonanywhere.com"
+]
