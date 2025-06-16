@@ -1,5 +1,21 @@
+# 仮想環境
 venv/
+
+# Pythonのビルドキャッシュ
 __pycache__/
-db.sqlite3
+*.py[cod]
+*.pyo
+*.pyd
 *.pyc
+.Python
+
+# DBファイル（SQLite用）
+*.sqlite3
+db.sqlite3
+*.log
+
+# 環境変数ファイル
 .env
+
+# VSCode設定（任意）
+.vscode/

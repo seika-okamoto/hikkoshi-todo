@@ -18,6 +18,7 @@ from django.views.decorators.http import require_POST
 from django.db import models
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from django.contrib.auth.views import PasswordResetView
 
 
 def signup_view(request):
@@ -317,3 +318,9 @@ def password_reset_done(request):
     return render(request, 'accounts/password_reset_done.html', {
         'hide_header': True
     })
+    
+class CustomPasswordResetView(PasswordResetView):
+    def form_valid(self, form):
+        print("📨 パスワードリセットメール送信処理が呼ばれました")
+        messages.success(self.request, "メール送信処理が行われました")
+        return super().form_valid(form)

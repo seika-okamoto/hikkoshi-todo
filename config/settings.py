@@ -2,6 +2,8 @@
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -17,7 +19,8 @@ SECRET_KEY = 'django-insecure-zde7bb=fbmym1ujks^k5x#gyjp$7ofm-cn5q4(v8^1^du0m0tj
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['seika1224.pythonanywhere.com']
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['seika1224.pythonanywhere.com']
+
 
 # Application definition
 
@@ -126,7 +129,6 @@ AUTH_USER_MODEL = 'accounts.User'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'ひっこしToDo<noreply@example.com>'
 
@@ -135,3 +137,12 @@ LOGIN_REDIRECT_URL = '/home/'
 CSRF_TRUSTED_ORIGINS = [
     "https://seika1224.pythonanywhere.com"
 ]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
