@@ -175,14 +175,22 @@ a:hover {
   color: #333;
 }
 
-.tab-link {
-  background-color: #f0f0f0;
-  color: #333;
-  border: 2px solid #ccc;
+.tab-switch {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 16px 0;
 }
 
-.active-tab {
-  background-color: #6a1b9a;
-  color: white;
-  border-color: #6a1b9a;
+.tab-switch a {
+    padding: 8px 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-switch a.active-tab {
+    border-bottom: 3px solid #6a1b9a;
+    color: #6a1b9a;
 }

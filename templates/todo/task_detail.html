@@ -10,11 +10,9 @@
     <p class="back-link-inside"><a href="{% url 'todo:index' %}">← 戻る</a></p>
     <h2>{{ task.title }}</h2>
     <div class="tab-switch">
-      {% if view %}
-        <p>view = {{ view }}</p>
-      {% endif %}
+      <a href="?view=memo" class="{% if view == 'memo' %}active-tab{% endif %}">📝 メモ</a>
+      <a href="?view=comment&sort={{ sort|default:'newest' }}" class="{% if view == 'comment' %}active-tab{% endif %}">💬 コメント</a>
     </div>
-
 
     {% if view == "memo" %}
       <h3>📝 自分用メモ</h3>
