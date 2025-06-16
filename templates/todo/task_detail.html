@@ -93,4 +93,31 @@
       <p>※このタスクはコメントできません。</p>
     {% endif %}
   </div>
+
+  <script>
+  // 編集ボタンを押したときモーダル表示
+  document.querySelectorAll('.edit-memo-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const memoId = btn.dataset.memoId;
+      document.getElementById(`edit-memo-modal-${memoId}`).style.display = 'block';
+    });
+  });
+
+  // 削除ボタンを押したときモーダル表示
+  document.querySelectorAll('.delete-memo-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const memoId = btn.dataset.memoId;
+      document.getElementById(`delete-memo-modal-${memoId}`).style.display = 'block';
+    });
+  });
+
+  // モーダル内のキャンセルボタンで閉じる
+  document.querySelectorAll('.cancel-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.modal').style.display = 'none';
+    });
+  });
+</script>
+
 {% endblock %}
+
