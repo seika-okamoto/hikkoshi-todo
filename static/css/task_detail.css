@@ -174,3 +174,15 @@ a:hover {
   border-color: #777;     
   color: #333;
 }
+
+.tab-link {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 2px solid #ccc;
+}
+
+.active-tab {
+  background-color: #6a1b9a;
+  color: white;
+  border-color: #6a1b9a;
+}
