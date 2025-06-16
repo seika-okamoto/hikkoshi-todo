@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 from todo.models import Task
 from accounts.models import Profile
 from django.db.models import F
@@ -18,12 +18,9 @@ def index(request):
     tasks = Task.objects.filter(user=user)
     total_tasks = tasks.count()
     completed_tasks = tasks.filter(is_done=True).count()
-    percent = round((completed_tasks / total_tasks) * 100, 1) if total_tasks > 0 else 0
-
-
+    
     # 残り日数
     today = timezone.now().date()
-    remaining_days = (profile.planned_move_date - today).days if profile.planned_move_date else None
 
     # お知らせタスク（カテゴリdays_beforeベース）
     notifications = []
@@ -51,6 +48,17 @@ def index(request):
 
     today_tasks = tasks.filter(due_date=today)
 
+# GET: context定義（←ここで表示用データ整える！）
+    remaining_days = None
+    percent = 0
+    is_past_due = False
+    
+    if profile.planned_move_date:
+        delta = (profile.planned_move_date - date.today()).days
+        remaining_days = delta
+        percent = max(0, 100 - delta)  # 仮に進捗表示させるなら
+        is_past_due = delta < 0
+
     context = {
         'planned_move_date': profile.planned_move_date,
         'remaining_days': remaining_days,
@@ -62,6 +70,7 @@ def index(request):
         'notification_tasks': notification_tasks,
         'notification_all_count': notification_all_count,
         'today': today,  # 今日の日付をテンプレートでも使えるように渡す
+        'is_past_due': is_past_due,
         'hide_header': True,
     }
     
@@ -73,7 +82,6 @@ def index(request):
                 profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
                 profile.save()
                 
-
                 # 🔥 ここでタスクのdue_dateを再計算
                 for task in tasks:
                     if task.category and task.category.days_before is not None:
@@ -86,7 +94,7 @@ def index(request):
                 # ⚠️ リダイレクトせずにそのまま進む（contextを定義してから render する）
             return redirect('home:index')
 
-
+       
     return render(request, 'home/index.html', context)
 
 def portfolio_view(request):

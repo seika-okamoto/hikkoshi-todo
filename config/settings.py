@@ -24,6 +24,7 @@ ALLOWED_HOSTS = ['seika1224.pythonanywhere.com']
 
 
 
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -23,17 +23,20 @@
   </div>
 </form>
 
-
-
- <div class="progress-section center-text">
+<div class="progress-section center-text">
   {% if remaining_days is not None %}
-    <h2 class="center-text">引っ越しまで 残り {{ remaining_days }} 日</h2>
-    <div class="progress-bar-wrapper">
-      <div class="progress-bar">
-        <div class="progress-fill" style="width: {{ percent }}%;"></div>
+    {% if is_past_due %}
+      <h2 class="center-text">📦 引っ越し予定日を過ぎました！</h2>
+      <p>完了タスクの確認や振り返りをしましょう。</p>
+    {% else %}
+      <h2 class="center-text">引っ越しまで 残り {{ remaining_days }} 日</h2>
+      <div class="progress-bar-wrapper">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: {{ percent }}%;"></div>
+        </div>
+        <p>{{ percent }}%</p>
       </div>
-      <p>{{ percent }}%</p>
-    </div>
+    {% endif %}
   {% else %}
     <h2 class="center-text">📅 引っ越し予定日がまだ設定されていません</h2>
     <p>ToDoリストを始めるには、まず引っ越し日を入力してください。</p>
