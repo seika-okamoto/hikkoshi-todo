@@ -14,12 +14,33 @@ def index(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user)
 
+   # 予定日を保存（POST処理）
+    if request.method == "POST":
+        planned_date = request.POST.get('planned_move_date')
+        try:
+            if planned_date:
+                profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
+                profile.save()
+
+        # 🔥 ここでタスクのdue_dateを再計算
+                for task in tasks:
+                    if task.category and task.category.days_before is not None:
+                        task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
+                        task.save()
+                messages.success(request, "引っ越し予定日を保存しました！")
+            return redirect('home:index')
+        except Exception as e:
+            messages.error(request, f"保存中にエラーが発生しました: {str(e)}")
+                # ⚠️ リダイレクトせずにそのまま進む（contextを定義してから render する）
+            return redirect('home:index')
+
+    # 👇 POST後のGET処理や初回アクセス用ここから
+    profile.refresh_from_db()  # ←念のためリロード！
+    
     # タスク情報
     tasks = Task.objects.filter(user=user)
     total_tasks = tasks.count()
     completed_tasks = tasks.filter(is_done=True).count()
-    
-    # 残り日数
     today = timezone.now().date()
 
     # お知らせタスク（カテゴリdays_beforeベース）
@@ -60,7 +81,7 @@ def index(request):
         is_past_due = delta < 0
 
     context = {
-        'planned_move_date': profile.planned_move_date,
+        'planned_move_date': profile.planned_move_date.strftime('%Y-%m-%d') if profile.planned_move_date else '',
         'remaining_days': remaining_days,
         'total_tasks': total_tasks,
         'completed_tasks': completed_tasks,
@@ -74,25 +95,9 @@ def index(request):
         'hide_header': True,
     }
     
-       # 予定日を保存（POST処理）
-    if request.method == "POST":
-        planned_date = request.POST.get('planned_move_date')
-        try:
-            if planned_date:
-                profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
-                profile.save()
+    
                 
-                # 🔥 ここでタスクのdue_dateを再計算
-                for task in tasks:
-                    if task.category and task.category.days_before is not None:
-                        task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
-                        task.save()
-                messages.success(request, "引っ越し予定日を保存しました！")
-            return redirect('home:index')
-        except Exception as e:
-            messages.error(request, f"保存中にエラーが発生しました: {str(e)}")
-                # ⚠️ リダイレクトせずにそのまま進む（contextを定義してから render する）
-            return redirect('home:index')
+                
 
        
     return render(request, 'home/index.html', context)
