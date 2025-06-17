@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="center-text">
+    <h1>🚫 アクセスが拒否されました</h1>
+    <p>このページにアクセスする権限がありません。</p>
+    <a href="{% url 'home:index' %}">🏠 ホームへ戻る</a>
+  </div>
+{% endblock %}
+

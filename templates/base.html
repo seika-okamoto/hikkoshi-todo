@@ -17,11 +17,8 @@
   </ul>
 {% endif %}
 
-
-  
-
   <!-- ✅ 通常ヘッダー（ロゴ・ナビなど） -->
-  {% if not hide_header|default:False %}
+  {% if request.resolver_match and not hide_header|default:False %}
     <header>
       <h1><a href="{% url 'home:index' %}">ひっこしToDo</a></h1>
       <nav>

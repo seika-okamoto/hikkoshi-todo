@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="center-text">
+    <h1>⚠️ 不正なリクエストです</h1>
+    <p>ページを正しく表示できませんでした。</p>
+    <a href="{% url 'home:index' %}">🏠 ホームへ戻る</a>
+  </div>
+{% endblock %}

@@ -97,3 +97,15 @@ def portfolio_view(request):
     return render(request, 'portfolio/portfolio.html', {
         'hide_header': True
     })
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', {'hide_header': True}, status=404)
+
+def custom_500_view(request):
+    return render(request, '500.html', {'hide_header': True}, status=500)
+
+def custom_403_view(request, exception):
+    return render(request, '403.html', {'hide_header': True}, status=403)
+
+def custom_400_view(request, exception):
+    return render(request, '400.html', {'hide_header': True}, status=400)

@@ -146,3 +146,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# settings.py
+
+# カスタムエラーハンドラ
+HANDLER404 = 'home.views.custom_404_view'
+HANDLER500 = 'home.views.custom_500_view'
+HANDLER403 = 'home.views.custom_403_view'
+HANDLER400 = 'home.views.custom_400_view'
