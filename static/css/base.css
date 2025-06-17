@@ -73,3 +73,26 @@
   border: 1px solid #ffeeba;
 }
 
+/* ---- 共通スタイル ---- */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- スマホ用調整 ---- */
+@media screen and (max-width: 480px) {
+  .container,
+  .change-password-wrapper,
+  .task-detail-wrapper,
+  .mypage-wrapper {
+    margin: 0 12px;
+    padding: 16px;
+  }
+
+  .btn {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
