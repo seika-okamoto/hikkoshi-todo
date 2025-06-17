@@ -14,7 +14,7 @@ def index(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user)
 
-   # 予定日を保存（POST処理）
+    # 予定日を保存（POST処理）
     if request.method == "POST":
         planned_date = request.POST.get('planned_move_date')
         try:
@@ -22,31 +22,31 @@ def index(request):
                 profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
                 profile.save()
 
+                # 🔥 tasks の定義（POST内にも必要）
                 tasks = Task.objects.filter(user=user)
 
-        # 🔥 ここでタスクのdue_dateを再計算
+                # タスクの due_date を再計算
                 for task in tasks:
                     if task.category and task.category.days_before is not None:
                         task.due_date = profile.planned_move_date - timedelta(days=task.category.days_before)
                         task.save()
+
                 messages.success(request, "引っ越し予定日を保存しました！")
             return redirect('home:index')
         except Exception as e:
             messages.error(request, f"保存中にエラーが発生しました: {str(e)}")
-                # ⚠️ リダイレクトせずにそのまま進む（contextを定義してから render する）
             return redirect('home:index')
 
     # 👇 POST後のGET処理や初回アクセス用ここから
     profile.refresh_from_db()  # ←念のためリロード！
-    
 
+    tasks = Task.objects.filter(user=user)
     total_tasks = tasks.count()
     completed_tasks = tasks.filter(is_done=True).count()
     today = timezone.now().date()
 
     # お知らせタスク（カテゴリdays_beforeベース）
     notifications = []
-
     for task in tasks.filter(due_date__isnull=False, is_done=False).order_by('due_date', 'id'):
         days_left = (task.due_date - today).days
 
@@ -61,24 +61,18 @@ def index(request):
         elif days_left <= 7:
             notifications.append({'task': task, 'status': f'あと{days_left}日'})
 
-    # 最大3件まで
     notification_tasks = notifications[:3]
-
-    # 3件以上ならフラグを立てる
     notification_all_count = len(notifications)
-
-
     today_tasks = tasks.filter(due_date=today)
 
-# GET: context定義（←ここで表示用データ整える！）
+    # 日数・進捗率計算など
     remaining_days = None
     percent = 0
     is_past_due = False
-    
     if profile.planned_move_date:
         delta = (profile.planned_move_date - date.today()).days
         remaining_days = delta
-        percent = max(0, 100 - delta)  # 仮に進捗表示させるなら
+        percent = max(0, 100 - delta)
         is_past_due = delta < 0
 
     context = {
@@ -91,19 +85,15 @@ def index(request):
         'notifications': notifications,
         'notification_tasks': notification_tasks,
         'notification_all_count': notification_all_count,
-        'today': today,  # 今日の日付をテンプレートでも使えるように渡す
+        'today': today,
         'is_past_due': is_past_due,
         'hide_header': True,
     }
-    
-    
-                
-                
 
-       
     return render(request, 'home/index.html', context)
 
+
 def portfolio_view(request):
-    return render(request, 'portfolio/portfolio.html',{
-                  'hide_header': True
-                  })
+    return render(request, 'portfolio/portfolio.html', {
+        'hide_header': True
+    })
