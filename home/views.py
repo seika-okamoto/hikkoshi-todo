@@ -22,6 +22,8 @@ def index(request):
                 profile.planned_move_date = datetime.strptime(planned_date, "%Y-%m-%d").date()
                 profile.save()
 
+                tasks = Task.objects.filter(user=user)
+
         # 🔥 ここでタスクのdue_dateを再計算
                 for task in tasks:
                     if task.category and task.category.days_before is not None:
@@ -37,8 +39,7 @@ def index(request):
     # 👇 POST後のGET処理や初回アクセス用ここから
     profile.refresh_from_db()  # ←念のためリロード！
     
-    # タスク情報
-    tasks = Task.objects.filter(user=user)
+
     total_tasks = tasks.count()
     completed_tasks = tasks.filter(is_done=True).count()
     today = timezone.now().date()
