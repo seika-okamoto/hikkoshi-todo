@@ -175,15 +175,23 @@ def edit_username(request):
         new_username = request.POST.get('username')
 
         if new_username:
-            # 自分以外に同じユーザー名がいないかチェック
-            if User.objects.filter(username=new_username).exclude(id=request.user.id).exists():
+            # ログ用
+            print("my id:", request.user.id)
+            print("new_username:", new_username)
+            duplicate_qs = User.objects.filter(username__iexact=new_username).exclude(pk=request.user.pk)
+            print("重複件数:", duplicate_qs.count())
+
+            
+            if User.objects.filter(username__iexact=new_username).exclude(pk=request.user.pk).exists():
                 messages.error(request, "このニックネームはすでに使われています。別の名前を入力してください。")
             else:
                 request.user.username = new_username
                 request.user.save()
                 messages.success(request, "ニックネームを更新しました！")
+        
 
         return redirect('accounts:mypage')
+
 
     return redirect('accounts:mypage')
 
