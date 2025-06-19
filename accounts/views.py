@@ -332,3 +332,9 @@ class CustomPasswordResetView(PasswordResetView):
         print("📨 パスワードリセットメール送信処理が呼ばれました")
         messages.success(self.request, "メール送信処理が行われました")
         return super().form_valid(form)
+    
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hide_header'] = True  # ← これでヘッダー非表示OK
+        return context
