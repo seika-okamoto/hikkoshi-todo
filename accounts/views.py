@@ -18,7 +18,7 @@ from django.views.decorators.http import require_POST
 from django.db import models
 from django.contrib.auth import get_user_model
 User = get_user_model()
-from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView
 
 
 def signup_view(request):
