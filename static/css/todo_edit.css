@@ -16,11 +16,21 @@
 .add-btn {
   position: absolute;
   right: 0;
-  font-size: 24px;
+  font-size: 16px;
   text-decoration: none;
   color: #4a4ae2;
   padding-right: 8px;
+  display: flex;
+  align-items: center;
 }
+
+.add-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px; /* ➕と追加の間に少し空ける */
+  font-size: 16px;
+}
+
 
 .back-link {
   font-size: 16px;
