@@ -6,32 +6,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="todo-add-wrapper">
-    <!-- ✅ 枠内左上に「← 戻る」 -->
-  <p class="back-link-inside">
-    <a href="{% url 'todo:index' %}">← 戻る</a>
-  </p> 
 
-
-  <h2 class="form-title">ToDoの追加</h2>
-
-  <form method="POST" class="task-form">
-    {% csrf_token %}
-
-    <label for="category">やるべき期限：</label>
-    <select name="category" id="category" required>
-      {% for cat in categories %}
-        <option value="{{ cat.id }}">{{ cat.name }}</option>
-      {% endfor %}
-    </select>
-
-    <label for="title">内容：</label>
-    <input type="text" name="title" id="title" placeholder="例）ご近所へ挨拶用のギフトを手配" required>
-
-    <label for="memo">メモ：</label>
-    <textarea name="memo" id="memo" rows="4" placeholder="自分用メモ（任意）"></textarea>
-
-    <button type="submit" class="btn">✅ 保存</button>
-  </form>
 
 {% endblock %}

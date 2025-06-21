@@ -19,10 +19,21 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_template = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=False)  # コメント閲覧可能か
+    original_title = models.CharField(max_length=100, blank=True, null=True)
+
+    # ✅ 元のテンプレートタスク（自分のタスクならここにテンプレートが入る）
+    original_template = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='clones'
+    )
 
     def __str__(self):
         return self.title
-    
+
 class Memo(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='memos')  # 関連するタスク
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # 投稿者

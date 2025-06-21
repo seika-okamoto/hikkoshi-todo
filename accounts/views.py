@@ -20,7 +20,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView
 
-
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -31,6 +30,75 @@ def signup_view(request):
             # Profile作成
             Profile.objects.create(user=user)
             print(f"✅ プロフィール作成: {user.email}")
+
+            TEMPLATE_MASTER = {
+                "引っ越し日を決定する": 197,
+                "引っ越し業者探し（見積もりを取る）": 198,
+                "現在の住まいの管理会社に引っ越し・退去の連絡": 199,
+                "インターネットの申し込み手続き": 200,
+                "インターネットの解約手続き": 201,
+                "新居の採寸": 202,
+                "勤務先への住所変更の届出": 203,
+                "新居物件契約と初期費用の支払い": 204,
+                "立ち合い日時の確定（賃貸の方のみ）": 205,
+                "NHKやサブすくの住所変更（契約者の方のみ）": 206,
+                "不要品・粗大ごみの処分方法の検討": 207,
+                "学校や園に転校・転園の連絡": 208,
+                "保育園・幼稚園の転園申請": 209,
+                "必要な梱包材を準備": 210,
+                "粗大ごみの収集申し込み": 211,
+                "不用品の仕分け": 212,
+                "新居の家具・家電のレイアウト検討": 213,
+                "新規で購入が必要なものの手配": 214,
+                "使用頻度の低いものから梱包": 215,
+                "オフシーズンの衣類などの梱包": 216,
+                "必要な衣類・本などの処分・売却": 217,
+                "定期配達サービスの契約変更・解約（利用者のみ）": 218,
+                "粗大ごみの処分": 219,
+                "使用頻度の高いものを梱包": 220,
+                "郵便局への連絡（転居・転送）": 221,
+                "転出届を出す": 222,
+                "児童手当や乳幼児医療費受給資格者証の手続き": 223,
+                "電気会社への停止・解約連絡（現住所）": 224,
+                "ガス会社への停止・解約連絡（現住所）": 225,
+                "水道局への停止・解約連絡（現住所）": 226,
+                "引っ越し挨拶の手土産の準備": 227,
+                "ゴミ出し": 228,
+                "洗濯機の水抜き": 229,
+                "冷蔵庫の中を空に、電源を切る": 230,
+                "引っ越し当日、すぐ使うものをまとめる": 231,
+                "旧居のお掃除": 232,
+                "引っ越し当日の新居までの移動方法を確認": 233,
+                "引っ越し挨拶（旧居）": 234,
+                "引っ越し料金の支払い準備": 235,
+                "電力停止の立ち合い（現住所）": 236,
+                "ガス停止の立ち合い（現住所）": 237,
+                "水道の停止立ち合い（現住所）": 238,
+                "新居の初期状態の記録を残す（傷・汚れなど撮影）": 239,
+                "ガスの開栓の立ち合い（新居）": 240,
+                "水道局への開栓・開始連絡（新居）": 241,
+                "荷物の搬出": 242,
+                "搬出後の忘れ物がないかチェック": 243,
+                "搬出後の掃除、ゴミなどの処分": 244,
+                "退室前にブレーカーを下げる": 245,
+                "新居のブレーカーを上げる": 246,
+                "家具など大きいものから搬入": 247,
+                "夜になる前にカーテン・照明を設置": 248,
+                "旧居の鍵返却と退去の立ち会い": 249,
+                "運転免許証の住所変更": 250,
+                "引っ越しの挨拶（新居・近隣）": 251,
+                "転入届を出す": 252,
+                "マイナンバーカードの住所変更": 253,
+                "印鑑登録の住所変更・登録手続き": 254,
+                "児童手当の住所変更・認定請求書の提出": 255,
+                "乳幼児医療費受給資格証の住所変更・申請": 256,
+                "車検証の住所変更手続き": 257,
+                "銀行・保険・証券会社などの住所変更": 258,
+                "クレジットカードの住所変更手続き": 259,
+                "引っ越しのお知らせを友人などに送る": 260,
+            }
+
+
 
             tasks_data = {
                 "引っ越し1か月前までにやること": [
@@ -122,22 +190,31 @@ def signup_view(request):
                     name=category_name,
                     defaults={'user': user}
                 )
-
                 for title in tasks:
-                    Task.objects.create(
-                        user=user,
-                        title=title,
-                        category=category_obj,
-                        is_done=False,
-                        is_template=True
-                    )
+                        template_id = TEMPLATE_MASTER.get(title)
+                        if template_id:
+                            try:
+                                base = Task.objects.get(id=template_id)
+                                Task.objects.create(
+                                    title=base.title,
+                                    user=user,
+                                    category=category_obj,
+                                    is_template=False,
+                                    original_template=base,
+                                    due_date=None,
+                                    memo=""
+                                )
+                            except Task.DoesNotExist:
+                                print(f"❌ テンプレID {template_id} が見つかりませんでした")
+                        else:
+                            print(f"⚠️ テンプレ未登録: {title}")
 
-            return redirect('home:index')  # ← 初期登録済みでToDoへ遷移
+            return redirect('home:index')  # ログイン後の遷移先
     else:
         form = SignUpForm()
 
     return render(request, 'accounts/signup.html', {'form': form})
-
+                    
 
 def login_view(request):
     if request.method == 'POST':

@@ -19,5 +19,6 @@ urlpatterns = [
     path('memo/edit/<int:memo_id>/', views.edit_memo, name='edit_memo'),
     path('memo/delete/<int:memo_id>/', views.delete_memo, name='delete_memo'),
     path('comment/<int:comment_id>/like/', views.toggle_like, name='toggle_like'),
+    path('comments/public/', views.public_comment_list, name='public_comment_list'),
 ]
 

@@ -16,29 +16,33 @@ from django.http import HttpResponseForbidden
 def task_detail(request, task_id):
     task = get_object_or_404(Task, id=task_id)
 
-    # 雛形でないかつ、自分のタスクでない → アクセス禁止
+    # ✅ 自分のタスクじゃない & テンプレじゃない → アクセス禁止
     if not task.is_template and task.user != request.user:
         return HttpResponseForbidden("このタスクにはアクセスできません。")
 
     view = request.GET.get('view', 'memo')
     sort = request.GET.get('sort', 'newest')
-
     memos = Memo.objects.filter(task=task).order_by('-created')
 
-    # 雛形タスクのみコメントを取得
+    # ✅ コメント表示：テンプレート自身か、テンプレートの複製タスクなら表示
     comments = None
     comment_count = 0
+
+   # コメント表示：テンプレート自身か、テンプレートの複製タスクなら表示
     
-    if task.is_template:
-        comments = Comment.objects.filter(task=task)
+    template_task = task.original_template if task.original_template else (task if task.is_template else None)
+
+
+
+    if template_task:
+        comments = Comment.objects.filter(task=template_task)
+
         if sort == 'popular':
             comments = comments.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
         else:
             comments = comments.order_by('-created_at')
+
         comment_count = comments.count()
-
-    print(f"View: {view}, Comment count: {comment_count}")  # デバッグ用
-
 
     return render(request, 'todo/task_detail.html', {
         'task': task,
@@ -47,9 +51,9 @@ def task_detail(request, task_id):
         'comments': comments,
         'comment_count': comment_count,
         'sort': sort,
-        'hide_header': True
+        'hide_header': True,
     })
-    
+
 @login_required
 def add_memo(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
@@ -66,27 +70,32 @@ def add_memo(request, task_id):
 
 @login_required
 def add_comment(request, task_id):
-    # ✅ 雛形タスクを取得（誰のでもOK）
-    task = get_object_or_404(Task, id=task_id, is_template=True)
+    # ① どのタスクでも取得（複製でもOK）
+    base_task = get_object_or_404(Task, id=task_id)
+
+    # ② テンプレート本体を取得（テンプレ自身 or original_template）
+    template_task = base_task if base_task.is_template else base_task.original_template
+
+    if not template_task:
+        return HttpResponseForbidden("このタスクにはコメントできません。")
 
     content = request.POST.get('content')
     display_name = request.POST.get('display_name', 'nickname')
 
     if content:
         Comment.objects.create(
-            task=task,
+            task=template_task,  # ← テンプレートに紐づける
             user=request.user,
             content=content,
             display_name=display_name
         )
 
-    return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=comment")
+    return redirect(f"{reverse('todo:task_detail', args=[base_task.id])}?view=comment")
 
 @require_POST
 @login_required
 def comment_list(request, task_id):
     task = get_object_or_404(Task, id=task_id, is_template=True)  # ✅ 雛形だけ表示
-
     sort = request.GET.get('sort', 'newest')
     comments = Comment.objects.filter(task=task)
 
@@ -139,6 +148,16 @@ def task_list(request):
     })
 
 @login_required
+def public_comment_list(request):
+    comments = Comment.objects.filter(task__is_public=True).order_by('-created_at')
+
+    context = {
+        'comments': comments,
+    }
+    return render(request, 'todo/public_comment_list.html', context)
+
+
+@login_required
 def edit_todo(request):
     tasks = Task.objects.filter(user=request.user)
     return render(request, 'todo/edit.html', {
@@ -176,9 +195,9 @@ def add_task(request):
         memo = request.POST.get('memo')  
         category_id = request.POST.get('category')
         deadline_option = request.POST.get('deadline')
-        category = Category.objects.get(id=category_id) if category_id else None
+        template_id = request.POST.get('template_id')  # 🔑 テンプレートから複製するならこれがある
 
-        # 今日を基準に締め切り日を計算
+        category = Category.objects.get(id=category_id) if category_id else None
         today = timezone.now().date()
 
         if deadline_option == '1month_before':
@@ -194,21 +213,40 @@ def add_task(request):
         elif deadline_option == '2weeks_after':
             due_date = today + datetime.timedelta(weeks=2)
         else:
-            due_date = None  # 万が一
-        
-        Task.objects.create(
-            user=request.user,
-            title=title,
-            memo=memo,  
-            category=category,
-            due_date=due_date 
-        )
+            due_date = None
+
+        # ✅ テンプレートから複製する場合
+        if template_id:
+            template = get_object_or_404(Task, id=template_id, is_template=True)
+            Task.objects.create(
+                user=request.user,
+                title=template.title,
+                memo=template.memo,
+                category=template.category,
+                due_date=due_date,
+                is_template=False,
+                original_template=template  # 🔑 ここが大事！
+            )
+        else:
+            Task.objects.create(
+                user=request.user,
+                title=title,
+                memo=memo,  
+                category=category,
+                due_date=due_date,
+                is_template=False
+            )
 
         return redirect('todo:index')
 
     else:
         categories = Category.objects.all()
-        return render(request, 'todo/add.html', {'categories': categories, 'hide_header': True})
+        templates = Task.objects.filter(is_template=True)
+        return render(request, 'todo/add.html', {
+            'categories': categories,
+            'templates': templates,
+            'hide_header': True
+        })
 
 
 
