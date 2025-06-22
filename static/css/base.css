@@ -96,3 +96,13 @@ body {
   }
 }
 
+ul.messages li.message {
+  display: block;
+  margin-bottom: 12px; /* 複数表示時に少し間隔あけたい場合 */
+}
+
+ul.messages {
+  list-style: none;
+  padding-left: 0;
+  margin: 0; /* 必要なら余白も調整 */
+}
