@@ -72,9 +72,10 @@ def index(request):
     if profile.planned_move_date:
         delta = (profile.planned_move_date - date.today()).days
         remaining_days = delta
-        percent = max(0, 100 - delta)
         is_past_due = delta < 0
 
+        percent = int((completed_tasks / total_tasks) * 100) if total_tasks > 0 else 0
+    
     context = {
         'planned_move_date': profile.planned_move_date.strftime('%Y-%m-%d') if profile.planned_move_date else '',
         'remaining_days': remaining_days,
