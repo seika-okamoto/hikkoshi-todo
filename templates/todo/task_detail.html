@@ -69,11 +69,21 @@
             <p><strong>投稿者:</strong> {{ comment.user.username }}</p>
             <p>{{ comment.content }}</p>
             <p class="comment-date">{{ comment.created_at|date:"Y/m/d H:i" }}</p>
+
+            <!-- ✅ いいねボタンここに入れる -->
+            <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
+              {% csrf_token %}
+              {% with comment.likes.count as like_count %}
+                <button type="submit" class="btn">👍 {{ like_count|default:"いいね" }}</button>
+              {% endwith %}
+            </form>
           </li>
         {% empty %}
           <li>コメントはまだありません。</li>
         {% endfor %}
       </ul>
+
+     
 
       <!-- ✅ 投稿フォーム -->
       <form method="POST" action="{% url 'todo:add_comment' task.id %}">

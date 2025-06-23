@@ -59,7 +59,7 @@
 /* ← 戻る を左端に寄せる */
 .back-link {
   align-self: flex-start;
-  color: #5e3ebd;
+  color: #333;
   text-decoration: underline;
   font-size: 16px;
 }
