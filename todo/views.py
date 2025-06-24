@@ -307,5 +307,9 @@ def toggle_like(request, comment_id):
     like, created = Like.objects.get_or_create(comment=comment, user=user)
     if not created:
         like.delete()
+        
+    task = comment.task
+    if task.original_template:
+        task = task.original_template  # 元テンプレに戻す
 
     return redirect(f"{reverse('todo:task_detail', args=[comment.task.id])}?view=comment")
