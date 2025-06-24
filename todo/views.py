@@ -16,8 +16,7 @@ from django.http import HttpResponseForbidden
 def task_detail(request, task_id):
     task = get_object_or_404(Task, id=task_id)
 
-    # ✅ 自分のタスクじゃない & テンプレじゃない → アクセス禁止
-    if not task.is_template and task.user != request.user:
+    if not (task.is_template or task.original_template or task.user == request.user):
         return HttpResponseForbidden("このタスクにはアクセスできません。")
 
     view = request.GET.get('view', 'memo')
