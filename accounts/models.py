@@ -45,7 +45,7 @@ class Profile(models.Model):
     planned_move_date = models.DateField(null=True, blank=True)  # 引っ越し予定日
     bio = models.TextField(blank=True)  # 自己紹介（必要なら）
     advice = models.TextField(blank=True)  # アドバイス（必要なら）
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     
 
