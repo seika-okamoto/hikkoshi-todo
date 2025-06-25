@@ -66,11 +66,17 @@
       <ul>
         {% for comment in comments %}
           <li>
-            <p><strong>投稿者:</strong> {{ comment.user.username }}</p>
+            <p><strong>投稿者:</strong>
+              {% if comment.display_name == "anonymous" %}
+                非公開
+              {% else %}
+                {{ comment.user.username }}
+              {% endif %}
+            </p>
             <p>{{ comment.content }}</p>
             <p class="comment-date">{{ comment.created_at|date:"Y/m/d H:i" }}</p>
 
-            <!-- ✅ いいねボタンここに入れる -->
+            <!-- ✅ いいねボタン -->
             <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
               {% csrf_token %}
               {% with comment.likes.count as like_count %}
@@ -82,6 +88,7 @@
           <li>コメントはまだありません。</li>
         {% endfor %}
       </ul>
+
 
      
 
