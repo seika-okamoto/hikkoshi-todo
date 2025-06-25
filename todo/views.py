@@ -22,7 +22,8 @@ def task_detail(request, task_id):
 
     view = request.GET.get('view', 'memo')
     sort = request.GET.get('sort', 'newest')
-    memos = Memo.objects.filter(task=task).order_by('-created')
+    memos = Memo.objects.filter(task=task).order_by('-created_at')
+
 
     # ✅ コメント表示：テンプレート自身か、テンプレートの複製タスクなら表示
     comments = None
