@@ -1,10 +1,15 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
     display_order = models.PositiveIntegerField(default=0)  
     days_before = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True) 
+    updated_at = models.DateTimeField(auto_now=True)      # 更新日時
+
 
     def __str__(self):
         return self.name
@@ -38,7 +43,7 @@ class Memo(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='memos')  # 関連するタスク
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # 投稿者
     context = models.TextField()  # メモの内容
-    created = models.DateTimeField(auto_now_add=True)  # 作成日時
+    created_at = models.DateTimeField(auto_now_add=True)  # ← 名前修正
     updated_at = models.DateTimeField(auto_now=True)  # 更新日時
 
     def __str__(self):

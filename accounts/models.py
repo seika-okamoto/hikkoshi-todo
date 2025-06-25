@@ -56,7 +56,9 @@ class EmailChangeToken(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     new_email = models.EmailField()
     token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    create_at = models.DateTimeField(auto_now_add=True)  # 作成日時
+    updated_at = models.DateTimeField(auto_now=True)     # 更新日時
+
 
     def is_expired(self):
         return timezone.now() > self.created_at + timedelta(hours=1)  # 1時間有効
