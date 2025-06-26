@@ -19,6 +19,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView
+from datetime import timedelta
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -195,6 +197,14 @@ def signup_view(request):
                         if template_id:
                             try:
                                 base = Task.objects.get(id=template_id)
+                                
+                                move_date = user.profile.planned_move_date
+                                
+                                # ✅ 🔥 due_date を category の days_before から計算する！
+                                due = None
+                                if move_date and category_obj.days_before is not None:
+                                    due = move_date - timedelta(days=category_obj.days_before)
+                                    
                                 Task.objects.create(
                                     title=base.title,
                                     user=user,
