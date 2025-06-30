@@ -20,7 +20,7 @@
       {% for memo in memos %}
         <div class="task-card">
           <div class="task-left">
-            <span class="task-title">・{{ memo.context }}（{{ memo.created|date:"Y/m/d H:i" }}）</span>
+            <span class="task-title">・{{ memo.context }}（{{ memo.created_at|date:"Y/m/d H:i" }}）</span>
           </div>
           <div class="task-actions">
             <button class="edit-memo-btn" data-memo-id="{{ memo.id }}" data-context="{{ memo.context }}">📝編集</button>
