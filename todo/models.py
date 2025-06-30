@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.db.models import Q
+
 
 
 class Category(models.Model):
@@ -39,6 +41,15 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['title', 'is_template', 'user'],
+                condition=Q(is_template=True),
+                name='unique_template_title_per_user'
+            )
+        ]
 
 class Memo(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='memos')  # 関連するタスク
