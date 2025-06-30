@@ -7,6 +7,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     display_order = models.PositiveIntegerField(default=0)  
     days_before = models.IntegerField(default=0)
+    is_hidden = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True) 
     updated_at = models.DateTimeField(auto_now=True)      # 更新日時
 

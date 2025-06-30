@@ -241,7 +241,7 @@ def add_task(request):
         return redirect('todo:index')
 
     else:
-        categories = Category.objects.all()
+        categories = Category.objects.filter(is_hidden=False)
         templates = Task.objects.filter(is_template=True)
         return render(request, 'todo/add.html', {
             'categories': categories,
