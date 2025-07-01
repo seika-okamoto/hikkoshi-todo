@@ -160,8 +160,15 @@ def public_comment_list(request):
 
 @login_required
 def edit_todo(request):
-    tasks = Task.objects.filter(user=request.user)
+    tasks = Task.objects.filter(user=request.user).order_by('category__name', 'created_at')
+    
+    grouped_tasks = defaultdict(list)
+    for task in tasks:
+        grouped_tasks[task.category.name].append(task)
+    
+    
     return render(request, 'todo/edit.html', {
+        'grouped_tasks': grouped_tasks,
         'tasks': tasks,
         'hide_header': True  
         })
@@ -170,18 +177,24 @@ def edit_todo(request):
 def edit_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     new_title = request.POST.get('title')
-    
+
     if new_title:
         task.title = new_title
         task.save()
 
-    # 🔑 new_titleがなくてもtasksを定義しておく！
-    tasks = Task.objects.filter(user=request.user)
+    tasks = Task.objects.filter(user=request.user).order_by('category__name', 'created_at')
+
+    # ✅ grouped_tasks をここで作る
+    grouped_tasks = defaultdict(list)
+    for task in tasks:
+        category_name = task.category.name if task.category else "未分類"
+        grouped_tasks[category_name].append(task)
 
     return render(request, 'todo/edit.html', {
-        'tasks': tasks,
+        'grouped_tasks': grouped_tasks,
         'hide_header': True  
     })
+
 
 @login_required
 def delete_task(request, task_id):
