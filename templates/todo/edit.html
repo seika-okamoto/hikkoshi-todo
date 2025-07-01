@@ -19,10 +19,9 @@
     </a>
   </div>
 
-  {% for category, tasks in grouped_tasks.items %}
-  <h3 class="category-name">{{ category }}</h3>
-
-    {% for task in tasks %}
+  {% for cat_name, cat_tasks in grouped_tasks.items %}
+   <h3>{{ cat_name }}</h3> 
+    {% for task in cat_tasks %}
       <div class="task-card">
         <div class="task-left">
           <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>

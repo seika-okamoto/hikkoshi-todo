@@ -162,13 +162,17 @@ def public_comment_list(request):
 def edit_todo(request):
     tasks = Task.objects.filter(user=request.user).order_by('category__name', 'created_at')
     
+    
     grouped_tasks = defaultdict(list)
     for task in tasks:
-        grouped_tasks[task.category.name].append(task)
+        print(f"✅ タスク: {task.title}, カテゴリ: {task.category.name if task.category else '未分類'}")
+        category_name = task.category.name if task.category else "未分類"
+        grouped_tasks[category_name].append(task)
     
+    print(dict(grouped_tasks))  # ← ここでログ確認
     
     return render(request, 'todo/edit.html', {
-        'grouped_tasks': grouped_tasks,
+        'grouped_tasks': dict(grouped_tasks), 
         'tasks': tasks,
         'hide_header': True  
         })
@@ -191,7 +195,7 @@ def edit_task(request, task_id):
         grouped_tasks[category_name].append(task)
 
     return render(request, 'todo/edit.html', {
-        'grouped_tasks': grouped_tasks,
+        'grouped_tasks': dict(grouped_tasks), 
         'hide_header': True  
     })
 
