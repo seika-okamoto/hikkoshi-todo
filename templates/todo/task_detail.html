@@ -57,12 +57,15 @@
     <!-- 👇コメント表示：viewに関係なくテンプレートタスクなら常時表示 -->
     {% if task.is_template or task.original_template %}
       <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
+      <p class="comment-intro">
+        あなたの体験や工夫をぜひ共有してください
+      </p>
 
       <p>並び替え：
         <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
         <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
       </p>
-
+        
       <ul>
         {% for comment in comments %}
           <li>
@@ -95,7 +98,10 @@
       <!-- ✅ 投稿フォーム -->
       <form method="POST" action="{% url 'todo:add_comment' task.id %}">
         {% csrf_token %}
-        <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="コメントを入力"></textarea><br>
+
+        <textarea name="content" rows="3" cols="40" maxlength="150"
+          placeholder="例：私はこのタイミングで済ませておいて楽でした！／こんな工夫が便利でした"></textarea><br>
+
         <small>0/150文字</small><br><br>
 
         <p>👤 投稿者表示設定：</p>
