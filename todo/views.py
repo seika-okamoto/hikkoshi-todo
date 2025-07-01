@@ -237,7 +237,7 @@ def add_task(request):
         # ✅ テンプレートから複製する場合
         if template_id:
             template = get_object_or_404(Task, id=template_id, is_template=True)
-            Task.objects.create(
+            task = Task.objects.create(
                 user=request.user,
                 title=template.title,
                 memo=template.memo,
@@ -247,7 +247,7 @@ def add_task(request):
                 original_template=template  # 🔑 ここが大事！
             )
         else:
-            Task.objects.create(
+            task = Task.objects.create(
                 user=request.user,
                 title=title,
                 memo=memo,  
@@ -255,6 +255,9 @@ def add_task(request):
                 due_date=due_date,
                 is_template=False
             )
+            
+        if memo:
+            Memo.objects.create(task=task, user=request.user, context=memo)
 
         return redirect('todo:index')
 
