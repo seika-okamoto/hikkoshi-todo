@@ -107,7 +107,11 @@ ul.messages {
   .main-container {
     margin: 16px auto !important;
     padding: 8px 12px !important;
-    background-color: yellow !important;
+  }
+
+  .btn {
+    width: 100%;
+    font-size: 16px;
   }
 
   .btn.save-btn {
@@ -116,8 +120,4 @@ ul.messages {
       font-size: 14px;
   }
   
-  .btn {
-    width: 100%;
-    font-size: 16px;
-  }
 }
