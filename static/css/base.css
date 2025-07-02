@@ -114,10 +114,19 @@ ul.messages {
     font-size: 16px;
   }
 
-  .btn.save-btn {
-      width: auto !important;
-      padding: 6px 12px;
-      font-size: 14px;
+  .save-btn {
+    display: inline-block !important;
+    width: auto !important;
+    padding: 6px 12px;
+    font-size: 14px;
+    white-space: nowrap;
   }
-  
+
+  .date-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
 }
