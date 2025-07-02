@@ -110,7 +110,7 @@ ul.messages {
   }
 
   .btn {
-    width: 100%;
+    width: auto;
     font-size: 16px;
   }
 
