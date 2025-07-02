@@ -88,7 +88,7 @@ body {
   .mypage-wrapper,
   .main-container {
     margin: 16px auto !important;
-    padding: 16px;
+    padding: 8px 12px !important;
   }
 
   .btn {
@@ -106,4 +106,18 @@ ul.messages {
   list-style: none;
   padding-left: 0;
   margin: 0; /* 必要なら余白も調整 */
+}
+
+.save-btn {
+  padding: 6px 16px;
+  font-size: 14px;
+  border: 1px solid #666;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
 }
