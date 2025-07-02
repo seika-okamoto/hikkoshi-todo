@@ -85,7 +85,8 @@ body {
   .container,
   .change-password-wrapper,
   .task-detail-wrapper,
-  .mypage-wrapper {
+  .mypage-wrapper,
+  .main-container {
     margin: 0 12px;
     padding: 16px;
   }
