@@ -153,10 +153,24 @@ ul.messages {
   }
 
   .todo-title {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .add-link {
     font-size: 13px;
   }
+
+  .add-btn {
+    font-size: 13px !important;
+    white-space: nowrap;  /* ← これで1行に収める */
+  }
+}
+
+div.todo-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
 }
