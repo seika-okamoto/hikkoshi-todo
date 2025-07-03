@@ -98,6 +98,8 @@ ul.messages {
   display: inline-block;
 }
 
+
+
 /* ---- スマホ用調整 ---- */
 @media screen and (max-width: 600px) {
   .container,
@@ -128,5 +130,13 @@ ul.messages {
     justify-content: center;
     gap: 8px;
     margin-top: 8px;
+  }
+
+  .todo-title {
+    font-size: 18px;
+  }
+
+  .add-link {
+    font-size: 13px;
   }
 }
