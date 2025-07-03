@@ -98,6 +98,26 @@ ul.messages {
   display: inline-block;
 }
 
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.todo-title {
+  font-size: 20px;
+  margin: 0;
+}
+
+.add-btn {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+
 
 
 /* ---- スマホ用調整 ---- */
