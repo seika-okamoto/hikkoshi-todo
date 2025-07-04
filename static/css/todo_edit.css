@@ -1,28 +1,24 @@
 .todo-header {
   display: flex;
-  flex-direction: column;  /* ← 縦並びにする */
-  align-items: flex-end;   /* ← 追加ボタンを右端に寄せる */
-  margin-top: 0;
-  margin-bottom: 20px;
+  flex-direction: column;     /* ← 縦に並べる */
+  align-items: stretch;       /* ← 横幅を100%使う */
+  margin-bottom: 16px;
 }
-
 
 .todo-title {
   font-size: 24px;
-  margin: 0 auto;
+  margin: 0 auto;             /* ← 中央寄せ */
   text-align: center;
 }
 
 .add-btn {
-  position: absolute;
-  right: 0;
-  font-size: 16px;
+  align-self: flex-end;       /* ← 右端に寄せる */
+  font-size: 14px;
   text-decoration: none;
   color: #4a4ae2;
-  padding-right: 8px;
-  display: flex;
-  align-items: center;
+  margin-top: 4px;
 }
+
 
 .add-text {
   display: inline-flex;
