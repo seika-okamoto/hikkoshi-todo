@@ -1,11 +1,11 @@
 .todo-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  flex-direction: column;  /* ← 縦並びにする */
+  align-items: flex-end;   /* ← 追加ボタンを右端に寄せる */
   margin-top: 0;
   margin-bottom: 20px;
 }
+
 
 .todo-title {
   font-size: 24px;
