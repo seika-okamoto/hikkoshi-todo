@@ -164,7 +164,16 @@ ul.messages {
     font-size: 13px !important;
     white-space: nowrap;  /* ← これで1行に収める */
   }
+  
+  .todo-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
 }
+
+
 
 div.todo-header {
   display: flex !important;
