@@ -259,7 +259,7 @@ def add_task(request):
         if memo:
             Memo.objects.create(task=task, user=request.user, context=memo)
 
-        return redirect('todo:index')
+        return redirect('todo:edit')
 
     else:
         categories = Category.objects.filter(is_hidden=False)
