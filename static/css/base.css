@@ -171,11 +171,16 @@ ul.messages {
     align-items: flex-end;
     gap: 4px;
   }
+
+  .add-btn-wrapper {
+    width: 100%;
+    text-align: right;
+  }
 }
 
 
 
-div.todo-header {
+.div.todo-header {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
