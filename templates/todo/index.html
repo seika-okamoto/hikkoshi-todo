@@ -5,20 +5,21 @@
 <link rel="stylesheet" href="{% static 'css/todo_index.css' %}">
 {% endblock %}
 
+
 {% block content %}
 <div class="comment-history-wrapper">
-  <!-- ✅ 枠内左上に「← 戻る」 -->
+  <!-- ← 戻る -->
   <p class="back-link-inside">
-    <a href="{% url 'home:index' %}">← 戻る</a>
+    <a href="{% url 'todo:index' %}">← 戻る</a>
   </p>
 
   <div class="todo-title-row">
-    <h1 class="todo-title">ToDo</h1>
+    <h2 class="todo-title">ToDo（編集・追加モード）</h2>
     <div class="action-buttons">
-      <a href="{% url 'todo:edit' %}"><span>✏️</span> 編集・追加</a>
-      <a href="{% url 'todo:share_items' %}"><span>📤</span> 共有</a>
+      <a href="{% url 'todo:add_task' %}">➕追加</a>
     </div>
   </div>
+
 
   {% for category, tasks in grouped_tasks.items %}
     <div class="task-section">

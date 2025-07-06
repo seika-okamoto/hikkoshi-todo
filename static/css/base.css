@@ -98,25 +98,6 @@ ul.messages {
   display: inline-block;
 }
 
-.todo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.todo-title {
-  font-size: 20px;
-  margin: 0;
-}
-
-.add-btn {
-  font-size: 14px;
-  color: #333;
-  text-decoration: none;
-}
 
 
 
@@ -151,40 +132,7 @@ ul.messages {
     gap: 8px;
     margin-top: 8px;
   }
-
-  .todo-title {
-    font-size: 16px;
-  }
-
-  .add-link {
-    font-size: 13px;
-  }
-
-  .add-btn {
-    font-size: 13px !important;
-    white-space: nowrap;  /* ← これで1行に収める */
-  }
-  
-  .todo-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-  }
-
-  .add-btn-wrapper {
-    width: 100%;
-    text-align: right;
-  }
 }
 
 
 
-.div.todo-header {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}

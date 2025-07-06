@@ -120,3 +120,8 @@ a:active {
 a:hover {
   text-decoration: underline;
 }
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+}

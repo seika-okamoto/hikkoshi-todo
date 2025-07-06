@@ -6,28 +6,28 @@
 {% endblock %}
 
 {% block content %}
-<div class="todo-edit-wrapper">
+<div class="comment-history-wrapper">
   <!-- ← 戻る -->
   <p class="back-link-inside">
     <a href="{% url 'todo:index' %}">← 戻る</a>
   </p>
 
-  <div class="todo-header">
+  <div class="todo-title-row">
     <h2 class="todo-title">ToDo（編集・追加モード）</h2>
-    <div class="add-btn-wrapper">
-      <a href="{% url 'todo:add_task' %}" class="add-btn">
-        <span class="add-text">➕追加</span>
-      </a>
+    <div class="action-buttons">
+      <a href="{% url 'todo:add_task' %}">➕追加</a>
+    </div>
   </div>
 
   {% for cat_name, cat_tasks in grouped_tasks.items %}
-   <h3>{{ cat_name }}</h3> 
-    {% for task in cat_tasks %}
-      <div class="task-card">
-        <div class="task-left">
-          <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
-          <span class="task-title">{{ task.title }}</span>
-        </div>
+    <div class="task-section">
+      <h3>{{ cat_name }}</h3> 
+      {% for task in cat_tasks %}
+        <div class="task-card">
+          <div class="task-left">
+            <input type="checkbox" {% if task.is_done %}checked{% endif %} disabled>
+            <span class="task-title">{{ task.title }}</span>
+          </div>
 
         {% if not task.is_template %}
           <div class="task-actions">
@@ -40,6 +40,7 @@
           </div>
         {% endif %}
       </div>
+
 
       {% if not task.is_template %}
         <!-- 編集モーダル -->

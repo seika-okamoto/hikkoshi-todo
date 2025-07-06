@@ -1,163 +1,107 @@
-.todo-header {
-  display: flex;
-  flex-direction: column;     /* ← 縦に並べる */
-  align-items: stretch;       /* ← 横幅を100%使う */
-  margin-bottom: 16px;
+.task-section {
+  margin-top: 30px;
 }
 
-.todo-title {
-  font-size: 24px;
-  margin: 0 auto;             /* ← 中央寄せ */
-  text-align: center;
-}
-
-.add-btn {
-  align-self: flex-end;       /* ← 右端に寄せる */
-  font-size: 14px;
-  text-decoration: none;
-  color: #333;
-  margin-top: 4px;
-}
-
-
-.add-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px; /* ➕と追加の間に少し空ける */
-  font-size: 16px;
-}
-
-
-.back-link {
-  font-size: 16px;
-  text-decoration: none;
-  color: #333;
-}
-
+/* 枠全体がリンクとして機能 */
 .task-card {
   display: flex;
+  width: 100%;
+  box-sizing: border-box;
   align-items: center;
   justify-content: space-between;
   background: #fff;
   padding: 12px 16px;
   margin-bottom: 10px;
   border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.task-card:hover {
+  background-color: #f0f0f0;
 }
 
 .task-left {
   display: flex;
   align-items: center;
+  flex-grow: 1;
 }
 
 .task-title {
+  margin-left: 24px;
   font-size: 16px;
 }
 
-.task-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.edit-btn,
-.delete-btn {
+.arrow {
   font-size: 18px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 6px 10px;
+  color: #888;
+  margin-left: 8px;
+}
+
+/* チェックボックス大きめにして押しやすく */
+.checkbox {
+  width: 24px;
+  height: 24px;
+  accent-color: #5e3ebd;
+  margin-right: 12px;
   cursor: pointer;
+}
+
+/* ==== タイトル行全体（戻る＋タイトル＋編集・共有） ==== */
+.todo-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+/* ← 戻る を左端に寄せる */
+.back-link {
+  align-self: flex-start;
   color: #333;
-  transition: all 0.2s ease;
+  text-decoration: underline;
+  font-size: 16px;
 }
 
-.edit-btn:hover {
-  background-color: #e6f0ff;
-  border-color: #777;
-  color: #333;
+/* ToDoのタイトルと右のボタンを横並びにする */
+.todo-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 8px;
 }
 
-.delete-btn:hover {
-  background-color: #fff0f0;
-  border-color: #777;
-  color: #777;
-}
-
-
-
-
-/* 簡易モーダル */
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  width: 90%;
-  max-width: 360px;
+.todo-title {
+  font-size: 28px;
+  margin: 0 auto;
   text-align: center;
+  flex: 1;
 }
 
-.modal-title {
-  font-size: 14px;
-  margin-bottom: 16px;
-  color: #333;
+/* 編集・共有ボタン */
+.todo-actions {
+  display: flex;
+  gap: 12px;
+  white-space: nowrap;
 }
 
-.modal input[type="text"] {
-  width: 90%;
-  padding: 8px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.todo-actions a {
+  font-size: 18px;
+  text-decoration: none;
+  color: #4a4ae2;
 }
 
-
-.modal button {
-  padding: 8px 16px;
-  margin: 4px;
-  border: 1px solid #666666;
-  background: white;
-  color: #333333;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.modal button:hover {
-  background-color: #f0f0f0; /* 少し明るいグレー */
-  border-color: #777;     
-  color: #333;
-}
-
-.modal button[type="submit"] {
-  background: white;
-  color: #333;
-}
-
-.modal button:hover {
-  background-color: #f0f0f0; /* 少し明るいグレー */
-  border-color: #777;     
-  color: #333;
-}
-
-.delete-btn {
-  font-size: 20px;
-  background: white;
-  border: 1px solid #ccc; /* ← これが正しい書き方！ */
-  border-radius: 6px;
-  cursor: pointer;
-  color: #333;
-  padding: 6px 10px;
-}
-input[type="checkbox"] {
-  appearance: auto;
-  width: 16px;
-  height: 16px;
-  accent-color: #4a4ae2;
-  margin-right: 8px;
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+  padding-right: 16px;
 }
 
 /* 全体の文字色（安全に統一） */
@@ -172,24 +116,14 @@ a:visited,
 a:hover,
 a:active {
   color: #333;
-  text-decoration: none; /* ← 必要なら下線も消す */
+  text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
+  text-decoration: underline;
 }
 
-.template-label {
-  font-size: 14px;
-  color: #aaa;
-  padding: 4px 8px;
-}
-
-@media screen and (max-width: 600px) {
-  .todo-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-  }
+.task-actions {
+  display: flex;
+  gap: 8px;
 }
