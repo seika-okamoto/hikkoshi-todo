@@ -9,16 +9,25 @@
 {% block content %}
 <div class="comment-history-wrapper">
   <!-- ← 戻る -->
-  <p class="back-link-inside">
-    <a href="{% url 'todo:index' %}">← 戻る</a>
+<p class="back-link-inside">
+    <a href="{% url 'home:index' %}">← 戻る</a>
   </p>
 
+
+<div class="todo-title-row">
+  <h1 class="todo-title">ToDo</h1>
+
+  <div class="action-buttons">
+    <a href="{% url 'todo:edit' %}"><span>✏️</span> 編集・追加</a>
+    <a href="{% url 'todo:share_items' %}"><span>📤</span> 共有</a>
   <div class="todo-title-row">
-    <h2 class="todo-title">ToDo（編集・追加モード）</h2>
+    <h1 class="todo-title">ToDo</h1>
     <div class="action-buttons">
-      <a href="{% url 'todo:add_task' %}">➕追加</a>
+      <a href="{% url 'todo:edit' %}"><span>✏️</span> 編集・追加</a>
+      <a href="{% url 'todo:share_items' %}"><span>📤</span> 共有</a>
     </div>
   </div>
+</div>
 
 
   {% for category, tasks in grouped_tasks.items %}
