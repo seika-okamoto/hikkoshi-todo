@@ -53,7 +53,23 @@
       {% endif %}
       <form method="POST" action="{% url 'todo:add_memo' task.id %}">
         {% csrf_token %}
-        <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
+        <textarea id="memo-textarea" name="context" rows="3" cols="40" maxlength="150"
+          placeholder="150文字以内でメモを入力できます"></textarea><br>
+
+        <small id="memo-char-count">0/150文字</small><br><br>
+        <script>
+          // メモ文字数カウント
+          const memoTextarea = document.getElementById('memo-textarea');
+          const memoCharCount = document.getElementById('memo-char-count');
+
+          if (memoTextarea && memoCharCount) {
+            memoTextarea.addEventListener('input', () => {
+              const length = memoTextarea.value.length;
+              memoCharCount.textContent = `${length}/150文字`;
+            });
+          }
+        </script>
+
         <button type="submit" class="btn">➕ メモを追加</button>
       </form>
     {% endif %}
@@ -113,7 +129,21 @@
         <textarea name="content" rows="3" cols="40" maxlength="150"
           placeholder="例：私はこのタイミングで済ませておいて楽でした！／こんな工夫が便利でした"></textarea><br>
 
-        <small>0/150文字</small><br><br>
+        <small id="char-count">0/150文字</small><br><br>
+        <script>
+          // コメント文字数カウント
+          const commentTextarea = document.querySelector('textarea[name="content"]');
+          const charCount = document.getElementById('char-count');
+
+          if (commentTextarea && charCount) {
+            commentTextarea.addEventListener('input', () => {
+              const length = commentTextarea.value.length;
+              charCount.textContent = `${length}/150文字`;
+            });
+          }
+        </script>
+
+
 
         <p>👤 投稿者表示設定：</p>
         <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示する</label><br>
