@@ -47,12 +47,18 @@
           </form>
         </div>
       {% endfor %}
+            <!-- メモ投稿フォームの下にエラー表示 -->
+      {% if memo_error %}
+        <p style="color: red;">{{ memo_error }}</p>
+      {% endif %}
       <form method="POST" action="{% url 'todo:add_memo' task.id %}">
         {% csrf_token %}
         <textarea name="context" rows="3" cols="40" placeholder="メモを入力"></textarea><br>
         <button type="submit" class="btn">➕ メモを追加</button>
       </form>
     {% endif %}
+
+  
 
     <!-- 👇コメント表示：viewに関係なくテンプレートタスクなら常時表示 -->
     {% if task.is_template or task.original_template %}
@@ -92,10 +98,15 @@
         {% endfor %}
       </ul>
 
-
+     
      
 
       <!-- ✅ 投稿フォーム -->
+            <!-- コメント投稿フォームの下にエラー表示 -->
+      {% if comment_error %}
+        <p style="color: red;">{{ comment_error }}</p>
+      {% endif %}
+
       <form method="POST" action="{% url 'todo:add_comment' task.id %}">
         {% csrf_token %}
 
@@ -116,6 +127,8 @@
     {% endif %}
 
     </div>
+
+
 
   <script>
   // 編集ボタンを押したときモーダル表示

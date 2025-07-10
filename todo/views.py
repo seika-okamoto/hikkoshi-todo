@@ -61,14 +61,24 @@ def add_memo(request, task_id):
     context = request.POST.get('context')
 
     if context:
-        Memo.objects.create(
-            task=task,
-            user=request.user,
-            context=context
-        )
-
-    return redirect('todo:task_detail', task_id=task.id)
-
+        Memo.objects.create(task=task, user=request.user, context=context)
+        return redirect('todo:task_detail', task_id=task.id)
+    
+    else:
+        # 空ならエラー付きで task_detail に戻す
+        view = 'memo'
+        memos = Memo.objects.filter(task=task).order_by('-created_at')
+        return render(request, 'todo/task_detail.html', {
+            'task': task,
+            'view': view,
+            'memos': memos,
+            'comments': None,
+            'comment_count': 0,
+            'sort': 'newest',
+            'hide_header': True,
+            'memo_error': 'メモ内容を入力してください',
+        })
+    
 @login_required
 def add_comment(request, task_id):
     # ① どのタスクでも取得（複製でもOK）
@@ -91,7 +101,20 @@ def add_comment(request, task_id):
             display_name=display_name
         )
 
-    return redirect(f"{reverse('todo:task_detail', args=[base_task.id])}?view=comment")
+        return redirect(f"{reverse('todo:task_detail', args=[base_task.id])}?view=comment")
+
+    else:
+        comments = Comment.objects.filter(task=template_task).order_by('-created_at')
+        return render(request, 'todo/task_detail.html', {
+            'task': base_task,
+            'view': 'comment',
+            'memos': Memo.objects.filter(task=base_task).order_by('-created_at'),
+            'comments': comments,
+            'comment_count': comments.count(),
+            'sort': 'newest',
+            'hide_header': True,
+            'comment_error': 'コメント内容を入力してください',
+        })
 
 @require_POST
 @login_required

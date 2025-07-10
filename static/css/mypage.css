@@ -54,8 +54,16 @@ h2 {
 
 
 .button-box {
-  margin: 10px 0;
+  margin-bottom: 24px; /* 👈 この行を追加して各ボタンの下にスペース */
+  display: block;          /* ✅ 追加 */
 }
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 
 .button-box a,
 .button-box button {
@@ -71,6 +79,7 @@ h2 {
   text-decoration: none;
   cursor: pointer;
   box-sizing: border-box;
+  margin-bottom: 0; 
 }
 
 .button-box a:hover,
@@ -93,6 +102,10 @@ h2 {
   border-radius: 8px;
   font-size: 15px;
   cursor: pointer;
+}
+
+.button-box.logout {
+  margin-top: 24px;
 }
 
 .button-box.logout form button:hover {
