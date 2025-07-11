@@ -9,13 +9,14 @@
   <div class="task-detail-wrapper">
     <p class="back-link-inside"><a href="{% url 'todo:index' %}">← 戻る</a></p>
     <h2>{{ task.title }}</h2>
-   <div class="tab-switch">
-    <a href="?view=memo" class="{% if view == 'memo' %}active-tab{% endif %}">📝 メモ</a>
-    <a href="?view=comment&sort={{ sort|default_if_none:'newest' }}" class="{% if view == 'comment' %}active-tab{% endif %}">💬 コメント</a>
-  </div>
 
+    <div class="tab-switch">
+      <a href="?view=memo" class="{% if view == 'memo' %}active-tab{% endif %}">📝 メモ</a>
+      <a href="?view=comment&sort={{ sort|default_if_none:'newest' }}" class="{% if view == 'comment' %}active-tab{% endif %}">💬 コメント</a>
+    </div>
 
-    {% if view == "memo" %}
+    {# ---------------- メモセクション ---------------- #}
+    <div id="memo-section" style="{% if view != 'memo' %}display:none;{% endif %}">
       <h3>📝 自分用メモ</h3>
       {% for memo in memos %}
         <div class="task-card">
@@ -47,143 +48,110 @@
           </form>
         </div>
       {% endfor %}
-            <!-- メモ投稿フォームの下にエラー表示 -->
+
       {% if memo_error %}
         <p style="color: red;">{{ memo_error }}</p>
       {% endif %}
+
       <form method="POST" action="{% url 'todo:add_memo' task.id %}">
         {% csrf_token %}
-        <textarea id="memo-textarea" name="context" rows="3" cols="40" maxlength="150"
-          placeholder="150文字以内でメモを入力できます"></textarea><br>
-
+        <textarea id="memo-textarea" name="context" rows="3" cols="40" maxlength="150" placeholder="150文字以内でメモを入力できます"></textarea><br>
         <small id="memo-char-count">0/150文字</small><br><br>
         <script>
-          // メモ文字数カウント
-          const memoTextarea = document.getElementById('memo-textarea');
-          const memoCharCount = document.getElementById('memo-char-count');
-
-          if (memoTextarea && memoCharCount) {
-            memoTextarea.addEventListener('input', () => {
-              const length = memoTextarea.value.length;
-              memoCharCount.textContent = `${length}/150文字`;
-            });
-          }
+          document.addEventListener("DOMContentLoaded", () => {
+            const memoTextarea = document.getElementById('memo-textarea');
+            const memoCharCount = document.getElementById('memo-char-count');
+            if (memoTextarea && memoCharCount) {
+              memoTextarea.addEventListener('input', () => {
+                memoCharCount.textContent = `${memoTextarea.value.length}/150文字`;
+              });
+            }
+          });
         </script>
-
         <button type="submit" class="btn">➕ メモを追加</button>
       </form>
-    {% endif %}
-
-  
-
-    <!-- 👇コメント表示：viewに関係なくテンプレートタスクなら常時表示 -->
-    {% if task.is_template or task.original_template %}
-      <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
-      <p class="comment-intro">
-        あなたの体験や工夫をぜひ共有してください
-      </p>
-
-      <p>並び替え：
-        <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
-        <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
-      </p>
-        
-      <ul>
-        {% for comment in comments %}
-          <li>
-            <p><strong>投稿者:</strong>
-              {% if comment.display_name == "anonymous" %}
-                非公開
-              {% else %}
-                {{ comment.user.username }}
-              {% endif %}
-            </p> 
-            <p>{{ comment.content }}</p>
-            <p class="comment-date">{{ comment.created_at|date:"Y/m/d H:i" }}</p>
-
-            <!-- ✅ いいねボタン -->
-            <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
-              {% csrf_token %}
-              {% with comment.likes.count as like_count %}
-                <button type="submit" class="btn">👍 {{ like_count|default:"いいね" }}</button>
-              {% endwith %}
-            </form>
-          </li>
-        {% empty %}
-          <li>コメントはまだありません。</li>
-        {% endfor %}
-      </ul>
-
-     
-     
-
-      <!-- ✅ 投稿フォーム -->
-            <!-- コメント投稿フォームの下にエラー表示 -->
-      {% if comment_error %}
-        <p style="color: red;">{{ comment_error }}</p>
-      {% endif %}
-
-      <form method="POST" action="{% url 'todo:add_comment' task.id %}">
-        {% csrf_token %}
-
-        <textarea name="content" rows="3" cols="40" maxlength="150"
-          placeholder="例：私はこのタイミングで済ませておいて楽でした！／こんな工夫が便利でした"></textarea><br>
-
-        <small id="char-count">0/150文字</small><br><br>
-        <script>
-          // コメント文字数カウント
-          const commentTextarea = document.querySelector('textarea[name="content"]');
-          const charCount = document.getElementById('char-count');
-
-          if (commentTextarea && charCount) {
-            commentTextarea.addEventListener('input', () => {
-              const length = commentTextarea.value.length;
-              charCount.textContent = `${length}/150文字`;
-            });
-          }
-        </script>
-
-
-
-        <p>👤 投稿者表示設定：</p>
-        <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示する</label><br>
-        <label><input type="radio" name="display_name" value="anonymous"> 投稿者名を非公開にする</label><br>
-        <p><small>この端末からの投稿には編集・削除が可能です</small></p>
-
-        <button type="submit" class="btn">➕ コメントを追加</button>
-      </form>
-    {% else %}
-      <p>※このタスクはコメントできません。</p>
-    {% endif %}
-
     </div>
 
+    {# ---------------- コメントセクション ---------------- #}
+    <div id="comment-section">
+      {% if task.is_template or task.original_template %}
+        <h3>💬 みんなのコメント（{{ comment_count }}件）</h3>
+        <p class="comment-intro">あなたの体験や工夫をぜひ共有してください</p>
+        <p>並び替え：
+          <a href="?view=comment&sort=popular" {% if sort == 'popular' %}style="font-weight: bold;"{% endif %}>人気順</a> /
+          <a href="?view=comment&sort=newest" {% if sort == 'newest' %}style="font-weight: bold;"{% endif %}>新着順</a>
+        </p>
 
+        <ul>
+          {% for comment in comments %}
+            <li>
+              <p><strong>投稿者:</strong>
+                {% if comment.display_name == "anonymous" %}非公開{% else %}{{ comment.user.username }}{% endif %}
+              </p>
+              <p>{{ comment.content }}</p>
+              <p class="comment-date">{{ comment.created_at|date:"Y/m/d H:i" }}</p>
+              <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
+                {% csrf_token %}
+                {% with comment.likes.count as like_count %}
+                  <button type="submit" class="btn">👍 {{ like_count|default:"いいね" }}</button>
+                {% endwith %}
+              </form>
+            </li>
+          {% empty %}
+            <li>コメントはまだありません。</li>
+          {% endfor %}
+        </ul>
+
+        {% if comment_error %}
+          <p style="color: red;">{{ comment_error }}</p>
+        {% endif %}
+
+        <form method="POST" action="{% url 'todo:add_comment' task.id %}">
+          {% csrf_token %}
+          <textarea name="content" rows="3" cols="40" maxlength="150" placeholder="例：私はこのタイミングで済ませておいて楽でした！／こんな工夫が便利でした"></textarea><br>
+          <small id="char-count">0/150文字</small><br><br>
+          <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const commentTextarea = document.querySelector('textarea[name="content"]');
+              const charCount = document.getElementById('char-count');
+              if (commentTextarea && charCount) {
+                commentTextarea.addEventListener('input', () => {
+                  charCount.textContent = `${commentTextarea.value.length}/150文字`;
+                });
+              }
+            });
+          </script>
+          <p>👤 投稿者表示設定：</p>
+          <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示する</label><br>
+          <label><input type="radio" name="display_name" value="anonymous"> 投稿者名を非公開にする</label><br>
+          <p><small>この端末からの投稿には編集・削除が可能です</small></p>
+          <button type="submit" class="btn">➕ コメントを追加</button>
+        </form>
+      {% else %}
+        <p>※このタスクはコメントできません。</p>
+      {% endif %}
+    </div>
+  </div>
 
   <script>
-  // 編集ボタンを押したときモーダル表示
-  document.querySelectorAll('.edit-memo-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const memoId = btn.dataset.memoId;
-      document.getElementById(`edit-memo-modal-${memoId}`).style.display = 'block';
+    document.querySelectorAll('.edit-memo-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const memoId = btn.dataset.memoId;
+        document.getElementById(`edit-memo-modal-${memoId}`).style.display = 'block';
+      });
     });
-  });
 
-  // 削除ボタンを押したときモーダル表示
-  document.querySelectorAll('.delete-memo-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const memoId = btn.dataset.memoId;
-      document.getElementById(`delete-memo-modal-${memoId}`).style.display = 'block';
+    document.querySelectorAll('.delete-memo-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const memoId = btn.dataset.memoId;
+        document.getElementById(`delete-memo-modal-${memoId}`).style.display = 'block';
+      });
     });
-  });
 
-  // モーダル内のキャンセルボタンで閉じる
-  document.querySelectorAll('.cancel-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      btn.closest('.modal').style.display = 'none';
+    document.querySelectorAll('.cancel-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.modal').style.display = 'none';
+      });
     });
-  });
-</script>
-
+  </script>
 {% endblock %}
-

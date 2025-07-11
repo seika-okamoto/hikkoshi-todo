@@ -16,6 +16,10 @@ from django.http import HttpResponseForbidden
 def task_detail(request, task_id):
     task = get_object_or_404(Task, id=task_id)
 
+    # ✅ セッションからエラーを取得（あれば）
+    memo_error = request.session.pop('memo_error', None)
+    comment_error = request.session.pop('comment_error', None)
+
     # ✅ アクセス制限（テンプレ or テンプレのコピー or 自分のタスク 以外は403）
     if not (task.is_template or task.original_template is not None or task.user == request.user):
         return HttpResponseForbidden("このタスクにはアクセスできません。")
@@ -53,6 +57,8 @@ def task_detail(request, task_id):
         'comment_count': comment_count,
         'sort': sort,
         'hide_header': True,
+        'memo_error': memo_error,
+        'comment_error': comment_error,
     })
 
 @login_required
@@ -68,16 +74,19 @@ def add_memo(request, task_id):
         # 空ならエラー付きで task_detail に戻す
         view = 'memo'
         memos = Memo.objects.filter(task=task).order_by('-created_at')
-        return render(request, 'todo/task_detail.html', {
-            'task': task,
-            'view': view,
-            'memos': memos,
-            'comments': None,
-            'comment_count': 0,
-            'sort': 'newest',
-            'hide_header': True,
-            'memo_error': 'メモ内容を入力してください',
-        })
+        
+         # 👇 テンプレートタスクならコメントも表示するよう追加
+        template_task = task.original_template if task.original_template else (task if task.is_template else None)
+        
+        comments = None
+        comment_count = 0
+        if template_task:
+            comments = Comment.objects.filter(task=template_task).order_by('-created_at')
+            comment_count = comments.count()
+        
+        request.session['memo_error'] = 'メモ内容を入力してください'
+        return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=memo")
+            
     
 @login_required
 def add_comment(request, task_id):
@@ -104,18 +113,10 @@ def add_comment(request, task_id):
         return redirect(f"{reverse('todo:task_detail', args=[base_task.id])}?view=comment")
 
     else:
-        comments = Comment.objects.filter(task=template_task).order_by('-created_at')
-        return render(request, 'todo/task_detail.html', {
-            'task': base_task,
-            'view': 'comment',
-            'memos': Memo.objects.filter(task=base_task).order_by('-created_at'),
-            'comments': comments,
-            'comment_count': comments.count(),
-            'sort': 'newest',
-            'hide_header': True,
-            'comment_error': 'コメント内容を入力してください',
-        })
-
+        request.session['comment_error'] = 'コメント内容を入力してください'
+        return redirect(f"{reverse('todo:task_detail', args=[base_task.id])}?view=comment")
+        
+        
 @require_POST
 @login_required
 def comment_list(request, task_id):
