@@ -147,8 +147,7 @@ def toggle_done(request, task_id):
     return redirect('todo:index')
 
 def task_list(request):
-    tasks = Task.objects.filter(user=request.user).order_by('category__name', 'created_at')
-
+    tasks = Task.objects.filter(user=request.user).order_by('category__display_order', 'created_at')
         
     # grouped_tasks を最初に定義
     grouped_tasks = defaultdict(list)
