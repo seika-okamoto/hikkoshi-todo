@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block content %}
+<script>
+  window.disableOverlayClose = true;
+</script>
   <div class="task-detail-wrapper">
     <p class="back-link-inside"><a href="{% url 'todo:index' %}">← 戻る</a></p>
     <h2>{{ task.title }}</h2>
@@ -138,6 +141,7 @@
       btn.addEventListener('click', () => {
         const memoId = btn.dataset.memoId;
         document.getElementById(`edit-memo-modal-${memoId}`).style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';  // ← ここ追加！！
       });
     });
 
@@ -145,12 +149,14 @@
       btn.addEventListener('click', () => {
         const memoId = btn.dataset.memoId;
         document.getElementById(`delete-memo-modal-${memoId}`).style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';  // ← ここ追加！！
       });
     });
 
     document.querySelectorAll('.cancel-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         btn.closest('.modal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';  // ← これも忘れずに！
       });
     });
   </script>
