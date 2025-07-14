@@ -63,8 +63,8 @@
         <p style="margin-bottom: 16px;">この項目を削除しますか？</p>
         <form method="POST" action="{% url 'todo:delete_task' task.id %}">
           {% csrf_token %}
-          <button type="submit">🗑️削除</button>
-          <button type="button" class="cancel-btn">❌キャンセル</button>
+          <button type="submit" class="modal-delete-btn">🗑️削除</button>
+          <button type="button" class="cancel-btn">✖キャンセル</button>
         </form>
       </div>
       {% endif %}

@@ -129,8 +129,7 @@ a:hover {
 }
 
 
-.edit-btn,
-.delete-btn {
+.edit-btn{
   font-size: 18px;
   background: white;
   border: 1px solid #ccc;
@@ -146,9 +145,21 @@ a:hover {
   border-color: #777;
 }
 
+.delete-btn {
+  font-size: 18px;
+  background: #fff0f0;        /* 赤みの背景 */
+  border: 1px solid #e57373;  /* 赤い境界線 */
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #d32f2f;             /* 文字色も赤系に */
+  transition: all 0.2s ease;
+}
+
 .delete-btn:hover {
-  background-color: #fff0f0;
-  border-color: #777;
+  background-color: #ffdddd;  /* ホバーで少し明るい赤背景に */
+  border-color: #c62828;      /* ホバー時の境界線を濃く */
+  color: #b71c1c; 
 }
 
 .modal {
@@ -201,4 +212,21 @@ input[type="checkbox"] {
   height: 16px;
   accent-color: #4a4ae2;
   margin-right: 8px;
+}
+
+.modal-delete-btn {
+  background-color: #fce4e4!important;   /* 優しい赤背景 */
+  color: #d32f2f!important;              /* 赤文字 */
+  border: 1px solid #e57373!important;     /* 赤系の枠 */
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-delete-btn:hover {
+  background-color: #ffdddd;
+  color: #b71c1c;
+  border-color: #c62828;
 }

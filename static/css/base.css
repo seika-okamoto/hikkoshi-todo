@@ -160,3 +160,21 @@ ul.messages {
   z-index: 1001;        /* ← overlay より前へ！ */
   text-align: center;
 }
+
+/* 共通の削除ボタン（例：モーダル用） */
+.modal-delete-btn {
+  background-color: #fce4e4 !important;
+  color: #d32f2f !important;
+  border: 1px solid #e57373 !important;
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-delete-btn:hover {
+  background-color: #ffdddd !important;
+  color: #b71c1c !important;
+  border-color: #c62828 !important;
+}
