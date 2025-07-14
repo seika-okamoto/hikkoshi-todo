@@ -12,15 +12,14 @@ from django.http import JsonResponse
 import json
 from django.http import HttpResponseForbidden
 
+
 @login_required
 def task_detail(request, task_id):
     task = get_object_or_404(Task, id=task_id)
 
-    # ✅ セッションからエラーを取得（あれば）
     memo_error = request.session.pop('memo_error', None)
     comment_error = request.session.pop('comment_error', None)
 
-    # ✅ アクセス制限（テンプレ or テンプレのコピー or 自分のタスク 以外は403）
     if not (task.is_template or task.original_template is not None or task.user == request.user):
         return HttpResponseForbidden("このタスクにはアクセスできません。")
 
@@ -28,26 +27,31 @@ def task_detail(request, task_id):
     sort = request.GET.get('sort', 'newest')
     memos = Memo.objects.filter(task=task).order_by('-created_at')
 
-
-    # ✅ コメント表示：テンプレート自身か、テンプレートの複製タスクなら表示
-    comments = None
+    comments = []
     comment_count = 0
 
-   # コメント表示：テンプレート自身か、テンプレートの複製タスクなら表示
-    
     template_task = task.original_template if task.original_template else (task if task.is_template else None)
 
-
-
     if template_task:
-        comments = Comment.objects.filter(task=template_task)
-
+        # ベースのクエリセット
+        comments = Comment.objects.filter(task=template_task).prefetch_related("likes")
+        # 並び替え
         if sort == 'popular':
-            comments = comments.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
+           comments = comments.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at') 
         else:
             comments = comments.order_by('-created_at')
 
-        comment_count = comments.count()
+        # list に変換して liked_by_me 属性追加
+        comments = list(comments)
+        for comment in comments:
+            liked = comment.likes.filter(user=request.user).exists()  # ← ここ修正
+            print("コメントID:", comment.id)
+            print("ログイン中:", request.user.email)
+            print("liked_by_me:", liked)
+            comment.liked_by_me = liked
+            
+
+        comment_count = len(comments)
 
     return render(request, 'todo/task_detail.html', {
         'task': task,
@@ -357,4 +361,4 @@ def toggle_like(request, comment_id):
     if task.original_template:
         task = task.original_template  # 元テンプレに戻す
 
-    return redirect(f"{reverse('todo:task_detail', args=[comment.task.id])}?view=comment")
+    return redirect(f"{reverse('todo:task_detail', args=[task.id])}?view=comment")

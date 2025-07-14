@@ -96,7 +96,10 @@
               <form method="POST" action="{% url 'todo:toggle_like' comment.id %}" style="display:inline;">
                 {% csrf_token %}
                 {% with comment.likes.count as like_count %}
-                  <button type="submit" class="btn">👍 {{ like_count|default:"いいね" }}</button>
+                  <button type="submit" 
+                              class="btn {% if comment.liked_by_me %}liked{% endif %}">
+                        👍 {{ like_count|default:"いいね" }}
+                      </button>
                 {% endwith %}
               </form>
             </li>

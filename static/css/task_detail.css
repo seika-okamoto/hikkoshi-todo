@@ -209,3 +209,19 @@ a:hover {
   box-sizing: border-box;
   resize: vertical; /* 👈 ユーザーが高さ調整できるように */
 }
+
+/* いいねされた時のボタン全体 */
+.btn.liked {
+  background-color: #ffe5b4;
+  border: 1px solid #ffc107;
+}
+
+/* 👍アイコンはオレンジ */
+.btn.liked .icon {
+  color: orange;
+}
+
+/* 数字だけ黒に */
+.btn.liked .count {
+  color: #000;
+}

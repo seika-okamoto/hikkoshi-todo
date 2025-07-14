@@ -57,7 +57,7 @@
     <p>このコメントを削除しますか？</p>
     <form method="post">
       {% csrf_token %}
-      <button type="submit" name="delete">🗑️削除する</button>
+      <button type="submit" class="modal-delete-btn">🗑️削除</button>
       <button type="button" class="cancel-btn">❌キャンセル</button>
     </form>
   </div>
