@@ -31,17 +31,18 @@ h1 {
   margin: 0 10px;
 }
 
-.access-btn {
+a.access-btn {
   display: inline-block;
   margin-top: 20px;
   padding: 12px 24px;
   background-color: #f8b400;
-  color: #fff;
+  color: #fff !important;
   font-weight: bold;
   border-radius: 6px;
   text-decoration: none;
 }
 
-.access-btn:hover {
+a.access-btn:hover {
   background-color: #d89c00;
+  color: #fff !important;
 }
