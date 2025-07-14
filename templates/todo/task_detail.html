@@ -36,7 +36,7 @@
           <p class="modal-title">内容を編集してください</p>
           <form method="POST" action="{% url 'todo:edit_memo' memo.id %}">
             {% csrf_token %}
-            <textarea name="context">{{ memo.context }}</textarea><br>
+            <textarea name="context" class="edit-memo-textarea">{{ memo.context }}</textarea>
             <button type="submit">✅保存</button>
             <button type="button" class="cancel-btn">❌キャンセル</button>
           </form>

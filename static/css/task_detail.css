@@ -194,3 +194,18 @@ a:hover {
     border-bottom: 3px solid #6a1b9a;
     color: #6a1b9a;
 }
+
+.memo-textarea {
+  width: 100%;
+  min-height: 100px;
+  font-size: 16px;
+}
+
+.edit-memo-textarea {
+  width: 100%;
+  min-height: 100px;
+  font-size: 16px;
+  padding: 8px;
+  box-sizing: border-box;
+  resize: vertical; /* 👈 ユーザーが高さ調整できるように */
+}
