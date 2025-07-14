@@ -6,6 +6,10 @@
 {% endblock %}
 
 {% block content %}
+<script>
+  // 🔒 base.htmlよりも前に定義する必要がある！
+  window.disableOverlayClose = true;
+</script>
 <div class="comment-history-wrapper">
   <!-- ← 戻る -->
   <p class="back-link-inside">
@@ -75,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const id = button.dataset.taskId;
       document.getElementById(`edit-modal-${id}`).style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';  // ← これ追加！！
     });
   });
 
@@ -82,14 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const id = button.dataset.taskId;
       document.getElementById(`delete-modal-${id}`).style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';  // ← これ追加！！
     });
   });
 
   document.querySelectorAll('.cancel-btn').forEach(button => {
     button.addEventListener('click', () => {
       button.closest('.modal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';  // ← ここ重要！
     });
   });
+
 });
 </script>
+
 {% endblock %}
+
+<div id="overlay"></div>

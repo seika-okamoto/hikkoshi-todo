@@ -39,4 +39,28 @@
   <footer>
     <p>&copy; 2025 ひっこしToDo</p>
   </footer>
+  <!-- ✅ 共通オーバーレイとJSをここに入れる -->
+  <div id="overlay"></div>
+
+  <script>
+    function openDialog(dialogId) {
+      document.getElementById(dialogId).style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closeDialog(dialogId) {
+      document.getElementById(dialogId).style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!window.disableOverlayClose) {
+        document.getElementById('overlay')?.addEventListener('click', () => {
+          document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+          document.getElementById('overlay').style.display = 'none';
+        });
+      }
+    });
+  </script>
+
 </body>
