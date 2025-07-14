@@ -86,10 +86,12 @@ document.getElementById('editUsernameBtn')?.addEventListener('click', function(e
 
   document.getElementById('logoutBtn')?.addEventListener('click', function() {
     document.getElementById('logoutDialog').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';  // ← これを追加！
   });
 
   document.getElementById('cancelLogout')?.addEventListener('click', function() {
     document.getElementById('logoutDialog').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';  // ← これを追加！
   });
 
   document.getElementById('confirmLogout')?.addEventListener('click', function() {

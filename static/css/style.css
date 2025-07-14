@@ -104,3 +104,51 @@ main, .main-container, .container {
 }
 
 
+/* ==== 視認性アップ用 共通スタイル追加 ==== */
+
+/* リンク全体に共通スタイル */
+a {
+  color: #007bff !important;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #0056b3 !important;
+  text-decoration: none;
+}
+
+/* 「← 戻る」などの戻りリンク */
+.back-link a,
+.back-link-absolute a,
+.change-password-wrapper .back-link a {
+  color: #007bff !important;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.back-link a:hover,
+.back-link-absolute a:hover,
+.change-password-wrapper .back-link a:hover {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+/* ボタン共通 */
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+

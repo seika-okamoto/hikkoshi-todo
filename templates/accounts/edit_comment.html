@@ -7,11 +7,14 @@
 
 
 {% block content %}
+<script>
+  window.disableOverlayClose = true;
+</script>
 <div class="edit-comment-wrapper">
    <!-- ✅ 枠内左上に「← 戻る」 -->
   <p class="back-link-inside">
     <a href="{% url 'accounts:comment_history' %}">← 戻る</a>
-
+  </p>
   
   <h2>💬 コメント編集画面</h2>
 
@@ -42,31 +45,44 @@
 
     <div class="button-row">
       <button type="submit" name="save" class="btn">✅保存</button>
-      <button type="button" onclick="openModal()" class="btn">🗑️ 削除</button>
+      <button type="button" class="delete-btn" data-comment-id="{{ comment.id }}">🗑️ 削除</button>
     </div>
 
   </form>
 
   <!-- モーダル -->
-  <div id="deleteModal" class="modal">
-    <div class="modal-content">
-      <p>このコメントを削除しますか？</p>
-      <form method="post" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit" name="delete">🗑️削除する</button>
-      </form>
-      <button onclick="closeModal()">❌キャンセル</button>
-    </div>
+  
+<div class="modal delete-modal" id="delete-modal-{{ comment.id }}">
+  <div class="modal-content">
+    <p>このコメントを削除しますか？</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" name="delete">🗑️削除する</button>
+      <button type="button" class="cancel-btn">❌キャンセル</button>
+    </form>
   </div>
 </div>
 
+
 <script>
-function openModal() {
-  document.getElementById('deleteModal').style.display = 'block';
-}
-function closeModal() {
-  document.getElementById('deleteModal').style.display = 'none';
-}
+  document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const id = button.dataset.commentId;
+      document.getElementById(`delete-modal-${id}`).style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    });
+  });
+
+  document.querySelectorAll('.cancel-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      button.closest('.modal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    });
+  });
+});
+
+
 
 // 文字数カウント
 const textarea = document.getElementById('id_content');
@@ -79,3 +95,7 @@ window.addEventListener('DOMContentLoaded', updateCharCount);
 </script>
 
 {% endblock %}
+
+
+
+
