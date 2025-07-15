@@ -125,3 +125,31 @@ a:hover {
   display: flex;
   gap: 8px;
 }
+
+.action-buttons a {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.action-buttons a:hover {
+  background-color: #e0e0e0;
+}
+
+/* 任意：色分けしたい場合（オレンジと青） */
+.action-buttons a.edit {
+  background-color: #fff3cd;
+  border: 1px solid #ffca28;
+}
+
+.action-buttons a.share {
+  background-color: #e3f2fd;
+  border: 1px solid #64b5f6;
+}
