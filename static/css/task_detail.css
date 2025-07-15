@@ -225,3 +225,19 @@ a:hover {
 .btn.liked .count {
   color: #000;
 }
+
+/* ✅ メモ編集・削除ボタンの見た目調整 */
+.task-actions button {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  background-color: #f0f0f0;
+  color: #333;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.task-actions button:hover {
+  background-color: #e0e0e0;
+}
