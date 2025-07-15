@@ -60,3 +60,18 @@ a:active {
 a:hover {
   text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
 }
+
+.btn {
+  padding: 10px 20px;  
+  border:  none;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff; 
+  background-color: #4a90e2;
+  font-size: 16px;
+  margin-top: 12px;
+}
+
+.btn:hover {
+  background-color:  #357ab8;
+}
