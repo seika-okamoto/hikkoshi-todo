@@ -230,3 +230,22 @@ input[type="checkbox"] {
   color: #b71c1c;
   border-color: #c62828;
 }
+
+.blue-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #e3f2fd;     /* ← 薄い青に変更 */
+  color: #333;                   /* ← 白だと見えにくいので黒系に */
+  border: 1px solid #64b5f6;     /* ← 枠線追加 */
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.blue-btn:hover {
+  background-color: #d0e7fb;     /* ← hover時は少し濃く */
+}

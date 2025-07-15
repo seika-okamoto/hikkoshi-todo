@@ -288,3 +288,16 @@ a:active {
 a:hover {
   text-decoration: underline; /* ホバー時だけ下線付けたい場合 */
 }
+
+.button-box.blue-outline a,
+.button-box.blue-outline button {
+  background-color: white;
+  border: 2px solid #1976d2;  /* 青い枠 */
+  color: #1976d2;             /* 青い文字 */
+  font-weight: bold;
+}
+
+.button-box.blue-outline a:hover,
+.button-box.blue-outline button:hover {
+  background-color: #e3f2fd;  /* ホバー時うす青 */
+}
