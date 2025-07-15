@@ -51,49 +51,42 @@
   </form>
 
   <!-- モーダル -->
-  
-<div class="modal delete-modal" id="delete-modal-{{ comment.id }}">
+<!-- 削除モーダル -->
+<div class="modal delete-modal" id="delete-modal-{{ comment.id }}" style="display: none;">
   <div class="modal-content">
-    <p>このコメントを削除しますか？</p>
+    <p class="modal-title">このコメントを削除しますか？</p>
     <form method="post">
       {% csrf_token %}
-      <button type="submit" class="modal-delete-btn">🗑️削除</button>
-      <button type="button" class="cancel-btn">❌キャンセル</button>
+      <button type="submit" name="delete" class="btn modal-delete-btn">🗑️削除</button>
+      <button type="button" class="cancel-btn">✖キャンセル</button>
     </form>
   </div>
 </div>
+<!-- オーバーレイ -->
+<div id="overlay" class="overlay" style="display: none;"></div>
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.delete-btn').forEach(button => {
-    button.addEventListener('click', () => {
-      const id = button.dataset.commentId;
-      document.getElementById(`delete-modal-${id}`).style.display = 'block';
-      document.getElementById('overlay').style.display = 'block';
-    });
-  });
-
+document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.cancel-btn').forEach(button => {
     button.addEventListener('click', () => {
       button.closest('.modal').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
     });
   });
+
+document.querySelectorAll('.delete-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const commentId = button.dataset.commentId;
+    const modal = document.getElementById(`delete-modal-${commentId}`);
+    if (modal) {
+      modal.style.display = 'flex';
+      document.getElementById('overlay').style.display = 'block';
+    }
+    });
+  });
 });
-
-
-
-// 文字数カウント
-const textarea = document.getElementById('id_content');
-const charCount = document.getElementById('char-count');
-function updateCharCount() {
-  charCount.textContent = textarea.value.length;
-}
-textarea.addEventListener('input', updateCharCount);
-window.addEventListener('DOMContentLoaded', updateCharCount);
 </script>
-
 {% endblock %}
 
 

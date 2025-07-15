@@ -154,12 +154,43 @@ ul.messages {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
-
 .modal-content {
-  position: relative;  /* ← 必須！ */
-  z-index: 1001;        /* ← overlay より前へ！ */
+  position: relative;  /* ← これだけでOK */
+  width: 90%;
+  max-width: 420px;
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  text-align: center;
+  z-index: 1001;
+  /* 他のスタイルそのままでOK */
+}
+
+/* 削除用モーダルだけに効くように */
+.delete-modal {
+  /* 中央表示スタイル */
+  display: block; 
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.delete-modal .modal-content {
+  position: relative;
+  z-index: 1001;
+  width: 90%;
+  max-width: 420px;
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 16px;
   text-align: center;
 }
+
 
 /* 共通の削除ボタン（例：モーダル用） */
 .modal-delete-btn {
