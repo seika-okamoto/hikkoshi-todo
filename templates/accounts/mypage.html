@@ -64,7 +64,7 @@
   <div id="logoutDialog" style="display:none;">
     <form method="POST" action="{% url 'accounts:logout' %}">
       {% csrf_token %}
-      <label>🚫 ログアウトしますか？</label><br>
+      <label style="display:block; margin-bottom:12px;">🚫 ログアウトしますか？</label>
       <button type="submit" class="logout-btn">ログアウト</button>
       <button type="button" id="cancelLogout" class="cancel-btn">❌キャンセル</button>
     </form>
