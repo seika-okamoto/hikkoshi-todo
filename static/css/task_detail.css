@@ -263,3 +263,19 @@ a:hover {
   border-bottom: 3px solid #6a1b9a;
   color: #6a1b9a;
 }
+
+.orange-btn {
+  background-color: #ffcc80; /* 明るめオレンジ */
+  border: 1px solid #ffa726;
+  color: #333;
+  font-size: 16px;           /* ✅ 少し大きく */
+  padding: 10px 20px;        /* ✅ 少し大きく */
+  font-weight: bold;
+  min-width: 160px;          /* ✅ 横幅そろえる */
+}
+
+.orange-btn:hover {
+  background-color: #ffb74d; /* ホバー時少し濃いめ */
+  border-color: #fb8c00;
+  color: #000;
+}

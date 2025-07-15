@@ -56,8 +56,10 @@
       {% csrf_token %}
       <label>ニックネームを編集してください</label><br>
       <input type="text" name="username" value="{{ profile.user.username }}"><br>
-      <button type="submit">✅保存</button>
-      <button type="button" id="cancelEdit">❌キャンセル</button>
+      <div class="button-row">
+        <button type="submit" name="save" class="btn">✅保存</button>
+        <button type="button" id="cancelEdit" class="btn cancel-btn">❌キャンセル</button>
+      </div>
     </form>
   </div>
 <!-- 🔻 ログアウトも統一！ -->

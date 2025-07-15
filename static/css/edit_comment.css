@@ -49,23 +49,7 @@
   margin-top: 12px;
 }
 
-.btn {
-  display: inline-block;
-  padding: 6px 12px;
-  border: 1px solid #666;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #333;
-  background-color: #f9f9f9;
-  font-size: 14px;
-  margin-top: 12px;
-  cursor: pointer;
-  text-align: center;
-}
 
-.btn:hover {
-  background-color: #eee;
-}
 
 .back-link {
   display: block;
@@ -100,21 +84,21 @@ a:hover {
 }
 
 .modal .cancel-btn {
-  padding: 6px 12px;
+  padding: 10px 16px;                   /* ✅ 高さ合わせ */
   font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
-  border: 1px solid #666;
-  background-color: white;
+  border: 1px solid #666;               /* ✅ 削除ボタンと同じ系統に */
+  background-color: #fff;
   color: #333;
-  margin: 0 6px;
-  font-weight: normal;
+  margin: 4px;                          /* ✅ 削除ボタンと同じ余白に */
+  min-width: 100px;                     /* ✅ 幅を削除と統一 */
+  font-weight: bold;                   /* ✅ 太字にして揃える */
+  text-align: center;
+  box-sizing: border-box;
   transition: background-color 0.2s ease;
 }
-
 
 .modal .cancel-btn:hover {
   background-color: #eee;
 }
-
-

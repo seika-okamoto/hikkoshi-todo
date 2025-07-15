@@ -186,7 +186,7 @@ ul.messages {
   width: 90%;
   max-width: 420px;
   background-color: #fff;
-  padding: 24px;
+  padding: 20px;
   border-radius: 16px;
   text-align: center;
 }
@@ -208,4 +208,58 @@ ul.messages {
   background-color: #ffdddd !important;
   color: #b71c1c !important;
   border-color: #c62828 !important;
+}
+
+
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  min-width: 90px; /* ✅ ← 幅を統一 */
+  font-size: 14px;
+  border: 1px solid #666;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap; /* ✅ ← 改行防止 */
+}
+
+/* 保存ボタン色 */
+.btn[name="save"] {
+  background-color: #e0fbe0!important;
+  color: #2d7a2d;
+  border: 1px solid #a5d6a7;
+}
+.btn[name="save"]:hover {
+  background-color: #c8f6c8;
+}
+
+/* 削除ボタン色 */
+.modal-delete-btn {
+  background-color: #fce4e4 !important;
+  color: #d32f2f !important;
+  border: 1px solid #e57373 !important;
+}
+
+.modal-delete-btn:hover {
+  background-color: #ffdddd !important;
+  color: #b71c1c !important;
+  border-color: #c62828 !important;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px; /* ← ボタンの間隔 */
+  margin-top: 20px;
+}
+
+/* 共通のボタンとして同じ基準を使う */
+.modal-buttons .btn {
+  min-width: 100px; /* ← ここで横幅を完全統一 */
+  text-align: center;
+  font-weight: bold;
+  padding: 8px 16px; /* ← 高さも統一感出す */
+  box-sizing: border-box;
 }

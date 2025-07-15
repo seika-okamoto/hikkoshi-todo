@@ -171,16 +171,17 @@ h2 {
 }
 
 #editDialog button[type="submit"] {
-  background-color: white;
-  color: #333;
-  border: 1px solid #666;
+  background-color: #e0fbe0!important;
+  color: #2d7a2d;
+  border: 1px solid #a5d6a7;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
-#editDialog button[type="submit"]:hover,
-#editDialog button[type="button"]:hover {
-  background-color: #ddd;
-  border-color: #444;
+#editDialog button[type="submit"]:hover{
+  background-color: #c8f6c8!important;
 }
 
 #editDialog button[type="button"] {
@@ -300,4 +301,11 @@ a:hover {
 .button-box.blue-outline a:hover,
 .button-box.blue-outline button:hover {
   background-color: #e3f2fd;  /* ホバー時うす青 */
+}
+
+#editDialog .button-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px; /* ← ボタン間のスペース */
+  margin-top: 12px;
 }

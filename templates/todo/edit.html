@@ -53,7 +53,7 @@
           <form method="POST" action="{% url 'todo:edit_task' task.id %}">
             {% csrf_token %}
             <input type="text" name="title" value="{{ task.title }}">
-            <button type="submit">✅保存</button>
+            <button type="submit" name="save" class="btn">✅保存</button>
             <button type="button" class="cancel-btn">❌キャンセル</button>
           </form>
         </div>

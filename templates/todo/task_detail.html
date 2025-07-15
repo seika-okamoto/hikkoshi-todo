@@ -37,7 +37,7 @@
           <form method="POST" action="{% url 'todo:edit_memo' memo.id %}">
             {% csrf_token %}
             <textarea name="context" class="edit-memo-textarea">{{ memo.context }}</textarea>
-            <button type="submit">✅保存</button>
+            <button type="submit" name="save" class="btn">✅保存</button>
             <button type="button" class="cancel-btn">❌キャンセル</button>
           </form>
         </div>
@@ -47,7 +47,7 @@
           <form method="POST" action="{% url 'todo:delete_memo' memo.id %}">
             {% csrf_token %}
             <button type="submit" class="modal-delete-btn">🗑️削除</button>
-            <button type="button" class="cancel-btn">❌キャンセル</button>
+            <button type="button" class="cancel-btn">✖キャンセル</button>
           </form>
         </div>
       {% endfor %}
@@ -71,7 +71,7 @@
             }
           });
         </script>
-        <button type="submit" class="btn">➕ メモを追加</button>
+        <button type="submit" class="btn orange-btn">➕ メモを追加</button>
       </form>
     </div>
 
@@ -131,7 +131,7 @@
           <label><input type="radio" name="display_name" value="nickname" checked> ニックネームで表示する</label><br>
           <label><input type="radio" name="display_name" value="anonymous"> 投稿者名を非公開にする</label><br>
           <p><small>この端末からの投稿には編集・削除が可能です</small></p>
-          <button type="submit" class="btn">➕ コメントを追加</button>
+          <button type="submit" class="btn orange-btn">➕ コメントを追加</button>
         </form>
       {% else %}
         <p>※このタスクはコメントできません。</p>

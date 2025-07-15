@@ -47,6 +47,7 @@
       <button type="submit" name="save" class="btn">✅保存</button>
       <button type="button" class="btn delete-btn modal-delete-btn" data-comment-id="{{ comment.id }}">🗑️ 削除</button>
     </div>
+    </div>
 
   </form>
 
@@ -57,8 +58,10 @@
     <p class="modal-title">このコメントを削除しますか？</p>
     <form method="post">
       {% csrf_token %}
-      <button type="submit" name="delete" class="btn modal-delete-btn">🗑️削除</button>
-      <button type="button" class="cancel-btn">✖キャンセル</button>
+      <div class="modal-buttons">
+        <button type="submit" name="delete" class="btn modal-delete-btn">🗑️削除</button>
+        <button type="button" class="btn cancel-btn">✖キャンセル</button>
+      </div>
     </form>
   </div>
 </div>
