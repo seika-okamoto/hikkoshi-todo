@@ -166,50 +166,6 @@ ul.messages {
   /* 他のスタイルそのままでOK */
 }
 
-/* 削除用モーダルだけに効くように */
-.delete-modal {
-  /* 中央表示スタイル */
-  display: block; 
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.delete-modal .modal-content {
-  position: relative;
-  z-index: 1001;
-  width: 90%;
-  max-width: 420px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 16px;
-  text-align: center;
-}
-
-
-/* 共通の削除ボタン（例：モーダル用） */
-.modal-delete-btn {
-  background-color: #fce4e4 !important;
-  color: #d32f2f !important;
-  border: 1px solid #e57373 !important;
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 4px;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.modal-delete-btn:hover {
-  background-color: #ffdddd !important;
-  color: #b71c1c !important;
-  border-color: #c62828 !important;
-}
-
 
 
 .btn {
@@ -235,18 +191,6 @@ ul.messages {
   background-color: #c8f6c8;
 }
 
-/* 削除ボタン色 */
-.modal-delete-btn {
-  background-color: #fce4e4 !important;
-  color: #d32f2f !important;
-  border: 1px solid #e57373 !important;
-}
-
-.modal-delete-btn:hover {
-  background-color: #ffdddd !important;
-  color: #b71c1c !important;
-  border-color: #c62828 !important;
-}
 
 .modal-buttons {
   display: flex;
@@ -262,4 +206,27 @@ ul.messages {
   font-weight: bold;
   padding: 8px 16px; /* ← 高さも統一感出す */
   box-sizing: border-box;
+}
+
+
+.modal-delete-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  min-width: 90px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: #fce4e4;
+  color: #d32f2f;
+  transition: background 0.2s ease, color 0.2s ease;
+  border: 1px solid #e57373; /* ← 明るい赤の枠線で上書き */
+}
+
+.modal-delete-btn:hover {
+  background-color: #ffdddd;
+  color: #b71c1c;
+  border-color: #c62828;
 }

@@ -83,22 +83,22 @@ a:hover {
   text-decoration: underline;
 }
 
-.modal .cancel-btn {
-  padding: 10px 16px;                   /* ✅ 高さ合わせ */
+.cancel-btn {
+  display: inline-block;
+  padding: 10px 16px;
+  min-width: 100px;
   font-size: 14px;
+  font-weight: bold;
   border-radius: 6px;
+  text-align: center;
+  white-space: nowrap;
   cursor: pointer;
-  border: 1px solid #666;               /* ✅ 削除ボタンと同じ系統に */
   background-color: #fff;
   color: #333;
-  margin: 4px;                          /* ✅ 削除ボタンと同じ余白に */
-  min-width: 100px;                     /* ✅ 幅を削除と統一 */
-  font-weight: bold;                   /* ✅ 太字にして揃える */
-  text-align: center;
+  border: 1px solid #666;
   box-sizing: border-box;
   transition: background-color 0.2s ease;
 }
-
-.modal .cancel-btn:hover {
+.cancel-btn:hover {
   background-color: #eee;
 }

@@ -28,7 +28,9 @@
           </div>
           <div class="task-actions">
             <button class="edit-memo-btn" data-memo-id="{{ memo.id }}" data-context="{{ memo.context }}">📝編集</button>
-            <button class="delete-memo-btn modal-delete-btn" data-memo-id="{{ memo.id }}">🗑️削除</button>
+            <button class="btn modal-delete-btn delete-memo-btn" data-memo-id="{{ memo.id }}">
+              🗑️削除
+            </button>
           </div>
         </div>
 
@@ -46,7 +48,7 @@
           <p style="margin-bottom: 16px;">このメモを削除しますか？</p>
           <form method="POST" action="{% url 'todo:delete_memo' memo.id %}">
             {% csrf_token %}
-            <button type="submit" class="modal-delete-btn">🗑️削除</button>
+            <button type="submit" class="btn modal-delete-btn">🗑️削除</button>
             <button type="button" class="cancel-btn">✖キャンセル</button>
           </form>
         </div>

@@ -175,6 +175,13 @@ a:hover {
   color: #333;
 }
 
+.btn.modal-delete-btn {
+  background-color: #fce4e4 !important;
+  color: #d32f2f !important;
+  border: 1px solid #e57373 !important;
+}
+
+
 .tab-switch {
     display: flex;
     justify-content: center;
@@ -236,11 +243,27 @@ a:hover {
   color: #333;
   margin-left: 4px;
   cursor: pointer;
+  min-width: 90px; /* ← ✅追加で横幅固定 */
 }
 
 .task-actions button:hover {
   background-color: #e0e0e0;
 }
+
+/* ✅ 削除ボタンだけ赤系に上書き */
+.task-actions .delete-memo-btn {
+  background-color: #fce4e4;
+  color: #d32f2f;
+  border: 1px solid #e57373;
+}
+
+.task-actions .delete-memo-btn:hover {
+  background-color: #ffdddd;
+  color: #b71c1c;
+  border-color: #c62828;
+}
+
+
 
 .tab-switch a {
   padding: 8px 16px;
